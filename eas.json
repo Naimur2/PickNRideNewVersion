@@ -1,0 +1,41 @@
+{
+    "cli": {
+        "version": ">= 4.1.2"
+    },
+    "build": {
+        "development": {
+            "distribution": "internal",
+            "android": {
+                "gradleCommand": ":app:assembleDebug"
+            },
+            "ios": {
+                "buildConfiguration": "Debug",
+                "resourceClass": "m-medium"
+            }
+        },
+        "preview2": {
+            "distribution": "internal",
+            "ios": {
+                "image": "latest"
+            },
+            "android": {
+                "buildType": "apk"
+            }
+        },
+        "preview": {
+            "distribution": "internal",
+            "ios": {
+                "resourceClass": "m-medium"
+            }
+        },
+        "production": {
+            "ios": {
+                "resourceClass": "m-medium",
+                "image": "latest"
+            }
+        }
+    },
+    "submit": {
+        "production": {}
+    }
+}
