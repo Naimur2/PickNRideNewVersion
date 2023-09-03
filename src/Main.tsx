@@ -17,6 +17,8 @@ import React from "react";
 import { Region } from "react-native-maps";
 import { useDispatch, useSelector } from "react-redux";
 import WModal from "./layouts/Modal";
+import messaging from "@react-native-firebase/messaging";
+import { PermissionsAndroid, Platform } from "react-native";
 
 export default function Main() {
     const loading = useSelector(selectLoading);
@@ -90,6 +92,44 @@ export default function Main() {
             // do something with the locations captured in the background
         }
     });
+
+    React.useEffect(() => {
+        async function requestUserPermission() {
+            const authStatus = await messaging().requestPermission();
+            const enabled =
+                authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+                authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+            if (enabled) {
+                await messaging().registerDeviceForRemoteMessages();
+                const token = await messaging().getToken();
+                console.log("token", token);
+            }
+        }
+        const takeAndroidNotificationPermission = async () => {
+            try {
+                const res = await PermissionsAndroid.check(
+                    PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
+                );
+                if (!res) {
+                    await PermissionsAndroid.request(
+                        PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
+                    );
+                } else {
+                    await messaging().registerDeviceForRemoteMessages();
+                    const token = await messaging().getToken();
+                    // console.log("token", token);
+                }
+            } catch (error) {
+                console.log("error", error);
+            }
+        };
+        if (Platform.OS === "android") {
+            takeAndroidNotificationPermission();
+        } else {
+            requestUserPermission();
+        }
+    }, [token]);
 
     return (
         <>

@@ -42,6 +42,7 @@
     "expo-location": "~16.1.0",
     "expo-media-library": "~15.4.1",
     "expo-modules-core": "~1.5.10",
+    "expo-notifications": "~0.20.1",
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
     "expo-task-manager": "~11.3.0",
