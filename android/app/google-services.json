@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "50267147295",
+    "project_id": "pick-and-ride-a7067",
+    "storage_bucket": "pick-and-ride-a7067.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:50267147295:android:e863027411b188a422192a",
+        "android_client_info": {
+          "package_name": "com.PickNRide"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "50267147295-okgksqheoovfr8v01lbbn7s8vp4si7vm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.PickNRide",
+            "certificate_hash": "e1acae056381e2c77922191fc1a414c696f49e89"
+          }
+        },
+        {
+          "client_id": "50267147295-lo608p037dqgr8ike2o4koo4dj4k8vm5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLzXKqvbm5CLjx8TbABTznw4r3KyJ9p-E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "50267147295-lo608p037dqgr8ike2o4koo4dj4k8vm5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "50267147295-3io40cb28ci3s9ut2267d30b7d9okasc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.WhyteCretions.PicknRide"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

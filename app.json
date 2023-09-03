@@ -117,7 +117,7 @@
                 }
             ],
             "@react-native-firebase/app",
-            "@notifee/react-native"
+            "./react-native-maps-plugin"
         ],
         "owner": "rtanjil72"
     }
