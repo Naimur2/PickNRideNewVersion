@@ -1,30 +1,102 @@
 {
-  "expo": {
-    "name": "PickNRide",
-    "slug": "PickNRide",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
+    "expo": {
+        "name": "PickNRide",
+        "slug": "PickNRide",
+        "version": "1.0.0",
+        "scheme": "picknride",
+        "orientation": "portrait",
+        "icon": "./assets/icon.png",
+        "userInterfaceStyle": "light",
+        "splash": {
+            "image": "./assets/splash.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#ffffff"
+        },
+        "assetBundlePatterns": ["**/*"],
+        "ios": {
+            "supportsTablet": true,
+            "bundleIdentifier": "com.PickNRide",
+            "backgroundColor": "#ffffff",
+            "buildNumber": "1.2.2",
+            "config": {
+                "googleMapsApiKey": "AIzaSyDS-lAgjgs0rT8FzzB9woxe8sTPPh6v7F4"
+            },
+            "associatedDomains": ["applinks:webapi.pickandride.qa"],
+            "bitcode": false,
+            "infoPlist": {
+                "NSLocationAlwaysAndWhenInUseUsageDescription": "This app requires location access to provide you with the best experience.",
+                "NSLocationWhenInUseUsageDescription": "This app requires location access to provide you with the best experience.",
+                "NSCameraUsageDescription": "This app requires camera access to provide you with the best experience.",
+                "NSPhotoLibraryUsageDescription": "This app requires photo library access to provide you with the best experience.",
+                "NSLocationAlwaysUsageDescription": "This app requires location access to provide you with the best experience.",
+                "NSLocationTemporaryUsageDescriptionDictionary": {
+                    "NSLocationTemporaryUsageDescriptionDictionaryKey": "This app requires location access to provide you with the best experience."
+                },
+                "UIBackgroundModes": ["location", "fetch"]
+            }
+        },
+        "android": {
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/adaptive-icon.png",
+                "backgroundColor": "#ffffff"
+            },
+            "package": "com.PickNRide",
+            "versionCode": 1,
+            "config": {
+                "googleMaps": {
+                    "apiKey": "AIzaSyDS-lAgjgs0rT8FzzB9woxe8sTPPh6v7F4"
+                }
+            },
+            "intentFilters": [
+                {
+                    "action": "VIEW",
+                    "autoVerify": true,
+                    "data": [
+                        {
+                            "scheme": "https",
+                            "host": "*.pickandride.qa",
+                            "pathPrefix": "/records"
+                        }
+                    ],
+                    "category": ["BROWSABLE", "DEFAULT"]
+                }
+            ],
+            "softwareKeyboardLayoutMode": "pan",
+            "permissions": [
+                "ACCESS_BACKGROUND_LOCATION",
+                "ACCESS_FINE_LOCATION",
+                "ACCESS_COARSE_LOCATION",
+                "CAMERA",
+                "FOREGROUND_SERVICE",
+                "READ_EXTERNAL_STORAGE",
+                "WRITE_EXTERNAL_STORAGE"
+            ]
+        },
+        "web": {
+            "favicon": "./assets/favicon.png"
+        },
+        "androidStatusBar": {
+            "hidden": true
+        },
+        "extra": {
+            "GOOGLE_MAP_KEY": "AIzaSyDS-lAgjgs0rT8FzzB9woxe8sTPPh6v7F4"
+        },
+        "plugins": [
+            [
+                "expo-image-picker",
+                {
+                    "photosPermission": "The app accesses your photos to let you share them with your friends.",
+                    "cameraPermission": "The app accesses your camera to let you share photos with your friends.",
+                    "microphonePermission": "The app accesses your microphone to let you share audio with your friends."
+                }
+            ],
+            [
+                "expo-media-library",
+                {
+                    "photosPermission": "Allow $(PRODUCT_NAME) to access your photos.",
+                    "savePhotosPermission": "Allow $(PRODUCT_NAME) to save photos."
+                }
+            ]
+        ]
     }
-  }
 }

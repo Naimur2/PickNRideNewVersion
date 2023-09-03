@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@store/*": ["src/redux/*"],
+            "@components/*": ["src/components/*"],
+            "@screens/*": ["src/screens/*"],
+            "@navigation/*": ["src/routes/*"],
+            "@typedef/*": ["src/types/*"],
+            "@theme/*": ["src/theme-config/*"],
+            "@assets/*": ["assets/*"],
+            "@config": ["config.ts"],
+            "@hooks/*": ["src/hooks/*"],
+            "@utils/*": ["src/utils/*"],
+            "@layouts/*": ["src/layouts/*"]
+        }
+    },
+    "extends": "expo/tsconfig.base"
+}
