@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Button, Factory, HStack, Text, VStack } from "native-base";
 import React from "react";
-import { useWindowDimensions } from "react-native";
+import { Linking, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { scale } from "react-native-size-matters";
 import Balance from "@components/Balance/Balance";
@@ -19,6 +19,7 @@ import { formatCountSuffix } from "../../utils/formatCountSuffix";
 import { clearCarTrip } from "@store/features/car-trip/carTripSlice";
 import { clearDocument } from "@store/features/document/documentSlice";
 import { IMyFatooraRouteParams } from "../MyFatooraScreens/types/myfatoora.interface";
+import config from "@config";
 
 interface IDrawerMenuItem {
     title: string;
@@ -30,6 +31,12 @@ export default function CustomDrawer() {
     const navigation = useNavigation();
     const insets = useSafeAreaInsets();
     const dispatch = useDispatch();
+    const openWhatsapp = () => {
+        Linking.openURL(`https://wa.me/${config.whatsappNumber}`);
+    };
+    const openInsta = () => {
+        Linking.openURL(config.INSTGRAM_URL);
+    };
 
     const auth = useSelector(selectAuth);
 
@@ -59,10 +66,10 @@ export default function CustomDrawer() {
                     paymentFor: "recharge",
                 } as IMyFatooraRouteParams),
         },
-        {
-            title: "Cars",
-            onPress: () => navigation.navigate("Cars" as never),
-        },
+        // {
+        //     title: "Cars",
+        //     onPress: () => navigation.navigate("Cars" as never),
+        // },
 
         {
             title: "Settings",
@@ -149,8 +156,8 @@ export default function CustomDrawer() {
                         </Button>
                     </VStack>
                     <HStack space={4} mt={6} mb={4}>
-                        <Whatsapp color={"#fff"} />
-                        <Instagram color={"#fff"} />
+                        <Whatsapp color={"#fff"} onPress={openWhatsapp} />
+                        <Instagram color={"#fff"} onPress={openInsta} />
                     </HStack>
                 </Lg>
             </Scroller>

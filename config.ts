@@ -12,6 +12,8 @@ const config = {
     MAPS_API: "https://maps.googleapis.com/maps/api/",
     WEATHER_API: "http://api.weatherapi.com/v1/current.json",
     WEATHER_API_KEY: "a480a4fe97024196b8d111139232502",
+    INSTGRAM_URL:
+        "https://instagram.com/pickandride.qa?igshid=MWZjMTM2ODFkZg==",
 };
 
 export default config;
