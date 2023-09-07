@@ -1,16 +1,7 @@
 import { HStack, VStack } from "native-base";
-import React, { useEffect, useImperativeHandle, useState } from "react";
-import { LayoutChangeEvent, StyleSheet, useAnimatedValue } from "react-native";
+import React from "react";
+import { StyleSheet } from "react-native";
 
-import Animated, {
-  runOnJS,
-  useAnimatedStyle,
-  useDerivedValue,
-  useSharedValue,
-  withTiming,
-} from "react-native-reanimated";
-
-import LinGradient from "../LinGrad/LinGrad";
 import SwitchButton from "./coponents/SwitchButton";
 
 interface ThreeSwitchProps {

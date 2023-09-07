@@ -1,8 +1,8 @@
 import { setNearestCars } from "@store/features/cars/carsSlice";
-import { apiSliceV2 } from "../apiSlice";
+import { apiSlice } from "../apiSlice";
 import { IGetNearestCars, INumberPlate } from "./carApiSlice.types";
 
-const carApiSlice = apiSliceV2.injectEndpoints({
+const carApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getNearestCarsApi: builder.query({
       query: (body: IGetNearestCars) => ({

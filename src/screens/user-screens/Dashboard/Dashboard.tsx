@@ -24,18 +24,22 @@ import { scale } from "react-native-size-matters";
 import { useDispatch, useSelector } from "react-redux";
 import DashModal from "./DashModal/DashModal";
 import VeichleCards from "./VeichleCards/VeichleCards";
+import { useGetCarsCategoryApiQuery } from "@store/api/v2/carApi/carApiSlice";
 
 export default function Dashboard() {
   const navigation = useNavigation();
   const { colorMode } = useColorMode();
   const auth: IAuthState = useSelector(selectAuth);
-
   const showMessageWithModal = useShowModal();
-
   const dispatch = useDispatch();
+  // API CALL START
+  const {
+    data: cars_cat,
+    isLoading,
+    error,
+  } = useGetCarsCategoryApiQuery(undefined);
 
-  console.log("colorMode", colorMode);
-
+  // API CALL END
   const [isModalVisible, setIsModalVisible] = React.useState(true);
   const {
     hasBackGroundPermissions,
@@ -125,6 +129,9 @@ export default function Dashboard() {
     currentIndex.current = index;
     // TODO: Implement logic to scroll to the selected card
   };
+  //
+  console.log("cars_cat", cars_cat?.data[0]?.cars);
+
   return (
     <ScrollView
       showsHorizontalScrollIndicator={false}

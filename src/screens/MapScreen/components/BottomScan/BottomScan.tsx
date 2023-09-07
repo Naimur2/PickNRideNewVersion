@@ -15,50 +15,50 @@ import { selectAuth } from "@store/store";
 import { selectSelectedVeichleType } from "@store/features/cars/carsSlice";
 
 function BottomScan({ onLeftPress }: { onLeftPress: () => void }) {
-    const LinearGrad = Factory(LinearGradient);
-    const { hasPermission, askCmeraPermission } = useCameraPermissions();
-    const { height } = Dimensions.get("window");
+  const LinearGrad = Factory(LinearGradient);
+  const { hasPermission, askCmeraPermission } = useCameraPermissions();
+  const { height } = Dimensions.get("window");
 
-    const veichleType = useSelector(selectSelectedVeichleType);
+  const veichleType = useSelector(selectSelectedVeichleType);
 
-    console.log({ veichleType });
+  console.log({ veichleType });
 
-    const navigation = useNavigation();
+  const navigation = useNavigation();
 
-    const handleNavigate = async () => {
-        const hasPermission = await askCmeraPermission();
-        if (!hasPermission) {
-            alert("You need to give camera permission to use this feature");
-            return;
-        }
+  const handleNavigate = async () => {
+    const hasPermission = await askCmeraPermission();
+    if (!hasPermission) {
+      alert("You need to give camera permission to use this feature");
+      return;
+    }
 
-        if (veichleType === "car") {
-            navigation.navigate("ScanQrCode");
-        } else {
-            navigation.navigate("BarcodeScanner");
-        }
-    };
+    if (veichleType === "car") {
+      navigation.navigate("ScanQrCode");
+    } else {
+      navigation.navigate("BarcodeScanner");
+    }
+  };
 
-    const insets = useSafeAreaInsets();
-    return (
-        <VStack space="6" w="full" position={"absolute"} bottom={0}>
-            <LinearGrad
-                colors={["#ffffff", "#ffffff40"]}
-                start={[0, 1]}
-                end={[0, 0]}
-                pt={6}
-                pb={24 + insets.bottom + "px"}
-            >
-                <HStack alignItems="flex-end" px={4}>
-                    <ErrorOutline onPress={onLeftPress} />
-                    <Pressable mx={"auto"} onPress={handleNavigate}>
-                        <Image source={scan} alt="scan" />
-                    </Pressable>
-                    <Image source={locate} alt="locate" />
-                </HStack>
-            </LinearGrad>
-        </VStack>
-    );
+  const insets = useSafeAreaInsets();
+  return (
+    <VStack space="6" w="full" position={"absolute"} bottom={0}>
+      <LinearGrad
+        colors={["#ffffff", "#ffffff40"]}
+        start={[0, 1]}
+        end={[0, 0]}
+        pt={6}
+        pb={24 + insets.bottom + "px"}
+      >
+        <HStack alignItems="flex-end" px={4}>
+          <ErrorOutline onPress={onLeftPress} />
+          <Pressable mx={"auto"} onPress={handleNavigate}>
+            <Image source={scan} alt="scan" />
+          </Pressable>
+          <Image source={locate} alt="locate" />
+        </HStack>
+      </LinearGrad>
+    </VStack>
+  );
 }
 
 export default React.memo(BottomScan);
