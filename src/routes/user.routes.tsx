@@ -30,86 +30,70 @@ import BarcodeScanner from "@screens/user-screens/BarcodeScanner";
 const Stack = createNativeStackNavigator();
 
 const BackBtn = () => {
-    const { colorMode } = useColorMode();
-    return (
-        <BackButton
-            color={colorMode === "dark" ? "white" : "black"}
-            onPress={() => {
-                console.log("Back Pressed");
-            }}
-        />
-    );
+  const { colorMode } = useColorMode();
+  return (
+    <BackButton
+      color={colorMode === "dark" ? "white" : "black"}
+      onPress={() => {
+        console.log("Back Pressed");
+      }}
+    />
+  );
 };
 
 export default function UserRoutes() {
-    const { colorMode } = useColorMode();
+  const { colorMode } = useColorMode();
 
-    return (
-        <Stack.Navigator
-            initialRouteName="Dashboard"
-            screenOptions={{
-                headerTitle: "",
-                headerTitleStyle: { color: "white" },
-                headerTintColor: colorMode === "light" ? "black" : "white",
-                headerLeft: BackBtn,
-                headerShadowVisible: true,
-                headerStyle: {
-                    backgroundColor:
-                        colorMode === "dark"
-                            ? colors.dark[100]
-                            : colors.light[300],
-                },
-                // statusBarHidden: true,
+  return (
+    <Stack.Navigator
+      initialRouteName="Dashboard"
+      screenOptions={{
+        headerTitle: "",
+        headerTitleStyle: { color: "white" },
+        headerTintColor: colorMode === "light" ? "black" : "white",
+        headerLeft: BackBtn,
+        headerShadowVisible: true,
+        headerStyle: {
+          backgroundColor:
+            colorMode === "dark" ? colors.dark[100] : colors.light[300],
+        },
+        // statusBarHidden: true,
 
-                headerBackTitleVisible: false,
-                headerBackVisible: false,
-                animation: "slide_from_left",
-            }}
-        >
-            <Stack.Screen name="MFPayment" component={MyFatooraScreen} />
-            <Stack.Screen name="Dashboard" component={Dashboard} />
-            <Stack.Screen
-                name="DocumentSubmission"
-                component={DocumentSubmission}
-            />
-            <Stack.Screen name="CameraView" component={CameraView} />
-            <Stack.Screen name="Cars" component={Cars} />
-            <Stack.Screen name="RideHistory" component={CarRideHistory} />
-            <Stack.Screen name="Settings" component={Settings} />
-            <Stack.Screen name="Notifications" component={Notifications} />
-            <Stack.Screen name="ReportIssue" component={ReportIssue} />
-            <Stack.Screen
-                name="VarificationStatus"
-                component={VarificationStatus}
-            />
-            <Stack.Screen name="Wallet" component={Wallet} />
-            <Stack.Screen
-                name="MapScreen"
-                component={MapScreen}
-                options={{
-                    gestureEnabled: false,
-                    headerShown: false,
-                }}
-            />
-            <Stack.Screen name="Pricing" component={Pricing} />
-            <Stack.Screen name="Account" component={Account} />
-            <Stack.Screen
-                options={{}}
-                name="ScanQrCode"
-                component={ScanQrCode}
-            />
-            {/* <Stack.Screen name="CarRideHistory" component={CarRideHistory} /> */}
-            <Stack.Screen name="TripDetails" component={TripDetails} />
-            <Stack.Screen name="Receipt" component={Receipt} />
-            <Stack.Screen
-                options={{}}
-                name="StartEndRide"
-                component={StartEndRide}
-            />
-            <Stack.Screen name="SelectOtpType" component={SelectOtpType} />
-            <Stack.Screen name="TripOtpScreen" component={TripOtpScreen} />
-            <Stack.Screen name="Support" component={Support} />
-            <Stack.Screen name="BarcodeScanner" component={BarcodeScanner} />
-        </Stack.Navigator>
-    );
+        headerBackTitleVisible: false,
+        headerBackVisible: false,
+        animation: "slide_from_left",
+      }}
+    >
+      <Stack.Screen name="MFPayment" component={MyFatooraScreen} />
+      <Stack.Screen name="Dashboard" component={Dashboard} />
+      <Stack.Screen name="DocumentSubmission" component={DocumentSubmission} />
+      <Stack.Screen name="CameraView" component={CameraView} />
+      <Stack.Screen name="Cars" component={Cars} />
+      <Stack.Screen name="RideHistory" component={CarRideHistory} />
+      <Stack.Screen name="Settings" component={Settings} />
+      <Stack.Screen name="Notifications" component={Notifications} />
+      <Stack.Screen name="ReportIssue" component={ReportIssue} />
+      <Stack.Screen name="VarificationStatus" component={VarificationStatus} />
+      <Stack.Screen name="Wallet" component={Wallet} />
+      <Stack.Screen
+        name="MapScreen"
+        component={MapScreen}
+        options={{
+          gestureEnabled: false,
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen name="Pricing" component={Pricing} />
+      <Stack.Screen name="Account" component={Account} />
+      <Stack.Screen options={{}} name="ScanQrCode" component={ScanQrCode} />
+      {/* <Stack.Screen name="CarRideHistory" component={CarRideHistory} /> */}
+      <Stack.Screen name="TripDetails" component={TripDetails} />
+      <Stack.Screen name="Receipt" component={Receipt} />
+      <Stack.Screen options={{}} name="StartEndRide" component={StartEndRide} />
+      <Stack.Screen name="SelectOtpType" component={SelectOtpType} />
+      <Stack.Screen name="TripOtpScreen" component={TripOtpScreen} />
+      <Stack.Screen name="Support" component={Support} />
+      <Stack.Screen name="BarcodeScanner" component={BarcodeScanner} />
+    </Stack.Navigator>
+  );
 }

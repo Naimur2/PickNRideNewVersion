@@ -28,6 +28,10 @@ import VeichleCard, { IVeichleCardProps } from "../VeichleCard/VeichleCard";
 const { width, height } = Dimensions.get("window");
 import { selectAuth } from "@store/store";
 import { View, AnimatePresence } from "moti";
+import {
+  useGetGetAllCarsApiQuery,
+  useGetGetAllCarsCategoryApiQuery,
+} from "@store/api/v1/carApi/carApiSlice";
 
 const vehicles: IVeichleCardProps[] = [
   {
@@ -54,6 +58,14 @@ const vehicles: IVeichleCardProps[] = [
     image: require("@assets/images/car.png"),
     type: ECarType.CAR,
   },
+  {
+    id: "4",
+    title: "Lusail Marina, Lusail",
+    availableNumber: "4",
+    distance: "150m",
+    image: require("@assets/images/car.png"),
+    type: ECarType.CAR,
+  },
 ];
 
 export default function VeichleCards() {
@@ -63,6 +75,8 @@ export default function VeichleCards() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const ref = useRef();
   const switchRef = useRef();
+  const { data } = useGetGetAllCarsCategoryApiQuery(undefined);
+  const { data: allCareData } = useGetGetAllCarsApiQuery(undefined);
   // location permission
   const {
     hasForeGroundPermissions,
@@ -167,6 +181,7 @@ export default function VeichleCards() {
     dispatch(setSelectedVeichleType(veichleType?.[current]));
   };
   //
+  console.log("data-->Carss", allCareData?.data?.items);
 
   return (
     <VStack px={2} alignItems="center">
@@ -174,24 +189,27 @@ export default function VeichleCards() {
         leftTitle="Scooter"
         rightTitle="Car"
         centerTitle="Cycle"
+        data={data?.data || []}
         onPress={handleSelection}
         currentIndex={currentIndex}
       />
       <VStack position={"relative"} w={"full"}>
         <Animated.FlatList
           ref={ref}
-          data={vehicles}
+          data={allCareData?.data?.items || []}
           horizontal
           pagingEnabled
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item, index }) => {
+            console.log("item---->>", item);
+
             return (
               <VeichleCard
                 key={index}
                 title={item.title}
-                availableNumber={item.availableNumber}
-                distance={item.distance}
+                availableNumber={item.inTrip}
+                distance={item.totalKm}
                 image={item.image}
               />
             );

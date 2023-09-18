@@ -1,9 +1,14 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import { Center, HStack, Image, VStack, Text } from "native-base";
 import { scale } from "react-native-size-matters";
 import { fontSizes } from "@theme/typography";
 import { TCarType } from "@store/features/cars/carsSlice.types";
 import { View, Dimensions, Animated } from "react-native";
+import Geolocation from "@react-native-community/geolocation"; // for getting your current location
+import Geolib from "geolib"; // for calculating distance
+import Geocoding from "react-native-geocoding"; // for reverse geocoding
+import config from "@config";
+
 const { width, height } = Dimensions.get("window");
 export interface IVeichleCardProps {
   id?: string | number;
@@ -13,8 +18,57 @@ export interface IVeichleCardProps {
   availableNumber: string;
   type: TCarType;
 }
+interface Location {
+  latitude: number;
+  longitude: number;
+}
 
 function VCard({ image, title, distance, availableNumber }: IVeichleCardProps) {
+  const [currentLocation, setCurrentLocation] = useState<Location | null>(null);
+  const [destinationLocation, setDestinationLocation] = useState<Location>({
+    latitude: 25.337032,
+    longitude: 51.4713024,
+  });
+  // useEffect(() => {
+  //   // Get your current location
+  //   Geolocation.getCurrentPosition(
+  //     (position) => {
+  //       const { latitude, longitude } = position.coords;
+  //       setCurrentLocation({ latitude, longitude });
+  //     },
+  //     (error) => {
+  //       console.error(error.message);
+  //     },
+  //     { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+  //   );
+
+  //   // Configure your reverse geocoding API key (you need to obtain one)
+  //   Geocoding.init(config.MAPS_API);
+  // }, []);
+
+  // useEffect(() => {
+  //   if (currentLocation) {
+  //     // Calculate distance in meters
+  //     const distanceInMeters = Geolib.getDistance(
+  //       currentLocation,
+  //       destinationLocation
+  //     );
+
+  //     // Convert distance to kilometers
+  //     const distanceInKilometers = distanceInMeters / 1000;
+
+  //     // Reverse geocoding to get location name
+  //     Geocoding.from(currentLocation.latitude, currentLocation.longitude)
+  //       .then((json) => {
+  //         const locationName = json.results[0].formatted_address;
+  //         console.log("Distance (km):", distanceInKilometers);
+  //         console.log("Location Name:", locationName);
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error fetching location name:", error);
+  //       });
+  //   }
+  // }, [currentLocation, destinationLocation]);
   return (
     <Animated.View
       style={{
@@ -37,7 +91,7 @@ function VCard({ image, title, distance, availableNumber }: IVeichleCardProps) {
         borderColor={"#ccc"}
       >
         <Image
-          source={image}
+          source={{ uri: `data:image/jpeg;base64,${image}` }}
           alt={"cicle"}
           height={scale(180) + "px"}
           width={scale(180) + "px"}
@@ -72,7 +126,7 @@ function VCard({ image, title, distance, availableNumber }: IVeichleCardProps) {
             ml="auto"
           >
             <Text fontSize={13} fontWeight={500} color="#fff">
-              Distance {distance}
+              Distance {distance}km
             </Text>
           </Center>
         </HStack>

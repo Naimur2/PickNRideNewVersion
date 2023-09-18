@@ -28,7 +28,8 @@ const SwitchButton = ({ onPress, title, isActive }: Switchprops) => {
   return (
     <Pressable
       bg={isActive ? "primary.100" : null}
-      w="33.36%"
+      w="100"
+      mx={1}
       py="12px"
       onPress={onPress}
       borderRadius={100}
@@ -47,6 +48,7 @@ const SwitchButton = ({ onPress, title, isActive }: Switchprops) => {
 const styles = StyleSheet.create({
   text: {
     fontFamily: fontConfig.Montserrat[500].normal,
+    textTransform: "capitalize",
   },
 });
 

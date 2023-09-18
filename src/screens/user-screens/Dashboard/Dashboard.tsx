@@ -122,15 +122,6 @@ export default function Dashboard() {
     }
   }, [hasForeGroundPermissions, hasBackGroundPermissions]);
   //
-  const data = ["Scooter", "Cycle", "Car"];
-  const currentIndex = React.useRef(0);
-
-  const handleButtonPress = (index: number) => {
-    currentIndex.current = index;
-    // TODO: Implement logic to scroll to the selected card
-  };
-  //
-  console.log("cars_cat", cars_cat?.data[0]?.cars);
 
   return (
     <ScrollView
