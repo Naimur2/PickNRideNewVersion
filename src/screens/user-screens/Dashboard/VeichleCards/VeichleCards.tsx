@@ -29,6 +29,7 @@ const { width, height } = Dimensions.get("window");
 import { selectAuth } from "@store/store";
 import { View, AnimatePresence } from "moti";
 import {
+  useGetAllCarsWithCategoryQuery,
   useGetGetAllCarsApiQuery,
   useGetGetAllCarsCategoryApiQuery,
 } from "@store/api/v1/carApi/carApiSlice";
@@ -71,12 +72,12 @@ const vehicles: IVeichleCardProps[] = [
 export default function VeichleCards() {
   const dispatch = useDispatch();
   const selectedVeichle = useSelector(selectSelectedVeichleType);
+  const user = useSelector(selectAuth);
   const navigation = useNavigation();
   const [currentIndex, setCurrentIndex] = useState(0);
   const ref = useRef();
   const switchRef = useRef();
-  const { data } = useGetGetAllCarsCategoryApiQuery(undefined);
-  const { data: allCareData } = useGetGetAllCarsApiQuery(undefined);
+  const { data: careDataWith } = useGetAllCarsWithCategoryQuery(undefined);
   // location permission
   const {
     hasForeGroundPermissions,
@@ -181,36 +182,30 @@ export default function VeichleCards() {
     dispatch(setSelectedVeichleType(veichleType?.[current]));
   };
   //
-  console.log("data-->Carss", allCareData?.data?.items);
 
   return (
     <VStack px={2} alignItems="center">
       <ThreeSwitch
-        leftTitle="Scooter"
-        rightTitle="Car"
-        centerTitle="Cycle"
-        data={data?.data || []}
+        data={careDataWith?.data || []}
         onPress={handleSelection}
         currentIndex={currentIndex}
       />
       <VStack position={"relative"} w={"full"}>
         <Animated.FlatList
           ref={ref}
-          data={allCareData?.data?.items || []}
+          data={careDataWith?.data || []}
           horizontal
           pagingEnabled
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item, index }) => {
-            console.log("item---->>", item);
-
             return (
               <VeichleCard
                 key={index}
-                title={item.title}
-                availableNumber={item.inTrip}
-                distance={item.totalKm}
-                image={item.image}
+                title={item?.title}
+                availableNumber={item?.cars?.[0]?.inTrip}
+                distance={item?.cars?.[0]?.totalKm}
+                image={item?.cars?.[0]?.image}
               />
             );
           }}

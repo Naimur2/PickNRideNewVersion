@@ -42,7 +42,7 @@ export default function Login() {
     try {
       const data = await googleSignInFn(undefined).unwrap();
       const { authUrl } = data?.data;
-      console.log("Auth Url", authUrl);
+      // console.log("Auth Url", authUrl);
       const redirectUrl = authUrl?.split("redirect_uri=")[1];
       console.log("Redirect", redirectUrl);
       const baseUrl = authUrl?.split("redirect_uri=")[0].replace(" ", "%20");
@@ -126,7 +126,7 @@ export default function Login() {
           try {
             dispatch(login(appleUrlData));
             const auth = useSelector(selectAuth) as IAuthState;
-            console.log("auth---+++++++--: " + JSON.stringify(auth));
+            // console.log("auth---+++++++--: " + JSON.stringify(auth));
           } catch (error) {
             console.log("Error storing authentication token:", error);
           }

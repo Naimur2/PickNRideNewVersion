@@ -12,124 +12,142 @@ import HeaderTitle from "@components/HeaderTitle/HeaderTitle";
 import Scroller from "@components/Scroller/Scroller";
 import colors from "@theme/colors";
 import NewNotification, {
-    INotification,
+  INotification,
 } from "./NewNotification/NewNotification";
 import NotifyAbout from "./NotifyAbout/NotifyAbout";
 import SwitchNotifications from "./SwitchNotifications/SwitchNotifications";
+import { useGetGetAllNotificationsApiQuery } from "@store/api/v1/notificationApi/notificationApi";
+import moment from "moment";
+import NotificationsCard from "./NotificationsCard/NotificationsCard";
 
 const natifications: INotification[] = [
-    {
-        title: new Date(),
-        data: [
-            {
-                _id: "1",
-                user: {
-                    name: "John Doe",
-                    avatar: "https://thumbs.dreamstime.com/b/handsome-man-hair-style-beard-beauty-face-portrait-fashion-male-model-black-hair-high-resolution-handsome-man-125031765.jpg",
-                    isActive: true,
-                },
-                description: "Booked scooter for Lusail trip",
-                dateTime: new Date(),
-            },
-            {
-                _id: "2",
-                user: {
-                    name: "John Doe",
-                    avatar: "https://thumbs.dreamstime.com/b/handsome-man-hair-style-beard-beauty-face-portrait-fashion-male-model-black-hair-high-resolution-handsome-man-125031765.jpg",
-                    isActive: true,
-                },
-                description: "Booked scooter for Lusail trip",
-                dateTime: new Date(),
-            },
-        ],
-    },
-    {
-        title: new Date("2022-07-17"),
-        data: [
-            {
-                _id: "1",
-                user: {
-                    name: "John Doe",
-                    avatar: "https://thumbs.dreamstime.com/b/handsome-man-hair-style-beard-beauty-face-portrait-fashion-male-model-black-hair-high-resolution-handsome-man-125031765.jpg",
-                    isActive: true,
-                },
-                description: "Booked scooter for Lusail trip",
-                dateTime: new Date("2022-07-17"),
-            },
-            {
-                _id: "2",
-                user: {
-                    name: "John Doe",
-                    avatar: "https://thumbs.dreamstime.com/b/handsome-man-hair-style-beard-beauty-face-portrait-fashion-male-model-black-hair-high-resolution-handsome-man-125031765.jpg",
-                    isActive: true,
-                },
-                description: "Booked scooter for Lusail trip",
-                dateTime: new Date("2022-07-17"),
-            },
-        ],
-    },
+  {
+    title: new Date(),
+    data: [
+      {
+        _id: "1",
+        user: {
+          name: "John Doe",
+          avatar:
+            "https://thumbs.dreamstime.com/b/handsome-man-hair-style-beard-beauty-face-portrait-fashion-male-model-black-hair-high-resolution-handsome-man-125031765.jpg",
+          isActive: true,
+        },
+        description: "Booked scooter for Lusail trip",
+        dateTime: new Date(),
+      },
+      {
+        _id: "2",
+        user: {
+          name: "John Doe",
+          avatar:
+            "https://thumbs.dreamstime.com/b/handsome-man-hair-style-beard-beauty-face-portrait-fashion-male-model-black-hair-high-resolution-handsome-man-125031765.jpg",
+          isActive: true,
+        },
+        description: "Booked scooter for Lusail trip",
+        dateTime: new Date(),
+      },
+    ],
+  },
+  {
+    title: new Date("2022-07-17"),
+    data: [
+      {
+        _id: "1",
+        user: {
+          name: "John Doe",
+          avatar:
+            "https://thumbs.dreamstime.com/b/handsome-man-hair-style-beard-beauty-face-portrait-fashion-male-model-black-hair-high-resolution-handsome-man-125031765.jpg",
+          isActive: true,
+        },
+        description: "Booked scooter for Lusail trip",
+        dateTime: new Date("2022-07-17"),
+      },
+      {
+        _id: "2",
+        user: {
+          name: "John Doe",
+          avatar:
+            "https://thumbs.dreamstime.com/b/handsome-man-hair-style-beard-beauty-face-portrait-fashion-male-model-black-hair-high-resolution-handsome-man-125031765.jpg",
+          isActive: true,
+        },
+        description: "Booked scooter for Lusail trip",
+        dateTime: new Date("2022-07-17"),
+      },
+    ],
+  },
 ];
 
 export default function Notifications() {
-    const navigation = useNavigation();
-    const { colorMode } = useColorMode();
-    const insets = useSafeAreaInsets();
+  const navigation = useNavigation();
+  const { colorMode } = useColorMode();
+  const insets = useSafeAreaInsets();
 
-    React.useLayoutEffect(() => {
-        navigation.setOptions({
-            headerTitle: () => <HeaderTitle title="Notifications" />,
-            headerTitleAlign: "center",
-            headerLeft: () => (
-                <BackButton color={colorMode === "dark" ? "white" : "black"} />
-            ),
-            headerRight: () => (
-                <Balance iconColor="primary.100" textColor="gray.100" />
-            ),
-            headerShadowVisible: false,
-            headerStyle: {
-                backgroundColor:
-                    colorMode === "dark" ? colors.dark[100] : colors.light[300],
-            },
-        });
-    }, [navigation]);
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => <HeaderTitle title="Notifications" />,
+      headerTitleAlign: "center",
+      headerLeft: () => (
+        <BackButton color={colorMode === "dark" ? "white" : "black"} />
+      ),
+      headerRight: () => (
+        <Balance iconColor="primary.100" textColor="gray.100" />
+      ),
+      headerShadowVisible: false,
+      headerStyle: {
+        backgroundColor:
+          colorMode === "dark" ? colors.dark[100] : colors.light[300],
+      },
+    });
+  }, [navigation]);
 
-    return (
-        <Scroller
-            contentStyle={{
-                flexGrow: 1,
-            }}
-            bg="light.300"
-            _dark={{
-                bg: "dark.100",
-            }}
-        >
-            <VStack
-                space={12}
-                mt={4}
-                px="6"
-                pb={8}
-                h="full"
-                maxWidth={scale(500)}
-                mx="auto"
-                pt={Platform.OS === "android" ? 55 : 0}
-            >
-                <VStack>
-                    <H3>General Setings</H3>
-                    <SwitchNotifications />
-                </VStack>
-                <VStack>
-                    <H3>Notify About</H3>
-                    <NotifyAbout />
-                </VStack>
+  // api
+  const { data, isLoading } = useGetGetAllNotificationsApiQuery(undefined);
 
-                {natifications?.map((item, index) => (
-                    <NewNotification
-                        key={item?.title + index.toString()}
-                        data={item?.data}
-                        title={item?.title}
-                    />
-                ))}
-            </VStack>
-        </Scroller>
-    );
+  return (
+    <Scroller
+      contentStyle={{
+        flexGrow: 1,
+      }}
+      bg="light.300"
+      _dark={{
+        bg: "dark.100",
+      }}
+    >
+      <VStack
+        space={12}
+        mt={4}
+        px="6"
+        pb={8}
+        h="full"
+        maxWidth={scale(500)}
+        mx="auto"
+        pt={Platform.OS === "android" ? 55 : 0}
+      >
+        <VStack>
+          <H3>General Setings</H3>
+          <SwitchNotifications />
+        </VStack>
+        <VStack>
+          <H3>Notify About</H3>
+          <NotifyAbout />
+        </VStack>
+
+        {data?.data?.items?.map((item, index) => {
+          return (
+            <NotificationsCard
+              key={
+                item?.title + item?.data?.length.toString() + index.toString()
+              }
+              title={item?.title}
+              user={item?.user}
+              description={item?.message}
+              dateTime={
+                item?.createdAt ? moment(item?.createdAt).fromNow() : ""
+              }
+            />
+          );
+        })}
+      </VStack>
+    </Scroller>
+  );
 }

@@ -6,11 +6,20 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import RideCompleteData from "@screens/MapScreen/components/RideCompleteModal/RideCompleteData";
 import WalletTab from "@screens/user-screens/Wallet/WalletTab/WalletTab";
 import { useInitiatePaymentMutation } from "@store/api/v2/payment/paymentApiSlice";
-import { HStack, Image, Modal, Text, VStack, useColorMode } from "native-base";
+import {
+  Box,
+  HStack,
+  Image,
+  Modal,
+  Text,
+  VStack,
+  useColorMode,
+} from "native-base";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PaymentForm from "./PaymentForm";
 import wallet from "@assets/images/wallet.png";
+import appIcon from "@assets/images/appIcon.png";
 import PaymentTimer from "./components/PaymentTimer";
 import { MFCurrencyISO } from "./types/enums.myfatoora";
 import {
@@ -20,6 +29,8 @@ import {
 } from "./types/myfatoora.interface";
 import Card from "@components/Card/Card";
 import { scale } from "react-native-size-matters";
+import colors from "@theme/colors";
+import { selectAuth } from "@store/store";
 
 const amounts: IPaymentAmount[] = [
   {
@@ -47,6 +58,7 @@ const amounts: IPaymentAmount[] = [
 export default function MyFatooraPayment() {
   const distpatch = useDispatch();
   const { colorMode } = useColorMode();
+  const user = useSelector(selectAuth);
   const params = useRoute().params as IMyFatooraRouteParams;
   const [selected, setSelected] = React.useState(amounts[0]);
   const navigation = useNavigation();
@@ -82,18 +94,24 @@ export default function MyFatooraPayment() {
         <VStack px="6" pt={5}>
           <Card
             w="full"
-            h={scale(200) + "px"}
+            h={scale(180) + "px"}
             position={"relative"}
             p="0"
             m="0"
+            bg={colors.primary[100]}
             overflow="hidden"
           >
-            <Text fontSize={scale(28)} fontWeight={700}>
-              QAR <Text color={"primary.100"}>100</Text>
+            <Text fontSize={scale(17)} fontWeight={700}>
+              {user?.f_name} {user?.l_name}
             </Text>
-            <Text fontSize={scale(14)} fontWeight={500} color="gray.100">
-              Available Balance
-            </Text>
+            <Box mt={scale(28)}>
+              <Text fontSize={scale(12)} fontWeight={500} color="gray.50">
+                Current Balance
+              </Text>
+              <Text fontSize={scale(18)} fontWeight={600} color="white">
+                200.00 QAR
+              </Text>
+            </Box>
             <Image
               source={wallet}
               alt="wallet"
@@ -101,6 +119,16 @@ export default function MyFatooraPayment() {
               right={-90}
               bottom={-90}
               zIndex={-1}
+              opacity={0.2}
+            />
+            <Image
+              source={appIcon}
+              alt="logo"
+              position={"absolute"}
+              w={10}
+              h={10}
+              right={5}
+              bottom={5}
             />
           </Card>
         </VStack>

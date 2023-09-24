@@ -16,56 +16,47 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const Stack = createNativeStackNavigator();
 
 export default function HomeRoutes() {
-    const { colorMode } = useColorMode();
-    const auth = useSelector(selectAuth) as IAuthState;
-    console.log("auth-----: " + JSON.stringify(auth))
-    const authToken = AsyncStorage.getItem('authToken')
+  const { colorMode } = useColorMode();
+  const auth = useSelector(selectAuth) as IAuthState;
+  // console.log("auth-----: " + JSON.stringify(auth))
+  const authToken = AsyncStorage.getItem("authToken");
 
-    return (
-        <Stack.Navigator>
-            {auth?.token ? (
-                <Stack.Screen
-                    options={{
-                        headerShown: false,
-                    }}
-                    name="DrawerScreens"
-                    component={DrawerRoute}
-                />
-            ) : (
-                <Stack.Screen
-                    options={{
-                        headerShown: false,
-                    }}
-                    name="AuthScreens"
-                    component={AuthRoute}
-                />
-            )}
-            <Stack.Group
-                screenOptions={(props: any) =>
-                    authScreenOptions({ ...props, colorMode })
-                }
-            >
-                <Stack.Screen
-                    name="ForgotPassword"
-                    component={ForgotPassword}
-                />
-                <Stack.Screen name="ResetPassword" component={ResetPassword} />
-                <Stack.Screen
-                    name="ForgotPasswordOtp"
-                    component={ForgotPasswordOtp}
-                />
-                <Stack.Screen
-                    name="SelectAuthOtpType"
-                    component={SelectAuthOtpType}
-                />
-            </Stack.Group>
-            <Stack.Screen
-                name="RedirectionWebview"
-                component={RedirectionWebview}
-                options={{
-                    headerShown: false,
-                }}
-            />
-        </Stack.Navigator>
-    );
+  return (
+    <Stack.Navigator>
+      {auth?.token ? (
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DrawerScreens"
+          component={DrawerRoute}
+        />
+      ) : (
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="AuthScreens"
+          component={AuthRoute}
+        />
+      )}
+      <Stack.Group
+        screenOptions={(props: any) =>
+          authScreenOptions({ ...props, colorMode })
+        }
+      >
+        <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+        <Stack.Screen name="ResetPassword" component={ResetPassword} />
+        <Stack.Screen name="ForgotPasswordOtp" component={ForgotPasswordOtp} />
+        <Stack.Screen name="SelectAuthOtpType" component={SelectAuthOtpType} />
+      </Stack.Group>
+      <Stack.Screen
+        name="RedirectionWebview"
+        component={RedirectionWebview}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </Stack.Navigator>
+  );
 }

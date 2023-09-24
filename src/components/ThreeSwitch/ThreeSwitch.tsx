@@ -24,11 +24,12 @@ const ThreeSwitch = ({ onPress, currentIndex, data }: ThreeSwitchProps) => {
         <FlatList
           data={data || []}
           horizontal
+          showsHorizontalScrollIndicator={false}
           renderItem={({ item, index }) => {
             return (
               <SwitchButton
                 onPress={() => onPress(index)}
-                title={item}
+                title={item?.category}
                 isActive={currentIndex == index}
               />
             );

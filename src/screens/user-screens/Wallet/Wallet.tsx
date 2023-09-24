@@ -38,7 +38,7 @@ export interface IAmount {
 const amounts: IAmount[] = [
   {
     _id: 1,
-    amount: "20",
+    amount: "200",
     currency: "QAR",
   },
   {
@@ -107,6 +107,7 @@ export default function Wallet() {
       >
         <VStack px="6">
           <Card
+            bg="#e82222"
             w="full"
             h={scale(200) + "px"}
             position={"relative"}

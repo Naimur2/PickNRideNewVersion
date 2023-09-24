@@ -8,7 +8,6 @@ import Animated, {
   useDerivedValue,
   withTiming,
 } from "react-native-reanimated";
-import LinGradient from "@components/LinGrad/LinGrad";
 
 interface Switchprops {
   onPress: () => void;

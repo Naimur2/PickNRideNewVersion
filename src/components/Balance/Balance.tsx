@@ -5,36 +5,36 @@ import { useSelector } from "react-redux";
 import { selectAuth } from "../../redux/store";
 
 export default function Balance({
-    balance,
-    onPress,
-    iconColor,
-    textColor,
-    currency,
+  balance,
+  onPress,
+  iconColor,
+  textColor,
+  currency,
 }: {
-    onPress?: () => void;
-    balance: string;
-    iconColor?: string;
-    textColor?: string;
-    currency?: string;
+  onPress?: () => void;
+  balance: string;
+  iconColor?: string;
+  textColor?: string;
+  currency?: string;
 }) {
-    const auth = useSelector(selectAuth);
+  const auth = useSelector(selectAuth);
 
-    console.log("auth", auth);
+  // console.log("auth", auth);
 
-    return (
-        <Pressable onPress={onPress}>
-            <HStack alignItems={"center"} space={2}>
-                <Wallet color={iconColor || "white"} />
-                <Text
-                    fontWeight={500}
-                    color={textColor || "white"}
-                    _dark={{
-                        color: "#fff",
-                    }}
-                >
-                    {auth?.wallet || "00"} {currency || "QAR"}
-                </Text>
-            </HStack>
-        </Pressable>
-    );
+  return (
+    <Pressable onPress={onPress}>
+      <HStack alignItems={"center"} space={2}>
+        <Wallet color={iconColor || "white"} />
+        <Text
+          fontWeight={500}
+          color={textColor || "white"}
+          _dark={{
+            color: "#fff",
+          }}
+        >
+          {auth?.wallet || "00"} {currency || "QAR"}
+        </Text>
+      </HStack>
+    </Pressable>
+  );
 }

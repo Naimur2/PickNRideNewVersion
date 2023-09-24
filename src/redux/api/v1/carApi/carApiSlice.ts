@@ -44,9 +44,21 @@ const carApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    getGetCarsApi: builder.query({
+      query: () => ({
+        url: `Cars`,
+        method: "GET",
+      }),
+    }),
     getGetAllCarsApi: builder.query({
       query: () => ({
         url: `Cars/AllCars`,
+        method: "GET",
+      }),
+    }),
+    getAllCarsWithCategory: builder.query({
+      query: () => ({
+        url: `Cars/GetAllCarsWithCategory`,
         method: "GET",
       }),
     }),
@@ -67,4 +79,6 @@ export const {
   useGetCarsCategoryApiQuery,
   useGetGetAllCarsCategoryApiQuery,
   useGetGetAllCarsApiQuery,
+  useGetAllCarsWithCategoryQuery,
+  useGetGetCarsApiQuery,
 } = carApiSlice;
