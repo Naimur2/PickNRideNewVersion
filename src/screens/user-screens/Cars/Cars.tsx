@@ -114,6 +114,7 @@ export default function Cars() {
                 title={car.name}
                 image={car.image}
                 distance={car.totalKm}
+                vehicle={car}
               />
             );
           })}

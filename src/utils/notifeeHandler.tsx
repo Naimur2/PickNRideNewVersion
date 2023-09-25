@@ -31,7 +31,7 @@ async function onMessageReceived(message: Message) {
   const notifeeData = JSON.parse(data.notifee) as Notifee;
   await notifee.createChannel({
     id: "notifications",
-    name: "MeatMoot Notifications",
+    name: "PickNRide Notifications",
     lights: true,
   });
 

@@ -2,14 +2,15 @@ import React from "react";
 
 import { Button, HStack, Image, Pressable, Text, VStack } from "native-base";
 import { scale } from "react-native-size-matters";
+import { useNavigation } from "@react-navigation/native";
 
 export interface ICarCardProp {
   subtitle?: string;
   title: string;
   distance: string;
   image: string;
+  vehicle: any;
   onPress: () => void;
-  onSelect: () => void;
 }
 
 export default function CarCard({
@@ -17,9 +18,16 @@ export default function CarCard({
   title,
   distance,
   image,
+  vehicle,
   onPress,
-  onSelect,
 }: ICarCardProp) {
+  const { navigate } = useNavigation();
+  //
+  const handelSelect = () => {
+    navigate("MapScreen", {
+      veichle: vehicle,
+    });
+  };
   return (
     <Pressable onPress={onPress} w="full">
       <HStack
@@ -59,7 +67,7 @@ export default function CarCard({
             Distance {distance}
           </Text>
           <Button
-            onPress={onSelect}
+            onPress={handelSelect}
             mt={2}
             px={1}
             py={2}

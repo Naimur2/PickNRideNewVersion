@@ -9,8 +9,11 @@ import MapscreenComp, {
 
 interface IMapProps extends IMapScreenProps, IMapTopDetailsProps {}
 
-function ActualMap({}: IMapProps) {
+function ActualMap({ route }: any) {
   const [carType, setCarType] = React.useState<ICAR>("scooter");
+  // console.log("route", route?.params?.veichle);
+  // latitude
+  // "imageName": "1_123_test_Front", "imei": "866907050822278", "inTrip": 0, "ioTBattery": "75", "ioTSimNumber": "12345678", "latitude": 25.3168768, "longitude": 51.4805984, "name": "Hilux Testing 2", "odometer": null, "price": 1, "speedLimit": 100, "status": 1, "totalKm": "250", "updatedAt": null}
 
   return (
     <VStack

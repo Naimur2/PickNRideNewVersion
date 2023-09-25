@@ -19,6 +19,8 @@ import SwitchNotifications from "./SwitchNotifications/SwitchNotifications";
 import { useGetGetAllNotificationsApiQuery } from "@store/api/v1/notificationApi/notificationApi";
 import moment from "moment";
 import NotificationsCard from "./NotificationsCard/NotificationsCard";
+import { useSelector } from "react-redux";
+import { selectAuth } from "@store/store";
 
 const natifications: INotification[] = [
   {
@@ -81,6 +83,7 @@ export default function Notifications() {
   const navigation = useNavigation();
   const { colorMode } = useColorMode();
   const insets = useSafeAreaInsets();
+  const authUser = useSelector(selectAuth);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -102,6 +105,7 @@ export default function Notifications() {
 
   // api
   const { data, isLoading } = useGetGetAllNotificationsApiQuery(undefined);
+  console.log("authUser", authUser?.photo);
 
   return (
     <Scroller
@@ -114,24 +118,15 @@ export default function Notifications() {
       }}
     >
       <VStack
-        space={12}
-        mt={4}
+        space={3}
+        w={"full"}
         px="6"
-        pb={8}
+        pb={1}
         h="full"
         maxWidth={scale(500)}
         mx="auto"
-        pt={Platform.OS === "android" ? 55 : 0}
+        pt={Platform.OS === "android" ? "25px" : 0}
       >
-        <VStack>
-          <H3>General Setings</H3>
-          <SwitchNotifications />
-        </VStack>
-        <VStack>
-          <H3>Notify About</H3>
-          <NotifyAbout />
-        </VStack>
-
         {data?.data?.items?.map((item, index) => {
           return (
             <NotificationsCard
@@ -139,7 +134,7 @@ export default function Notifications() {
                 item?.title + item?.data?.length.toString() + index.toString()
               }
               title={item?.title}
-              user={item?.user}
+              user={null}
               description={item?.message}
               dateTime={
                 item?.createdAt ? moment(item?.createdAt).fromNow() : ""
