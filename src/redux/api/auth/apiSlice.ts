@@ -31,7 +31,7 @@ const loadingBaseQuery = async (args: any, api: any, extraOptions: any) => {
 };
 
 export const authApiV1 = createApi({
-    reducerPath: "apiSlice",
+    reducerPath: "apiSliceVersion1",
     baseQuery: loadingBaseQuery,
     endpoints: (builder) => ({}),
 });
