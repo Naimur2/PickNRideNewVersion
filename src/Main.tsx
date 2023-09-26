@@ -24,8 +24,6 @@ export default function Main() {
     const loading = useSelector(selectLoading);
     const token = useSelector(selectToken);
 
-    console.log("token", token);
-
     const dispatch = useDispatch();
     const currentRegion = useSelector(selectCurrentRegion) as Region;
 
