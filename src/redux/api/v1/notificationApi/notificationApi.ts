@@ -14,6 +14,15 @@ const notificationApi = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    putFcmToken: builder.mutation({
+      query: (token) => ({
+        url: "Customer/FCMToken",
+        method: "PUT",
+        body: {
+          fcmToken: `${token}`,
+        },
+      }),
+    }),
   }),
   overrideExisting: true,
 });
@@ -21,4 +30,5 @@ const notificationApi = apiSlice.injectEndpoints({
 export const {
   useGetGetAllNotificationsApiQuery,
   useGetGetCustomerNotificationsApiQuery,
+  usePutFcmTokenMutation,
 } = notificationApi;

@@ -262,10 +262,10 @@ function CarDetailsSheet({
                   <HStack alignItems={"center"} space={1}>
                     <MaterialCommunityIcons
                       name="car-emergency"
-                      size={19}
+                      size={18}
                       color={colors.red[100]}
                     />
-                    <Text fontWeight={600} fontSize={13}>
+                    <Text fontWeight={800} fontSize={13}>
                       SOS
                     </Text>
                   </HStack>
@@ -279,7 +279,7 @@ function CarDetailsSheet({
                   <HStack alignItems={"center"} space={1}>
                     <Feather
                       name="phone-call"
-                      size={14}
+                      size={15}
                       color={colors.green[400]}
                     />
                     <Text fontWeight={600} fontSize={13}>
@@ -294,12 +294,10 @@ function CarDetailsSheet({
                   ID: {carId}
                 </Text>
                 <HStack space="2" w="full" px={4} alignItems="flex-end">
-                  <RnImage
-                    w="16px"
-                    h="18px"
-                    resizeMode="contain"
-                    source={ringBell}
-                    alt="ring bell"
+                  <MaterialCommunityIcons
+                    name="bell-ring-outline"
+                    size={18}
+                    color={colors.green[400]}
                   />
                   <Text fontWeight={600} fontSize={13}>
                     Ring

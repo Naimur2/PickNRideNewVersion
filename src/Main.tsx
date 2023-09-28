@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import WModal from "./layouts/Modal";
 import messaging from "@react-native-firebase/messaging";
 import { PermissionsAndroid, Platform } from "react-native";
+import { usePutFcmTokenMutation } from "@store/api/v1/notificationApi/notificationApi";
 
 export default function Main() {
   const loading = useSelector(selectLoading);
@@ -26,7 +27,7 @@ export default function Main() {
 
   const dispatch = useDispatch();
   const currentRegion = useSelector(selectCurrentRegion) as Region;
-
+  // locationData
   const locationData = useGetNearestCarsApiQuery(
     {
       latitude: currentRegion.latitude,
@@ -36,7 +37,10 @@ export default function Main() {
     },
     { skip: !currentRegion.latitude || !currentRegion.longitude }
   );
+  // fcm
+  const [putDcmToken, { error }] = usePutFcmTokenMutation();
 
+  // getWeather
   const getWeather = async (lat: number, lng: number) => {
     try {
       console.log("getWeather: ", lat, lng);
@@ -89,6 +93,8 @@ export default function Main() {
     }
   });
 
+  // messaging().requestPermission
+
   React.useEffect(() => {
     async function requestUserPermission() {
       const authStatus = await messaging().requestPermission();
@@ -99,7 +105,14 @@ export default function Main() {
       if (enabled) {
         await messaging().registerDeviceForRemoteMessages();
         const token = await messaging().getToken();
-        console.log("token", token);
+        console.log("token->>", token);
+
+        try {
+          const res = await putDcmToken(token).unwrap();
+          console.log("FCM PUT SUCCESS", res);
+        } catch (error) {
+          console.log("FCM ERROR _>", error);
+        }
       }
     }
     const takeAndroidNotificationPermission = async () => {
@@ -114,7 +127,14 @@ export default function Main() {
         } else {
           await messaging().registerDeviceForRemoteMessages();
           const token = await messaging().getToken();
-          // console.log("token", token);
+          console.log("token for dd", token);
+
+          try {
+            const res = await putDcmToken(token).unwrap();
+            console.log("FCM PUT SUCCESS", res);
+          } catch (error) {
+            console.log("FCM ERROR _>", error);
+          }
         }
       } catch (error) {
         console.log("error", error);
@@ -126,6 +146,8 @@ export default function Main() {
       requestUserPermission();
     }
   }, [token]);
+  //
+  console.log("error->error", error);
 
   return (
     <>
