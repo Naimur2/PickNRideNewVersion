@@ -12,15 +12,8 @@ interface ThreeSwitchProps {
 
 const ThreeSwitch = ({ onPress, currentIndex, data }: ThreeSwitchProps) => {
   return (
-    <VStack
-      my={4}
-      bg="transparent"
-      maxW={350}
-      mt={4}
-      shadow="1"
-      borderRadius={20}
-    >
-      <HStack bg={"#ffffff"} shadow={"none"}>
+    <VStack my={4} maxW={350} mt={4} shadow={"none"} borderRadius={20}>
+      <HStack borderRadius={26}>
         <FlatList
           data={data || []}
           horizontal
