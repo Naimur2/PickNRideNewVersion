@@ -66,7 +66,7 @@ function MapBox() {
     });
   };
 
-  console.log("currentLocation", currentLocation);
+  // console.log("currentLocation", currentLocation);
 
   return (
     <Map

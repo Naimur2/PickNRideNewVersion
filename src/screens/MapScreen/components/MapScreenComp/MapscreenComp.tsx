@@ -106,12 +106,13 @@ function MapscreenComp({ type, setType }: IMapTopDetailsProps) {
           }
         />
       </VStack>
-      <SpeedMeter />
-      {carTripDetails?.hasStartedJourney ? <Sos /> : null}
+      {/* <SpeedMeter /> */}
+      {/* {carTripDetails?.hasStartedJourney ? <Sos /> : null} */}
+      {/* <Sos /> */}
       <BottomScan onLeftPress={() => SheetManager.show("selectionSheet")} />
 
       <SpeedSheet sheetId="speedSheet" onBtnPress={() => {}} />
-
+      {/* card sheet */}
       <CarDetailsSheet
         sheetId="carDetailsSheet"
         avaiableDistance={"3.2 km"}

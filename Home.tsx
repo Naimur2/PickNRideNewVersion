@@ -12,35 +12,35 @@ import Main from "./src/Main";
 import ThemeConFig from "./src/theme-config/index";
 
 export default function Home() {
-    const linking = {
-        prefixes: ["picknride://", "https://webapi.pickandride.qa"],
-        config: {
-            screens: {
-                HomeRoutes: {
-                    screens: {
-                        AuthScreens: {
-                            screens: {
-                                Login: "auth/data/:token",
-                            },
-                        },
-                    },
-                },
+  const linking = {
+    prefixes: ["picknride://", "https://webapi.pickandride.qa"],
+    config: {
+      screens: {
+        HomeRoutes: {
+          screens: {
+            AuthScreens: {
+              screens: {
+                Login: "auth/data/:token",
+              },
             },
+          },
         },
-    };
-
-    return (
-        <Provider store={store}>
-            <StatusBar hidden />
-            <PersistGate loading={null} persistor={persistor}>
-                <SafeAreaProvider>
-                    <ThemeConFig>
-                        <NavigationContainer linking={linking} fallback={<></>}>
-                            <Main />
-                        </NavigationContainer>
-                    </ThemeConFig>
-                </SafeAreaProvider>
-            </PersistGate>
-        </Provider>
-    );
+      },
+    },
+  };
+  //
+  return (
+    <Provider store={store}>
+      <StatusBar hidden />
+      <PersistGate loading={null} persistor={persistor}>
+        <SafeAreaProvider>
+          <ThemeConFig>
+            <NavigationContainer linking={linking} fallback={<></>}>
+              <Main />
+            </NavigationContainer>
+          </ThemeConFig>
+        </SafeAreaProvider>
+      </PersistGate>
+    </Provider>
+  );
 }

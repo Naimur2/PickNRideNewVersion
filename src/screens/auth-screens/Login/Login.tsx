@@ -171,7 +171,7 @@ export default function Login() {
             Enter your login details toaccess your account
           </Text>
         </VStack>
-
+        {/* sign in with email */}
         <SignInInputForm />
 
         <VStack space={4} mt={6}>
