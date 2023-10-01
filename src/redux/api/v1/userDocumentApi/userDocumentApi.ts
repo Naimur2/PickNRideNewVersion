@@ -8,8 +8,17 @@ const userDocumentApi = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    getEmailMobileStatusApi: builder.query({
+      query: () => ({
+        url: `Customer/GetEmailMobileStatus`,
+        method: "GET",
+      }),
+    }),
   }),
   overrideExisting: true,
 });
 
-export const { useGetGetUserDocumentsStatusApiQuery } = userDocumentApi;
+export const {
+  useGetGetUserDocumentsStatusApiQuery,
+  useGetEmailMobileStatusApiQuery,
+} = userDocumentApi;

@@ -10,6 +10,8 @@ import {
 import { ECarType } from "@store/features/cars/carsSlice.types";
 import { setLoading } from "@store/features/ui/uiSlice";
 import {
+  selectCurrentRegion,
+  selectInitialLocation,
   setCurrentLocation,
   setInitialLocation,
 } from "@store/features/user-location/userLocationSlice";
@@ -34,6 +36,7 @@ const { width, height } = Dimensions.get("window");
 import { selectAuth } from "@store/store";
 import { View, AnimatePresence } from "moti";
 import {
+  useGetAllCarsByCategoryAndLocationQuery,
   useGetAllCarsWithCategoryQuery,
   useGetGetAllCarsApiQuery,
   useGetGetAllCarsCategoryApiQuery,
@@ -77,18 +80,20 @@ const vehicles: IVeichleCardProps[] = [
 export default function VeichleCards() {
   const dispatch = useDispatch();
   const selectedVeichle = useSelector(selectSelectedVeichleType);
+  const location = useSelector(selectInitialLocation);
   const user = useSelector(selectAuth);
   const navigation = useNavigation();
   const [currentIndex, setCurrentIndex] = useState(0);
   const ref = useRef();
   const switchRef = useRef();
-  const { data: careDataWith } = useGetAllCarsWithCategoryQuery(undefined);
-  // location permission
-  const {
-    hasForeGroundPermissions,
-    checkPermissions,
-    hasBackGroundPermissions,
-  } = useLocationPermissions();
+  const { data: carsData } = useGetAllCarsWithCategoryQuery(undefined);
+  const { data: allCarsCat } = useGetGetAllCarsCategoryApiQuery(undefined);
+  const body = {
+    latitude: "",
+    longitude: "",
+  };
+  const { data: locationCar } = useGetAllCarsByCategoryAndLocationQuery(body);
+  //
   const currentVeichle = vehicles.find(
     (veichle) => veichle.type === selectedVeichle
   );
@@ -214,18 +219,37 @@ export default function VeichleCards() {
     dispatch(setSelectedVeichleType(veichleType?.[current]));
   };
   //
+  const cardD = carsData?.data?.map((item, index) => {
+    console.log("item-->", Object.keys(item?.cars?.[0]));
+    const car = item?.cars?.[0];
+
+    return {
+      category: item?.category,
+      totalCars: item?.totalCarsInCategory,
+      car: {
+        name: car?.name,
+        latitude: car?.latitude,
+        longitude: car?.longitude,
+        price: car?.price,
+        image: "d",
+        totalKm: car?.totalKm,
+      },
+    };
+  });
+  // console.log("cardDww", cardD);
+  console.log("locationss", location);
 
   return (
     <VStack px={2} alignItems="center">
       <ThreeSwitch
-        data={careDataWith?.data || []}
+        data={carsData?.data || []}
         onPress={handleSelection}
         currentIndex={currentIndex}
       />
       <VStack position={"relative"} w={"full"}>
         <Animated.FlatList
           ref={ref}
-          data={careDataWith?.data || []}
+          data={carsData?.data || []}
           horizontal
           pagingEnabled
           showsHorizontalScrollIndicator={false}

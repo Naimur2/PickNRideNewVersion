@@ -69,6 +69,12 @@ const carApiSlice = apiSlice.injectEndpoints({
         body: body,
       }),
     }),
+    getAllCarsByCategoryAndLocation: builder.query({
+      query: (body) => ({
+        url: `Cars/GetAllCarsByCategoryAndLocation?Latitude=${body?.latitude}&Longitude=${body?.longitude}`,
+        method: "GET",
+      }),
+    }),
   }),
   overrideExisting: true,
 });
@@ -81,4 +87,5 @@ export const {
   useGetGetAllCarsApiQuery,
   useGetAllCarsWithCategoryQuery,
   useGetGetCarsApiQuery,
+  useGetAllCarsByCategoryAndLocationQuery,
 } = carApiSlice;

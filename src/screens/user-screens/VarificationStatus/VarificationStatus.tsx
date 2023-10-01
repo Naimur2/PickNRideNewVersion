@@ -43,7 +43,6 @@ export default function VarificationStatus() {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
   const colormode = useColorMode();
-
   const [varifyStatusList, setVarifyStatusList] =
     React.useState(varificationList);
 
@@ -65,6 +64,8 @@ export default function VarificationStatus() {
   }, [navigation]);
   // APi
   const { data, isLoading } = useGetGetUserDocumentsStatusApiQuery(undefined);
+  //
+  console.log("data", data);
 
   return (
     <Scroller
