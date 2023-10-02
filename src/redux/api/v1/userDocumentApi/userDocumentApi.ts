@@ -14,6 +14,14 @@ const userDocumentApi = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+
+    postVerifyEmailPhoneRequest: builder.mutation({
+      query: (body: any) => ({
+        url: "Customer/VerifyEmailRequest",
+        method: "POST",
+        body: body,
+      }),
+    }),
   }),
   overrideExisting: true,
 });
@@ -21,4 +29,5 @@ const userDocumentApi = apiSlice.injectEndpoints({
 export const {
   useGetGetUserDocumentsStatusApiQuery,
   useGetEmailMobileStatusApiQuery,
+  usePostVerifyEmailPhoneRequestMutation,
 } = userDocumentApi;

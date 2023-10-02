@@ -3,6 +3,7 @@ import { Image, Stack, Text, VStack, HStack } from "native-base";
 import battery from "@assets/images/battery.png";
 import locationImg from "@assets/images/location.png";
 import clockFill from "@assets/images/clock-fill.png";
+import RideTimer from "@layouts/RideTimer";
 
 const imagetype = {
   battery,
@@ -18,15 +19,26 @@ interface ICDesc {
   timeTitle: string;
   timeDescription?: string;
   cardStyle?: any;
+  tripDetails?: any;
+  hasStartedJourny?: boolean;
 }
 
 interface ICardDesc {
   type: "battery" | "clockFill" | "location";
   title: string;
   description?: string;
+  tripDetails?: any;
+  hasStartedJourny?: boolean;
 }
 
-const CarDescription = ({ type, title, description, ...rest }: ICardDesc) => (
+const CarDescription = ({
+  type,
+  title,
+  tripDetails,
+  hasStartedJourny,
+  description,
+  ...rest
+}: ICardDesc) => (
   <Stack space="2" px={4} alignItems="center" w="30%" {...rest}>
     <VStack space="1">
       <HStack space="1.5" alignItems={"center"}>
@@ -37,16 +49,23 @@ const CarDescription = ({ type, title, description, ...rest }: ICardDesc) => (
           source={imagetype[type]}
           alt="ring bell"
         />
-        <Text
-          _dark={{
-            color: "#fff",
-          }}
-          color={"black"}
-          fontWeight={700}
-          fontSize={13}
-        >
-          {title}
-        </Text>
+        {type === "clockFill" ? (
+          <RideTimer
+            startedTime={tripDetails?.startedTime}
+            hasStartedJourny={hasStartedJourny}
+          />
+        ) : (
+          <Text
+            _dark={{
+              color: "#fff",
+            }}
+            color={"black"}
+            fontWeight={700}
+            fontSize={13}
+          >
+            {type == "location" ? `${tripDetails?.totalKM || 0.0}/km` : title}
+          </Text>
+        )}
       </HStack>
       {description ? (
         <Text
@@ -72,6 +91,8 @@ export default function CarDescriptionCard({
   timeTitle,
   timeDescription,
   cardStyle,
+  tripDetails,
+  hasStartedJourny,
   ...rest
 }: ICDesc) {
   return (
@@ -86,17 +107,23 @@ export default function CarDescriptionCard({
       <CarDescription
         type="location"
         title={locationTitle}
+        tripDetails={tripDetails}
+        hasStartedJourny={hasStartedJourny}
         description={locationDescription}
         {...cardStyle}
       />
       <CarDescription
         type="battery"
+        tripDetails={tripDetails}
+        hasStartedJourny={hasStartedJourny}
         title={bettaryTitle}
         description={bettaryDescription}
         {...cardStyle}
       />
       <CarDescription
         type="clockFill"
+        tripDetails={tripDetails}
+        hasStartedJourny={hasStartedJourny}
         title={timeTitle}
         description={timeDescription}
         {...cardStyle}

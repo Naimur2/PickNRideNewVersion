@@ -66,6 +66,11 @@ import CModal from "@components/CModal/CModal";
 import H3 from "@components/H3/H3";
 import { fontSizes } from "@theme/typography";
 import config from "@config";
+import {
+  selectCurrentSpeed,
+  selectNearestCars,
+} from "@store/features/cars/carsSlice";
+import dayjs from "dayjs";
 
 const images = {
   carSmall,
@@ -97,13 +102,13 @@ function CarDetailsSheet({
   const RnImage = Factory(Image);
   const dispatch = useDispatch();
   const showModal = useShowModal();
-
+  //
   const [loadingModalVisible, setLoadingModalVisible] = React.useState(false);
-
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   const [modalSosVisible, setModalSosVisible] = React.useState(false);
 
   const isLocked = useSelector(selectIsLocked);
+  const currentSpeed = useSelector(selectCurrentSpeed);
 
   const [setLockStatus, lockResult] = useLockUnlockMutation();
   const [executeComannd, executionResult] = useExecuteCarCommandMutation();
@@ -212,9 +217,9 @@ function CarDetailsSheet({
   };
 
   //   open sheet
-  // useEffect(() => {
-  //   SheetManager.show(sheetId);
-  // }, []);
+  useEffect(() => {
+    SheetManager.show(sheetId);
+  }, []);
 
   //   if (!hasStartedJourney) {
   //     return <></>;
@@ -255,34 +260,43 @@ function CarDetailsSheet({
               <HStack space={6} alignItems={"center"}>
                 {/* sos */}
                 <Pressable
+                  background={colors.red[100]}
+                  style={{
+                    padding: 5,
+                    borderRadius: 10,
+                    paddingHorizontal: 10,
+                  }}
                   onPress={() => {
-                    setModalSosVisible((prv) => !prv);
+                    // setModalSosVisible((prv) => !prv);
+                    callCenter(config.emergencyNumber);
                   }}
                 >
                   <HStack alignItems={"center"} space={1}>
                     <MaterialCommunityIcons
                       name="car-emergency"
                       size={18}
-                      color={colors.red[100]}
+                      color={"#fff"}
                     />
-                    <Text fontWeight={800} fontSize={13}>
+                    <Text color={"#fff"} fontWeight={500} fontSize={13}>
                       SOS
                     </Text>
                   </HStack>
                 </Pressable>
                 {/* call */}
                 <Pressable
+                  background={colors.green[400]}
+                  style={{
+                    padding: 5,
+                    borderRadius: 12,
+                    paddingHorizontal: 10,
+                  }}
                   onPress={() => {
-                    callCenter("01728543232");
+                    callCenter(config.customerCareNumber);
                   }}
                 >
                   <HStack alignItems={"center"} space={1}>
-                    <Feather
-                      name="phone-call"
-                      size={15}
-                      color={colors.green[400]}
-                    />
-                    <Text fontWeight={600} fontSize={13}>
+                    <Feather name="phone-call" size={15} color={"#fff"} />
+                    <Text fontWeight={600} color={"#fff"} fontSize={13}>
                       Call center
                     </Text>
                   </HStack>
@@ -291,7 +305,7 @@ function CarDetailsSheet({
               {/* Bottom */}
               <HStack pt={3}>
                 <Text fontWeight={600} fontSize={13}>
-                  ID: {carId}
+                  ID: {tripDetails?.carId || "0000"}
                 </Text>
                 <HStack space="2" w="full" px={4} alignItems="flex-end">
                   <MaterialCommunityIcons
@@ -311,11 +325,13 @@ function CarDetailsSheet({
             bettaryTitle={availableBattery}
             locationTitle={avaiableDistance}
             timeTitle={availeTime}
+            tripDetails={tripDetails || {}}
+            hasStartedJourny={hasStartedJourney}
             px={8}
           />
           {/* price and kilo..  */}
-          <HStack justifyContent={"space-around"}>
-            {/* price */}
+          <HStack justifyContent={"center"} space={4}>
+            {/* hr price */}
             <HStack space={1} alignItems={"center"}>
               <FontAwesome5
                 name="money-bill"
@@ -331,10 +347,10 @@ function CarDetailsSheet({
                   color: "#fff",
                 }}
               >
-                5 Qar/hr
+                {tripDetails?.price || "00.0"} Qar/hr
               </Text>
             </HStack>
-            {/* spreed */}
+            {/* total km
             <HStack space={1} alignItems={"center"}>
               <Ionicons
                 name="speedometer"
@@ -350,10 +366,10 @@ function CarDetailsSheet({
                   color: "#fff",
                 }}
               >
-                2.9 km
+                {tripDetails?.totalKM} km
               </Text>
-            </HStack>
-            {/* spreed */}
+            </HStack> */}
+            {/* phone spreed */}
             <HStack space={1} alignItems={"center"}>
               <Ionicons
                 name="ios-timer-sharp"
@@ -369,7 +385,7 @@ function CarDetailsSheet({
                   color: "#fff",
                 }}
               >
-                00:00hr
+                {currentSpeed}km/hr
               </Text>
             </HStack>
           </HStack>

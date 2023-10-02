@@ -40,6 +40,7 @@ function MapscreenComp({ type, setType }: IMapTopDetailsProps) {
   const carTripDetails: ICarTripState = useSelector(selectCarTripInfo);
   const { data, refetch } = useCheckIsCarTripActiveQuery(undefined, {
     refetchOnMountOrArgChange: true,
+    pollingInterval: 300000,
   });
 
   const updateType = React.useMemo(() => {
@@ -120,7 +121,7 @@ function MapscreenComp({ type, setType }: IMapTopDetailsProps) {
         availableBattery={"100%"}
         carId={"10545"}
         hasStartedJourney={data?.succeeded}
-        tripDetails={data?.data}
+        tripDetails={data?.data || {}}
       />
 
       <GeoSheet sheetId={"geoSheet"} />

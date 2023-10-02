@@ -9,42 +9,23 @@ import { Platform } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { scale } from "react-native-size-matters";
 import VerifyStatusCard from "./VerifyStatusCard/VerifyStatusCard";
-import { useGetGetUserDocumentsStatusApiQuery } from "@store/api/v1/userDocumentApi/userDocumentApi";
+import {
+  useGetEmailMobileStatusApiQuery,
+  useGetGetUserDocumentsStatusApiQuery,
+} from "@store/api/v1/userDocumentApi/userDocumentApi";
 
 export interface INotificationsList {
   _id?: string;
   title: string;
-  validDate: Date;
-  status: string;
+  validDate?: Date;
+  status?: string;
+  verified?: boolean;
 }
-
-const varificationList: INotificationsList[] = [
-  {
-    _id: 2,
-    title: "UAE",
-    validDate: new Date(),
-    status: "pending",
-  },
-  {
-    _id: 3,
-    title: "Saudi",
-    validDate: new Date(),
-    status: "rejected",
-  },
-  {
-    _id: 4,
-    title: "Dubai",
-    validDate: new Date(),
-    status: "expired",
-  },
-];
 
 export default function VarificationStatus() {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
   const colormode = useColorMode();
-  const [varifyStatusList, setVarifyStatusList] =
-    React.useState(varificationList);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -64,8 +45,12 @@ export default function VarificationStatus() {
   }, [navigation]);
   // APi
   const { data, isLoading } = useGetGetUserDocumentsStatusApiQuery(undefined);
+  const { data: phoneData } = useGetEmailMobileStatusApiQuery(undefined);
   //
-  console.log("data", data);
+  console.log("data", phoneData);
+
+  // Extract the documentsStatus object
+  const documentsStatus = data?.data?.documentsStatus || [];
 
   return (
     <Scroller
@@ -88,13 +73,30 @@ export default function VarificationStatus() {
         w="full"
         pt={Platform.OS === "android" ? 55 : 0}
       >
-        {varifyStatusList?.map((item) => (
-          <VerifyStatusCard
-            key={item._id}
-            status={item.status}
-            title={item.title}
-            validDate={item.validDate}
-          />
+        <VerifyStatusCard
+          key={"Email"}
+          verified={data?.data?.customerInfo?.is_email_verified}
+          status={
+            data?.data?.customerInfo?.is_email_verified
+              ? "Approved"
+              : "Not Verified"
+          }
+          title={"Email"}
+          customerInfo={data?.data?.customerInfo}
+        />
+        <VerifyStatusCard
+          key={"Phone"}
+          verified={data?.data?.customerInfo?.is_mobile_verified}
+          status={
+            data?.data?.customerInfo?.is_mobile_verified
+              ? "Approved"
+              : "Not Verified"
+          }
+          title={"Phone"}
+          customerInfo={data?.data?.customerInfo}
+        />
+        {Object.entries(documentsStatus)?.map(([title, status]) => (
+          <VerifyStatusCard key={title} status={status} title={title} />
         ))}
       </VStack>
     </Scroller>
