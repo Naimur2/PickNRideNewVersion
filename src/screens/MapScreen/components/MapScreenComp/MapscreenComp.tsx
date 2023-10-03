@@ -22,7 +22,6 @@ import { ICarTripState } from "@store/features/car-trip/carTripSlice.types";
 import { fontSizes } from "@theme/typography";
 import { useDispatch, useSelector } from "react-redux";
 import { tripApiSlice } from "@store/api/v2/tripApi/tripApiSlice";
-import Sos from "../Sos/Sos";
 
 export interface IMapTopDetailsProps {
   type: ICAR;
@@ -70,8 +69,6 @@ function MapscreenComp({ type, setType }: IMapTopDetailsProps) {
     }
   }, [data]);
 
-  // console.log(new Date("2023-03-21T17:16:45.495Z").getTime());
-
   return (
     <VStack
       flex={1}
@@ -88,17 +85,17 @@ function MapscreenComp({ type, setType }: IMapTopDetailsProps) {
       justifyContent="space-between"
     >
       <VStack>
-        <LocationSearch
+        {/* <LocationSearch
           setDestinationLocation={() => {}}
           selectedType={type}
           position="absolute"
           zIndex={100000}
-        />
+        /> */}
         <MapTopDetails
           selected={type}
           px="4"
           setSelected={updateType}
-          mt={"80px"}
+          mt={"15px"}
           hasStartedJourny={data?.succeeded}
           startedTime={
             data?.data?.tripStartTime

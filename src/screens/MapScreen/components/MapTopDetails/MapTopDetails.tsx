@@ -20,7 +20,7 @@ const MapTopDetails = ({
     <VStack alignItems="center" justifyContent="space-between" {...rest}>
       <VeichleSelector />
       {weather ? (
-        <HStack alignItems={"center"} space="2">
+        <HStack alignItems={"center"} space="2" mt={"20px"}>
           <Image source={{ uri: weather.icon }} alt="weather" size={16} />
           {/* <Sun color="primary.100" /> */}
           <VStack>
@@ -37,10 +37,10 @@ const MapTopDetails = ({
           </Text>
         </HStack>
       ) : null}
-
+      {/* 
       {hasStartedJourny ? (
         <RideTimer hasStartedJourny startedTime={startedTime} />
-      ) : null}
+      ) : null} */}
     </VStack>
   );
 };

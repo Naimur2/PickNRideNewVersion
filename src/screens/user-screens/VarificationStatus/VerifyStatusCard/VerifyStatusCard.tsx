@@ -5,6 +5,9 @@ import { INotificationsList } from "../VarificationStatus";
 import colors from "@theme/colors";
 import { usePostVerifyEmailPhoneRequestMutation } from "@store/api/v1/userDocumentApi/userDocumentApi";
 import { Modal } from "react-native";
+import TextInput from "@components/TextInput/TextInput";
+import PickCountry from "@components/PickCountry/PickCountry";
+import GradientBtn from "@components/GradientBtn/GradientBtn";
 
 interface IVCards extends INotificationsList {
   onPress?: () => void;
@@ -27,43 +30,55 @@ export default function VerifyStatusCard({
   customerInfo,
 }: IVCards) {
   //
-  const [selectDoc, setSelectDoc] = useState(false);
-  const [handelVer, { isLoading }] = usePostVerifyEmailPhoneRequestMutation();
-  //
+  const [selectDoc, setSelectDoc] = useState(false); // modal for number or email input
+  const [handelVer, { isLoading }] = usePostVerifyEmailPhoneRequestMutation(); // veri api
+  const [email, setEmail] = useState(""); // email get
+  const [phone, setPhone] = useState(""); // number get
+  // handelVerification
   const handelVerification = async () => {
+    setSelectDoc(false);
     // verification
     //  email
     if (title?.toLocaleLowerCase() === "email") {
-      const email = customerInfo?.email;
-      const body = {
-        email: email,
-      };
-      //
-      try {
-        const res = handelVer(body).unwrap();
-        console.log("res", JSON.stringify(res));
-      } catch (error) {
-        console.log("error", error);
+      const inEmail = customerInfo?.email ?? email;
+      if (inEmail) {
+        const body = {
+          email: inEmail,
+        };
+        //
+        try {
+          const res = handelVer(body).unwrap();
+          console.log("res", JSON.stringify(res));
+        } catch (error) {
+          console.log("error", error);
+        }
+      } else {
+        setSelectDoc(true);
       }
     }
     // phone
     if (title?.toLocaleLowerCase() === "phone") {
-      const phone = customerInfo?.phoneCode + customerInfo?.phone;
-      const body = {
-        phone: phone,
-      };
-      try {
-        const res = handelVer(body).unwrap();
-        console.log("res", res);
-      } catch (error) {
-        console.log("error", error);
+      const inNumber = customerInfo?.phoneCode + customerInfo?.phone;
+      const number = inNumber ?? phone;
+      if (number) {
+        const body = {
+          phone: number,
+        };
+        try {
+          const res = handelVer(body).unwrap();
+          console.log("res", res);
+        } catch (error) {
+          console.log("error", error);
+        }
+      } else {
+        setSelectDoc(true);
       }
     }
   };
 
   return (
     <>
-      {/*  */}
+      {/* modal number or email  */}
       <Modal
         visible={selectDoc}
         onRequestClose={() => {
@@ -82,7 +97,47 @@ export default function VerifyStatusCard({
             py={5}
             px={5}
           >
-            <Text>LLL</Text>
+            <Text
+              my={5}
+              textAlign={"center"}
+              fontWeight={"800"}
+              fontSize={"lg"}
+              mb={10}
+            >
+              Verification You Document{" "}
+            </Text>
+
+            {title?.toLocaleLowerCase() === "email" ? (
+              <>
+                <TextInput
+                  onChangeText={(v) => {
+                    setEmail(v);
+                  }}
+                  placeholder="Enter your email"
+                />
+              </>
+            ) : (
+              <>
+                <PickCountry
+                  setPhoneInfo={(phoneInfo) => {
+                    const number =
+                      phoneInfo?.dialingCode.slice(1) + phoneInfo?.phoneNumber;
+                    console.log("number", number);
+                    setPhone(number);
+                  }}
+                />
+              </>
+            )}
+
+            {/*  */}
+            <GradientBtn
+              gradientStyle={{ maxWidth: 250 }}
+              title={"Send"}
+              mx={"auto"}
+              mt={10}
+              // disabled={result.isLoading}
+              onPress={handelVerification}
+            />
           </Box>
         </Box>
       </Modal>
@@ -127,10 +182,6 @@ export default function VerifyStatusCard({
             </Text>
           )}
         </HStack>
-        {/* <Text fontWeight={600} fontSize={15} color="gray.100">
-                Valid till{"  "}
-                {new Date(validDate).toLocaleDateString().replace(/\//g, "-")}
-            </Text> */}
       </Card>
     </>
   );

@@ -6,7 +6,7 @@ const carApiSlice = apiSliceV2.injectEndpoints({
   endpoints: (builder) => ({
     getNearestCarsApi: builder.query({
       query: (body: IGetNearestCars) => ({
-        url: `Cars/AllNearestCars?PageNumber=${body.pageNumber}&PageSize=${body.pageSize}&Latitude=${body.latitude}&Longitude=${body.longitude}`,
+        url: `Cars/GetNearestCarByCategory?Latitude=${body.latitude}&Longitude=${body.longitude}&Category=${body?.category}`,
         method: "GET",
       }),
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {

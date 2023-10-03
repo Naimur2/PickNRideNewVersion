@@ -17,13 +17,20 @@ export interface IVeichleCardProps {
   distance: string;
   availableNumber: string;
   type: TCarType;
+  item?: any;
 }
 interface Location {
   latitude: number;
   longitude: number;
 }
 
-function VCard({ image, title, distance, availableNumber }: IVeichleCardProps) {
+function VCard({
+  image,
+  title,
+  distance,
+  availableNumber,
+  item,
+}: IVeichleCardProps) {
   const [currentLocation, setCurrentLocation] = useState<Location | null>(null);
   const [destinationLocation, setDestinationLocation] = useState<Location>({
     latitude: 25.337032,
@@ -69,6 +76,9 @@ function VCard({ image, title, distance, availableNumber }: IVeichleCardProps) {
   //       });
   //   }
   // }, [currentLocation, destinationLocation]);
+  // //
+  // console.log("currentLocation", currentLocation);
+
   return (
     <Animated.View
       style={{

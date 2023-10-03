@@ -1,10 +1,9 @@
 export interface IGetNearestCars {
-    pageNumber: number;
-    pageSize: number;
-    latitude: number;
-    longitude: number;
+  latitude: number;
+  longitude: number;
+  category: string;
 }
 
 export interface INumberPlate {
-    numberPlate: string;
+  numberPlate: string;
 }

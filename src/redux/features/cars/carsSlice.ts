@@ -7,7 +7,7 @@ import {
 
 const initialState: ICarState = {
   nearestCars: [],
-  selectedVeichleType: "scotter",
+  selectedVeichleType: null,
   speed: 0,
 };
 

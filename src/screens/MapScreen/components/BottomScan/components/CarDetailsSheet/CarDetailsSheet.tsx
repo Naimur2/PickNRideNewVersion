@@ -217,13 +217,13 @@ function CarDetailsSheet({
   };
 
   //   open sheet
-  useEffect(() => {
-    SheetManager.show(sheetId);
-  }, []);
+  // useEffect(() => {
+  //   SheetManager.show(sheetId);
+  // }, []);
 
-  //   if (!hasStartedJourney) {
-  //     return <></>;
-  //   }
+  if (!hasStartedJourney) {
+    return <></>;
+  }
   //
 
   return (

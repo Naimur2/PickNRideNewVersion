@@ -3,7 +3,10 @@ import config from "@config";
 import HomeRoutes from "@navigation/home.routes";
 import { useGetNearestCarsApiQuery } from "@store/api/v2/carApi/carApiSlice";
 import { selectToken } from "@store/features/auth/authSlice";
-import { setCurrentSpeed } from "@store/features/cars/carsSlice";
+import {
+  selectSelectedVeichleType,
+  setCurrentSpeed,
+} from "@store/features/cars/carsSlice";
 import { setTemperature } from "@store/features/ui/uiSlice";
 import {
   selectCurrentRegion,
@@ -24,6 +27,7 @@ import { usePutFcmTokenMutation } from "@store/api/v1/notificationApi/notificati
 export default function Main() {
   const loading = useSelector(selectLoading);
   const token = useSelector(selectToken);
+  const selectedVeichleType = useSelector(selectSelectedVeichleType);
 
   const dispatch = useDispatch();
   const currentRegion = useSelector(selectCurrentRegion) as Region;
@@ -32,10 +36,14 @@ export default function Main() {
     {
       latitude: currentRegion.latitude,
       longitude: currentRegion.longitude,
-      pageNumber: 1,
-      pageSize: 10,
+      category: selectedVeichleType,
     },
-    { skip: !currentRegion.latitude || !currentRegion.longitude }
+    {
+      skip:
+        !currentRegion.latitude ||
+        !currentRegion.longitude ||
+        !selectedVeichleType,
+    }
   );
   // fcm
   const [putDcmToken, { error }] = usePutFcmTokenMutation();

@@ -18,7 +18,7 @@ import {
 import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
 import { FlatList, VStack } from "native-base";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Platform,
   ScrollView,
@@ -218,9 +218,9 @@ export default function VeichleCards() {
 
     dispatch(setSelectedVeichleType(veichleType?.[current]));
   };
-  //
+
+  // car data
   const cardD = carsData?.data?.map((item, index) => {
-    console.log("item-->", Object.keys(item?.cars?.[0]));
     const car = item?.cars?.[0];
 
     return {
@@ -231,25 +231,28 @@ export default function VeichleCards() {
         latitude: car?.latitude,
         longitude: car?.longitude,
         price: car?.price,
-        image: "d",
+        image: car?.image,
         totalKm: car?.totalKm,
       },
     };
   });
-  // console.log("cardDww", cardD);
-  console.log("locationss", location);
+
+  // set car cat
+  useEffect(() => {
+    dispatch(setSelectedVeichleType(cardD?.[currentIndex]?.category));
+  }, [currentIndex]);
 
   return (
     <VStack px={2} alignItems="center">
       <ThreeSwitch
-        data={carsData?.data || []}
+        data={cardD || []}
         onPress={handleSelection}
         currentIndex={currentIndex}
       />
       <VStack position={"relative"} w={"full"}>
         <Animated.FlatList
           ref={ref}
-          data={carsData?.data || []}
+          data={cardD || []}
           horizontal
           pagingEnabled
           showsHorizontalScrollIndicator={false}
@@ -258,10 +261,11 @@ export default function VeichleCards() {
             return (
               <VeichleCard
                 key={index}
-                title={item?.title}
-                availableNumber={item?.cars?.[0]?.inTrip}
-                distance={item?.cars?.[0]?.totalKm}
-                image={item?.cars?.[0]?.image}
+                item={item}
+                title={item?.name}
+                availableNumber={item?.totalCars}
+                distance={item?.car?.totalKm}
+                image={item?.car?.image}
               />
             );
           }}
