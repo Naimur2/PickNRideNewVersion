@@ -71,6 +71,10 @@ import {
   selectNearestCars,
 } from "@store/features/cars/carsSlice";
 import dayjs from "dayjs";
+import {
+  useAddTurningLightsDataApiMutation,
+  useGetLiveTripDataApiQuery,
+} from "@store/api/v2/carApi/carApiSlice";
 
 const images = {
   carSmall,
@@ -112,11 +116,11 @@ function CarDetailsSheet({
 
   const [setLockStatus, lockResult] = useLockUnlockMutation();
   const [executeComannd, executionResult] = useExecuteCarCommandMutation();
-
+  const { data } = useGetLiveTripDataApiQuery(tripDetails?.tripToke);
+  const [turingLight, { isSuccess }] =
+    useAddTurningLightsDataApiMutation(undefined);
   const navigation = useNavigation();
-
   const { colorMode } = useColorMode();
-
   const [isYesNoModalVisible, setIsYesNoModalVisible] = React.useState(false);
 
   const onEndRide = async () => {
@@ -216,15 +220,26 @@ function CarDetailsSheet({
     Linking.openURL(`tel:${num}`).catch((err) => console.error("Error:", err));
   };
 
+  const handelRing = async () => {
+    try {
+      const body = {
+        tripToken: tripDetails?.tripToke,
+      };
+      const res = await turingLight(body).unwrap();
+      console.log("turingLight Res ->", res);
+    } catch (error) {
+      console.log("turingLight -Error ->", error);
+    }
+  };
+
   //   open sheet
   // useEffect(() => {
-  //   SheetManager.show(sheetId);
+  //   SheetManager.hide(sheetId);
   // }, []);
 
-  if (!hasStartedJourney) {
-    return <></>;
-  }
-  //
+  // if (!hasStartedJourney) {
+  //   return <></>;
+  // }
 
   return (
     <>
@@ -303,20 +318,34 @@ function CarDetailsSheet({
                 </Pressable>
               </HStack>
               {/* Bottom */}
-              <HStack pt={3}>
+              <HStack
+                pt={3}
+                justifyContent={"space-between"}
+                alignItems="center"
+              >
                 <Text fontWeight={600} fontSize={13}>
                   ID: {tripDetails?.carId || "0000"}
                 </Text>
-                <HStack space="2" w="full" px={4} alignItems="flex-end">
-                  <MaterialCommunityIcons
-                    name="bell-ring-outline"
-                    size={18}
-                    color={colors.green[400]}
-                  />
-                  <Text fontWeight={600} fontSize={13}>
-                    Ring
-                  </Text>
-                </HStack>
+                <Pressable
+                  onPress={handelRing}
+                  background={colors.green[400]}
+                  style={{
+                    padding: 5,
+                    borderRadius: 10,
+                    paddingHorizontal: 10,
+                  }}
+                >
+                  <HStack space="2" w="full" alignItems="flex-end">
+                    <MaterialCommunityIcons
+                      name="bell-ring-outline"
+                      size={18}
+                      color={"#ffff"}
+                    />
+                    <Text fontWeight={600} fontSize={13} color={"#ffff"}>
+                      Ring
+                    </Text>
+                  </HStack>
+                </Pressable>
               </HStack>
             </VStack>
           </HStack>
@@ -326,6 +355,7 @@ function CarDetailsSheet({
             locationTitle={avaiableDistance}
             timeTitle={availeTime}
             tripDetails={tripDetails || {}}
+            data={data?.data || {}}
             hasStartedJourny={hasStartedJourney}
             px={8}
           />

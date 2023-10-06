@@ -4,32 +4,37 @@ import {
   selectInitialLocation,
 } from "@store/features/user-location/userLocationSlice";
 import { Center, Factory, VStack, Box } from "native-base";
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Dimensions, Keyboard } from "react-native";
-import MapView, {
-  AnimatedRegion,
-  Marker,
-  MarkerAnimated,
-  Region,
-} from "react-native-maps";
+import MapView, { AnimatedRegion, Marker, Region } from "react-native-maps";
 import { useSelector } from "react-redux";
 import { ILatLng } from "../../MapScreen.types";
 import AllMarkers from "../AllMarker/AllMarker";
-import { RootState } from "@store/store";
-import Animated from "react-native-reanimated";
+import MapViewDirections from "react-native-maps-directions";
+
+import config from "@config";
 
 export interface IMapScreenProps {
   children?: any;
 }
 const { height, width } = Dimensions.get("window");
 
-function MapBox() {
+function MapBox({ veichle }) {
   const Map = Factory(MapView);
   const mapRef = React.useRef<MapView>(null);
   const navigation = useNavigation();
-
   const initialRegion = useSelector(selectInitialLocation) as Region;
+  const [initialCarLocation, setInitialCarLocation] = useState(undefined);
 
+  useEffect(() => {
+    setInitialCarLocation(initialRegion);
+  }, [initialRegion]);
+
+  //
+  const location = useMemo(() => {
+    return initialCarLocation;
+  }, [initialCarLocation]);
+  //
   const currentLocation = useSelector(selectCurrentRegion) as ILatLng;
 
   const fitToCoordinatesHandler = (coordinates: ILatLng[]) => {
@@ -66,12 +71,22 @@ function MapBox() {
     });
   };
 
-  // console.log("currentLocation", currentLocation);
+  //
+  // const origin = [
+  //   {
+  //     latitude: veichle.latitude,
+  //     longitude: veichle.longitude,
+  //   },
+  //   {
+  //     latitude: currentLocation.latitude,
+  //     longitude: currentLocation.longitude,
+  //   },
+  // ];
 
   return (
     <Map
       ref={mapRef}
-      initialRegion={initialRegion}
+      initialRegion={location}
       flex={1}
       // provider={PROVIDER_GOOGLE}
       w={width}
@@ -91,6 +106,12 @@ function MapBox() {
         <></>
       )}
       <AllMarkers />
+      {/* dei */}
+      {/* <MapViewDirections
+        origin={origin[0]}
+        destination={origin[1]}
+        apikey={config.MAP_KEY}
+      /> */}
     </Map>
   );
 }

@@ -29,7 +29,7 @@ function ViichleSliderCard({
         bg={isActive ? "primary.100" : "#CAE5B7"}
         borderWidth={3}
         borderColor="#fff"
-        borderRadius={10}
+        borderRadius={"full"}
         px={4}
         py={1}
         mx={1}

@@ -38,6 +38,19 @@ const carApiSlice = apiSliceV2.injectEndpoints({
       //     }
       //   },
     }),
+    getLiveTripDataApi: builder.query({
+      query: (TripToken: string | number) => ({
+        url: `CarTrip/GetLiveTripData?TripToken=${TripToken}`,
+        method: "GET",
+      }),
+    }),
+    addTurningLightsDataApi: builder.mutation({
+      query: (data) => ({
+        url: `CarTrip/TurningLights`,
+        method: "POST",
+        body: data,
+      }),
+    }),
     checkCarsNamePlate: builder.query({
       query: (body: INumberPlate) => ({
         url: "Cars/CheckCarNumberPlate",
@@ -53,4 +66,7 @@ export const {
   useGetNearestCarsApiQuery,
   useCheckCarsNamePlateQuery,
   useGetCarsCategoryApiQuery,
+  useGetLiveTripDataApiQuery,
+  useLazyGetLiveTripDataApiQuery,
+  useAddTurningLightsDataApiMutation,
 } = carApiSlice;

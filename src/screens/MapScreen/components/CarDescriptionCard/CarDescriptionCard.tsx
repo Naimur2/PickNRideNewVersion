@@ -20,6 +20,7 @@ interface ICDesc {
   timeDescription?: string;
   cardStyle?: any;
   tripDetails?: any;
+  data?: any;
   hasStartedJourny?: boolean;
 }
 
@@ -28,6 +29,7 @@ interface ICardDesc {
   title: string;
   description?: string;
   tripDetails?: any;
+  data?: any;
   hasStartedJourny?: boolean;
 }
 
@@ -37,6 +39,7 @@ const CarDescription = ({
   tripDetails,
   hasStartedJourny,
   description,
+  data,
   ...rest
 }: ICardDesc) => (
   <Stack space="2" px={4} alignItems="center" w="30%" {...rest}>
@@ -63,7 +66,7 @@ const CarDescription = ({
             fontWeight={700}
             fontSize={13}
           >
-            {type == "location" ? `${tripDetails?.totalKM || 0.0}/km` : title}
+            {type == "location" ? `${data?.[0]?.spreed || 0}/km` : title}
           </Text>
         )}
       </HStack>
@@ -93,6 +96,7 @@ export default function CarDescriptionCard({
   cardStyle,
   tripDetails,
   hasStartedJourny,
+  data,
   ...rest
 }: ICDesc) {
   return (
@@ -107,6 +111,7 @@ export default function CarDescriptionCard({
       <CarDescription
         type="location"
         title={locationTitle}
+        data={data}
         tripDetails={tripDetails}
         hasStartedJourny={hasStartedJourny}
         description={locationDescription}
@@ -114,14 +119,16 @@ export default function CarDescriptionCard({
       />
       <CarDescription
         type="battery"
+        data={data}
         tripDetails={tripDetails}
         hasStartedJourny={hasStartedJourny}
-        title={bettaryTitle}
+        title={`${data?.[0]?.fuel || 0}%`}
         description={bettaryDescription}
         {...cardStyle}
       />
       <CarDescription
         type="clockFill"
+        data={data}
         tripDetails={tripDetails}
         hasStartedJourny={hasStartedJourny}
         title={timeTitle}

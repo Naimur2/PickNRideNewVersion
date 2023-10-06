@@ -4,7 +4,6 @@ import React from "react";
 import VeichleSelector from "@components/VeichleSelector/VeichleSelector";
 import { selectTemperature } from "@store/features/ui/uiSlice";
 import { useSelector } from "react-redux";
-import RideTimer from "@layouts/RideTimer";
 
 const MapTopDetails = ({
   hasStartedJourny,
