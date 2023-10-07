@@ -14,7 +14,13 @@ import { useSelector } from "react-redux";
 import { selectAuth } from "@store/store";
 import { selectSelectedVeichleType } from "@store/features/cars/carsSlice";
 
-function BottomScan({ onLeftPress }: { onLeftPress: () => void }) {
+function BottomScan({
+  onLeftPress,
+  handleLocate,
+}: {
+  onLeftPress: () => void;
+  handleLocate: () => void;
+}) {
   const LinearGrad = Factory(LinearGradient);
   const { hasPermission, askCmeraPermission } = useCameraPermissions();
   const { height } = Dimensions.get("window");
@@ -32,14 +38,16 @@ function BottomScan({ onLeftPress }: { onLeftPress: () => void }) {
       return;
     }
 
-    if (veichleType === "car") {
-      navigation.navigate("ScanQrCode");
-    } else {
-      navigation.navigate("BarcodeScanner");
-    }
+    // if (veichleType === "car") {
+    // } else {
+    // }
+    navigation.navigate("ScanQrCode");
+    // navigation.navigate("BarcodeScanner");
   };
 
   const insets = useSafeAreaInsets();
+  //
+
   return (
     <VStack space="6" w="full" position={"absolute"} bottom={0}>
       <LinearGrad
@@ -54,7 +62,9 @@ function BottomScan({ onLeftPress }: { onLeftPress: () => void }) {
           <Pressable mx={"auto"} onPress={handleNavigate}>
             <Image source={scan} alt="scan" />
           </Pressable>
-          <Image source={locate} alt="locate" />
+          <Pressable onPress={handleLocate}>
+            <Image source={locate} alt="locate" />
+          </Pressable>
         </HStack>
       </LinearGrad>
     </VStack>

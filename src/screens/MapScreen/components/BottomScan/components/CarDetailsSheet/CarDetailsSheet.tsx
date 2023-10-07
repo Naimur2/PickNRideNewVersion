@@ -237,9 +237,9 @@ function CarDetailsSheet({
   //   SheetManager.hide(sheetId);
   // }, []);
 
-  // if (!hasStartedJourney) {
-  //   return <></>;
-  // }
+  if (!hasStartedJourney) {
+    return <></>;
+  }
 
   return (
     <>

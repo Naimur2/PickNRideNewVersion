@@ -1,5 +1,5 @@
 import { VStack } from "native-base";
-import React from "react";
+import React, { useRef } from "react";
 import { ICAR } from "./MapScreen.types";
 import MapBox, { IMapScreenProps } from "./components/MapBox/MapBox";
 import { SheetManager } from "react-native-actions-sheet";
@@ -10,8 +10,16 @@ import MapscreenComp, {
 interface IMapProps extends IMapScreenProps, IMapTopDetailsProps {}
 
 function ActualMap({ route }: any) {
+  const mapRef = useRef();
   const [carType, setCarType] = React.useState<ICAR>("scooter");
   const veichle = route?.params?.veichle || {};
+
+  const handleLocate = async () => {
+    //
+    if (mapRef?.current) {
+      await mapRef?.current?.locateToCurrentlocation();
+    }
+  };
 
   return (
     <VStack
@@ -23,8 +31,12 @@ function ActualMap({ route }: any) {
       collapsable={false}
     >
       <VStack flex="1" collapsable={false}>
-        <MapscreenComp type={carType} setType={(t) => setCarType(t)} />
-        <MapBox veichle={veichle} />
+        <MapscreenComp
+          handleLocate={handleLocate}
+          type={carType}
+          setType={(t) => setCarType(t)}
+        />
+        <MapBox ref={mapRef} veichle={veichle} />
       </VStack>
     </VStack>
   );

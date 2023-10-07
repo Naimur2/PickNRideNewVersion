@@ -4,14 +4,19 @@ import {
   selectInitialLocation,
 } from "@store/features/user-location/userLocationSlice";
 import { Center, Factory, VStack, Box } from "native-base";
-import React, { useEffect, useMemo, useState } from "react";
+import React, {
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useState,
+} from "react";
 import { Dimensions, Keyboard } from "react-native";
 import MapView, { AnimatedRegion, Marker, Region } from "react-native-maps";
 import { useSelector } from "react-redux";
 import { ILatLng } from "../../MapScreen.types";
 import AllMarkers from "../AllMarker/AllMarker";
 import MapViewDirections from "react-native-maps-directions";
-
+import * as Location from "expo-location";
 import config from "@config";
 
 export interface IMapScreenProps {
@@ -19,7 +24,7 @@ export interface IMapScreenProps {
 }
 const { height, width } = Dimensions.get("window");
 
-function MapBox({ veichle }) {
+function MapBox({ veichle }, ref) {
   const Map = Factory(MapView);
   const mapRef = React.useRef<MapView>(null);
   const navigation = useNavigation();
@@ -82,6 +87,21 @@ function MapBox({ veichle }) {
   //     longitude: currentLocation.longitude,
   //   },
   // ];
+  const locateToCurrentlocation = async () => {
+    const cLocation = await Location.getCurrentPositionAsync();
+    mapRef.current?.animateToRegion(
+      {
+        ...initialRegion,
+        latitude: cLocation?.coords?.latitude,
+        longitude: cLocation?.coords?.longitude,
+      },
+      300
+    );
+  };
+
+  useImperativeHandle(ref, () => ({
+    locateToCurrentlocation,
+  }));
 
   return (
     <Map

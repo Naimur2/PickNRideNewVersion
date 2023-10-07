@@ -20,7 +20,7 @@ import {
   Toast,
   VStack,
 } from "native-base";
-import { Platform, StyleSheet } from "react-native";
+import { Platform, StyleSheet, TouchableOpacity, View } from "react-native";
 import { scale } from "react-native-size-matters";
 import CaptureBtns from "./CaptureBtns/CaptureBtns";
 import { IValidateCarTripData } from "./ScanQrCode.types";
@@ -37,6 +37,7 @@ import PaymentTimer from "@screens/MyFatooraScreens/components/PaymentTimer";
 import { HStack } from "native-base";
 import useShowModal from "@hooks/useShowModal";
 import ManualEntry from "./ManualEntry";
+import { AntDesign } from "@expo/vector-icons";
 
 export default function ScanQrCode() {
   const navigation = useNavigation();
@@ -85,6 +86,18 @@ export default function ScanQrCode() {
       headerTransparent: true,
       headerShown: false,
       unmountOnBlur: true,
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => {
+            // You can use navigation.goBack() to go back to the previous screen
+            navigation.goBack();
+          }}
+        >
+          <View style={{ paddingHorizontal: 10 }}>
+            <AntDesign name="arrowleft" size={24} color="#000000" />
+          </View>
+        </TouchableOpacity>
+      ),
     });
   }, [navigation]);
 

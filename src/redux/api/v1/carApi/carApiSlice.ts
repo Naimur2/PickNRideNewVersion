@@ -75,6 +75,12 @@ const carApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    getPricingByCarCategory: builder.query({
+      query: (body) => ({
+        url: `Cars/GetPricingByCarCategory`,
+        method: "GET",
+      }),
+    }),
   }),
   overrideExisting: true,
 });
@@ -88,4 +94,5 @@ export const {
   useGetAllCarsWithCategoryQuery,
   useGetGetCarsApiQuery,
   useGetAllCarsByCategoryAndLocationQuery,
+  useGetPricingByCarCategoryQuery,
 } = carApiSlice;

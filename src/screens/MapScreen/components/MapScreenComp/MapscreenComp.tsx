@@ -25,18 +25,17 @@ import { tripApiSlice } from "@store/api/v2/tripApi/tripApiSlice";
 
 export interface IMapTopDetailsProps {
   type: ICAR;
+  handleLocate: () => void;
   setType: (type: ICAR) => void;
 }
 
-function MapscreenComp({ type, setType }: IMapTopDetailsProps) {
+function MapscreenComp({ type, setType, handleLocate }: IMapTopDetailsProps) {
   const { width } = Dimensions.get("window");
 
   const route = useRoute();
   const params = route.params as any;
 
   const dispatch = useDispatch();
-
-  const carTripDetails: ICarTripState = useSelector(selectCarTripInfo);
   const { data, refetch } = useCheckIsCarTripActiveQuery(undefined, {
     refetchOnMountOrArgChange: true,
     pollingInterval: 300000,
@@ -85,12 +84,7 @@ function MapscreenComp({ type, setType }: IMapTopDetailsProps) {
       justifyContent="space-between"
     >
       <VStack>
-        {/* <LocationSearch
-          setDestinationLocation={() => {}}
-          selectedType={type}
-          position="absolute"
-          zIndex={100000}
-        /> */}
+        <LocationSearch />
         <MapTopDetails
           selected={type}
           px="4"
@@ -107,7 +101,10 @@ function MapscreenComp({ type, setType }: IMapTopDetailsProps) {
       {/* <SpeedMeter /> */}
       {/* {carTripDetails?.hasStartedJourney ? <Sos /> : null} */}
       {/* <Sos /> */}
-      <BottomScan onLeftPress={() => SheetManager.show("selectionSheet")} />
+      <BottomScan
+        handleLocate={handleLocate}
+        onLeftPress={() => SheetManager.show("selectionSheet")}
+      />
 
       <SpeedSheet sheetId="speedSheet" onBtnPress={() => {}} />
       {/* card sheet */}

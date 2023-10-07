@@ -19,7 +19,7 @@ import ViichleCircle from "@components/VeichleSelector/ViichleCircle/ViichleCirc
 import { ECarType } from "@store/features/cars/carsSlice.types";
 
 const RHistoryContext = React.createContext({
-  selected: ECarType.SCOTTER,
+  selected: ECarType.CAR,
   setSelected: (type: ECarType) => {},
 });
 
@@ -35,13 +35,13 @@ const HeadaderComponent = React.memo(() => {
   const { selected, setSelected } = React.useContext(RHistoryContext);
   return (
     <HStack space={4} px={4} pb={4} bg={colors.light[300]} w={"full"}>
-      <ViichleCircle
+      {/* <ViichleCircle
         type={ECarType.SCOTTER}
         isActive={selected === ECarType.SCOTTER}
         onPress={() => setSelected(ECarType.SCOTTER)}
         p={4}
         imageWidth={24}
-      />
+      /> */}
       <ViichleCircle
         type={ECarType.CAR}
         isActive={selected === ECarType.CAR}
@@ -49,13 +49,13 @@ const HeadaderComponent = React.memo(() => {
         p={4}
         imageWidth={24}
       />
-      <ViichleCircle
+      {/* <ViichleCircle
         type={ECarType.CYCLE}
         isActive={selected === ECarType.CYCLE}
         onPress={() => setSelected(ECarType.CYCLE)}
         p={4}
         imageWidth={24}
-      />
+      /> */}
     </HStack>
   );
 });

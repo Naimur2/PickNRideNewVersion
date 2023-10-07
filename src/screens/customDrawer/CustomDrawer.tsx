@@ -51,10 +51,10 @@ export default function CustomDrawer() {
       title: "Account",
       onPress: () => navigation.navigate("Account" as never),
     },
-    {
-      title: "Pricing",
-      onPress: () => navigation.navigate("Pricing" as never),
-    },
+    // {
+    //   title: "Pricing",
+    //   onPress: () => navigation.navigate("Pricing" as never),
+    // },
     {
       title: "Ride History",
       onPress: () => navigation.navigate("RideHistory" as never),
@@ -67,7 +67,7 @@ export default function CustomDrawer() {
         } as IMyFatooraRouteParams),
     },
     {
-      title: "Cars",
+      title: "Pricing",
       onPress: () => navigation.navigate("Cars" as never),
     },
 

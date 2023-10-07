@@ -162,6 +162,7 @@ export default function VeichleCards() {
   };
 
   const handleNavigation = async () => {
+    dispatch(setSelectedVeichleType(cardD?.[currentIndex]?.category));
     try {
       dispatch(setLoading(true));
       checkPermissionsAndSetLocation();
@@ -179,7 +180,7 @@ export default function VeichleCards() {
         config.LOCATION_TASK_NAME
       );
 
-      console.log("isRegistered", isRegistered);
+      // console.log("isRegistered", isRegistered);
 
       if (!isRegistered) {
         await Location.startLocationUpdatesAsync(config.LOCATION_TASK_NAME, {
