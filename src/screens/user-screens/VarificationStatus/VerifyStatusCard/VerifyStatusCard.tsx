@@ -133,7 +133,8 @@ export default function VerifyStatusCard({
               fontSize={"lg"}
               mb={10}
             >
-              Verification You Document{" "}
+              Verification You{" "}
+              {title?.toLocaleLowerCase() === "email" ? "Email" : "Phone"}{" "}
             </Text>
 
             {title?.toLocaleLowerCase() === "email" ? (
