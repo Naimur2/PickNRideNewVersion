@@ -64,7 +64,6 @@ export default function VarificationStatus() {
     >
       <VStack
         space={6}
-        mt={4}
         px="6"
         pb={8}
         h="full"
@@ -72,6 +71,10 @@ export default function VarificationStatus() {
         mx="auto"
         w="full"
         pt={Platform.OS === "android" ? 55 : 0}
+        bg="light.300"
+        _dark={{
+          bg: "dark.100",
+        }}
       >
         <VerifyStatusCard
           key={"Email"}
