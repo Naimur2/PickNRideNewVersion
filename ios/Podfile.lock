@@ -42,6 +42,8 @@ PODS:
     - ExpoModulesCore
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
+  - EXNotifications (0.20.1):
+    - ExpoModulesCore
   - Expo (49.0.9):
     - ExpoModulesCore
   - ExpoImageManipulator (11.3.0):
@@ -518,6 +520,8 @@ PODS:
   - React-jsinspector (0.72.4)
   - React-logger (0.72.4):
     - glog
+  - react-native-geolocation (3.1.0):
+    - React-Core
   - react-native-google-maps (1.7.1):
     - Google-Maps-iOS-Utils (= 4.1.0)
     - GoogleMaps (= 7.4.0)
@@ -726,6 +730,7 @@ DEPENDENCIES:
   - EXLocation (from `../node_modules/expo-location/ios`)
   - EXManifests (from `../node_modules/expo-manifests/ios`)
   - EXMediaLibrary (from `../node_modules/expo-media-library/ios`)
+  - EXNotifications (from `../node_modules/expo-notifications/ios`)
   - Expo (from `../node_modules/expo`)
   - ExpoImageManipulator (from `../node_modules/expo-image-manipulator/ios`)
   - ExpoImagePicker (from `../node_modules/expo-image-picker/ios`)
@@ -761,7 +766,8 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
-  - react-native-google-maps (from `/Users/naimurrahaman/Documents/react-native/PickNRide/node_modules/react-native-maps`)
+  - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
+  - react-native-google-maps (from `/Users/naimurrahaman/Documents/react-native/PickNRideNewVersion/node_modules/react-native-maps`)
   - react-native-maps (from `../node_modules/react-native-maps`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-webview (from `../node_modules/react-native-webview`)
@@ -861,6 +867,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-manifests/ios"
   EXMediaLibrary:
     :path: "../node_modules/expo-media-library/ios"
+  EXNotifications:
+    :path: "../node_modules/expo-notifications/ios"
   Expo:
     :path: "../node_modules/expo"
   ExpoImageManipulator:
@@ -929,8 +937,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
+  react-native-geolocation:
+    :path: "../node_modules/@react-native-community/geolocation"
   react-native-google-maps:
-    :path: "/Users/naimurrahaman/Documents/react-native/PickNRide/node_modules/react-native-maps"
+    :path: "/Users/naimurrahaman/Documents/react-native/PickNRideNewVersion/node_modules/react-native-maps"
   react-native-maps:
     :path: "../node_modules/react-native-maps"
   react-native-safe-area-context:
@@ -1022,6 +1032,7 @@ SPEC CHECKSUMS:
   EXLocation: a425ace19c0445e7ea9702982fc6b9a402791510
   EXManifests: cf66451b11b2c2f6464917528d792759f7fd6ce0
   EXMediaLibrary: 88ee9eed37c4fe38a4b5b35b73a4f9fa056c999e
+  EXNotifications: 09394cbd7165f9a4a00a53328aa09bf874bae717
   Expo: 1a9df000f727ec52651a51548c12ad66bca4b5dc
   ExpoImageManipulator: 851be0965dd9f78019771b140282f1816dcc25ea
   ExpoImagePicker: c58fdf28be551681a8edc550bcec76c397a8dfcd
@@ -1073,17 +1084,18 @@ SPEC CHECKSUMS:
   React-Core: 34da8c952844e21f5a69bf46438fb6bf063900d0
   React-CoreModules: 621243df8863055ff30f3bb2ff71573ffa7b16c8
   React-cxxreact: 4ad1cc861e32fb533dad6ff7a4ea25680fa1c994
-  React-debug: fb9992164d46e51490d807571abdea48a7394603
+  React-debug: f1a8d0337a92be2ae0f1f84adc268864490c1d54
   React-hermes: 37377d0a56aa0cf55c65248271866ce3268cde3f
   React-jsi: 6de8b0ccc6b765b58e4eee9ee38049dbeaf5c221
   React-jsiexecutor: c7f826e40fa9cab5d37cab6130b1af237332b594
   React-jsinspector: aaed4cf551c4a1c98092436518c2d267b13a673f
   React-logger: da1ebe05ae06eb6db4b162202faeafac4b435e77
+  react-native-geolocation: ef66fb798d96284c6043f0b16c15d9d1d4955db4
   react-native-google-maps: dd12cdd86b8e3fedbbb671676aedaa2f656e2ccd
   react-native-maps: 667f9b975549c6fa9b1631bf859440f68ebd3b8f
   react-native-safe-area-context: 36cc67648134e89465663b8172336a19eeda493d
   react-native-webview: b8ec89966713985111a14d6e4bf98d8b54bced0d
-  React-NativeModulesApple: b3c194ac4f05407299c87b15e9265d55b197258a
+  React-NativeModulesApple: e356f9bc6d047f1dfef1e54f55efa4e176a82899
   React-perflogger: 496a1a3dc6737f964107cb3ddae7f9e265ddda58
   React-RCTActionSheet: 02904b932b50e680f4e26e7a686b33ebf7ef3c00
   React-RCTAnimation: e44fe5053708c5be762943087c78dc5a6a3c645c
@@ -1097,9 +1109,9 @@ SPEC CHECKSUMS:
   React-RCTVibration: 35eec7201c8ffdaccdd908a5ec874b7055f975f3
   React-rncore: 46133d523155fc84572338bd6a7c461c1d873efc
   React-runtimeexecutor: d465ba0c47ef3ed8281143f59605cacc2244d5c7
-  React-runtimescheduler: dea5f3d9a0da4287440cc4e3177e9614cf2204ad
-  React-utils: 6c33c9c16ac6dc0be6e6240d4ab031d6d3b62383
-  ReactCommon: a5bd68686a7b4cafa531211b333d537cadb123cb
+  React-runtimescheduler: 77df747ce40ce43b81e1a32fd716eed41aaf5ffa
+  React-utils: 4567165800d1068f8c91673b3345e787aaa993f8
+  ReactCommon: 1dd304a6598ffcc68fd652d4e3e69706b5b27fc1
   RNCAsyncStorage: ddc4ee162bfd41b0d2c68bf2d95acd81dd7f1f93
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNDateTimePicker: 3942382593f104af226ad9c56e16166960c7ae30
