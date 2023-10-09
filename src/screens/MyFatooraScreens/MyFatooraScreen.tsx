@@ -118,7 +118,7 @@ export default function MyFatooraPayment() {
                                 fontWeight={600}
                                 color="white"
                             >
-                                {user?.wallet || "00"} {currency || "QAR"}
+                                {user?.wallet || "00"} {"QAR"}
                             </Text>
                         </Box>
                         <Image
