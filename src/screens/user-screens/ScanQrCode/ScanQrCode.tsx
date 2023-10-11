@@ -38,6 +38,7 @@ import { HStack } from "native-base";
 import useShowModal from "@hooks/useShowModal";
 import ManualEntry from "./ManualEntry";
 import { AntDesign } from "@expo/vector-icons";
+import HeaderTitle from "@components/HeaderTitle/HeaderTitle";
 
 export default function ScanQrCode() {
   const navigation = useNavigation();
@@ -83,13 +84,11 @@ export default function ScanQrCode() {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerTransparent: true,
-      headerShown: false,
-      unmountOnBlur: true,
+      headerTitle: () => <HeaderTitle color="#000000" title="Scan qr code" />,
+      headerTitleAlign: "center",
       headerLeft: () => (
         <TouchableOpacity
           onPress={() => {
-            // You can use navigation.goBack() to go back to the previous screen
             navigation.goBack();
           }}
         >
@@ -304,7 +303,6 @@ export default function ScanQrCode() {
     }
   };
   const insets = useSafeAreaInsets();
-  console.log("insets", insets);
   return (
     <>
       <VStack

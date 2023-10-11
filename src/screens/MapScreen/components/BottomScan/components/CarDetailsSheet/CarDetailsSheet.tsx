@@ -233,13 +233,13 @@ function CarDetailsSheet({
   };
 
   //   open sheet
-  // useEffect(() => {
-  //   SheetManager.hide(sheetId);
-  // }, []);
+  useEffect(() => {
+    SheetManager.hide(sheetId);
+  }, []);
 
-  if (!hasStartedJourney) {
-    return <></>;
-  }
+  // if (!hasStartedJourney) {
+  //   return <></>;
+  // }
 
   return (
     <>

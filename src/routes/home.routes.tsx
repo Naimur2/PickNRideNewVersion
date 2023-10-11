@@ -18,7 +18,7 @@ const Stack = createNativeStackNavigator();
 export default function HomeRoutes() {
   const { colorMode } = useColorMode();
   const auth = useSelector(selectAuth) as IAuthState;
-  console.log("auth-----: " + JSON.stringify(auth));
+  // console.log("auth-----: " + JSON.stringify(auth));
   const authToken = AsyncStorage.getItem("authToken");
 
   return (

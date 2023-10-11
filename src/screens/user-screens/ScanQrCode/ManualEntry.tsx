@@ -27,8 +27,7 @@ export default function ManualEntry({
   const dispatch = useDispatch();
   const [showWarningModal, setShowWarningModal] =
     React.useState<boolean>(false);
-  const [validateCarTrip, validationResult] =
-    useValidateCarTripRequestMutation();
+  const [validateCarTrip, { isLoading }] = useValidateCarTripRequestMutation();
 
   const [warningVariant, setWarningVariant] = useState<
     "approved" | "pending" | "rejected" | "expired" | "required"
@@ -260,7 +259,7 @@ export default function ManualEntry({
           <GradientBtn
             onPress={formik.handleSubmit}
             title="Submit"
-            // disabled={validationResult.isLoading}
+            disabled={isLoading}
             gradientStyle={{
               width: "200px",
             }}

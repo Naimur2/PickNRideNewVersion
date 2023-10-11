@@ -34,11 +34,10 @@ export default function RideTimer({
   const second = Math.floor(time % 60);
   //
   //   console.log("totalTimeSpent", totalTimeSpent);
-  console.log("startedDaysTime", totalTimeSpent);
 
   return (
     <HStack
-      bg={"#fff"}
+      // bg={"#fff"}
       rounded={"full"}
       alignItems={"center"}
       justifyContent={"center"}
