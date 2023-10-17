@@ -7,7 +7,6 @@ import {
   VStack,
 } from "native-base";
 import React from "react";
-import { Touchable, TouchableOpacity } from "react-native";
 import Modal from "react-native-modal";
 import { scale } from "react-native-size-matters";
 import Approved from "@assets/svgs/Approved";
@@ -16,6 +15,7 @@ import Locked from "@assets/svgs/Locked";
 import Pending from "@assets/svgs/Pending";
 import Rejected from "@assets/svgs/Rejected";
 import Unlocked from "@assets/svgs/Unlocked";
+import { TouchableOpacity } from "react-native";
 
 export default function WarningModal({
   isVisible,
@@ -68,6 +68,8 @@ export default function WarningModal({
 
   const { colorMode } = useColorMode();
   const UModal = Factory(Modal);
+  // LOg
+  // console.log("e", isVisible, setIsVisible, variant);
 
   return (
     <UModal
@@ -81,6 +83,29 @@ export default function WarningModal({
       shouldRasterizeIOS
       {...rest}
     >
+      <TouchableOpacity
+        style={{
+          alignSelf: "flex-end",
+          marginRight: 10,
+        }}
+        onPress={setIsVisible}
+      >
+        <Center
+          _dark={{ bg: "#fff" }}
+          mt={20}
+          h="9"
+          w="9"
+          bg="#000"
+          borderRadius={50}
+        >
+          <CloseIcon
+            color="#fff"
+            _dark={{
+              color: "#000",
+            }}
+          />
+        </Center>
+      </TouchableOpacity>
       <VStack
         bg="#fff"
         w="320px"
@@ -107,25 +132,8 @@ export default function WarningModal({
             {variants?.[variant]?.text || variants["pending"].text}
           </Text>
         </VStack>
+        {/* Close Button  */}
       </VStack>
-
-      <Touchable onPress={() => setIsVisible(false)}>
-        <Center
-          _dark={{ bg: "#fff" }}
-          mt={20}
-          h="9"
-          w="9"
-          bg="#000"
-          borderRadius={50}
-        >
-          <CloseIcon
-            color="#fff"
-            _dark={{
-              color: "#000",
-            }}
-          />
-        </Center>
-      </Touchable>
     </UModal>
   );
 }

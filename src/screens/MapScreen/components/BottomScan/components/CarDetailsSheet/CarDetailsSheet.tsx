@@ -125,7 +125,7 @@ function CarDetailsSheet({
 
   const onEndRide = async () => {
     if (!isLocked) {
-      showModal("warning", {
+      showModa("warning", {
         title: "Warning",
         message: "Please lock the car before ending the ride",
       });
@@ -484,13 +484,13 @@ function CarDetailsSheet({
             </VStack>
           ) : null}
         </VStack>
-        {isModalVisible ? (
-          <WarningModal
-            setIsVisible={() => setIsModalVisible(false)}
-            isVisible={isModalVisible}
-            variant={isLocked ? "locked" : "unlocked"}
-          />
-        ) : null}
+        {/* Warning Modal */}
+
+        <WarningModal
+          setIsVisible={() => setIsModalVisible(false)}
+          isVisible={isModalVisible}
+          variant={isLocked ? "locked" : "unlocked"}
+        />
       </ActionSheet>
       <YesNoModal
         isOpen={isYesNoModalVisible}

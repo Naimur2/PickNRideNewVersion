@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import SignInInputForm from "./SignInInputForm/SignInInputForm";
 import SocialButton from "./SocialButton/SocialButton";
 import { login } from "@store/features/auth/authSlice";
+import { Platform } from "react-native";
 
 export default function Login() {
   const { colorMode } = useColorMode();
@@ -175,8 +176,11 @@ export default function Login() {
         <SignInInputForm />
 
         <VStack space={4} mt={6}>
-          <SocialButton type={"apple"} onPress={appleSignIn} />
-          <SocialButton type={"google"} onPress={googleSignIn} />
+          {Platform.OS === "android" ? (
+            <SocialButton type={"google"} onPress={googleSignIn} />
+          ) : (
+            <SocialButton type={"apple"} onPress={appleSignIn} />
+          )}
         </VStack>
 
         <HStack my={4} alignItems={"center"} justifyContent="center" space={2}>

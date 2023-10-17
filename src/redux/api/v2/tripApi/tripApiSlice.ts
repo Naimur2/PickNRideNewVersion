@@ -80,6 +80,12 @@ export const tripApiSlice = apiSliceV2.injectEndpoints({
       }),
       providesTags: ["getTripStatus"],
     }),
+    getTripInvoice: builder.query({
+      query: (tripId) => ({
+        url: `CarTrip/GetTripInvoice?TripId=39734`,
+        method: "GET",
+      }),
+    }),
     getAllCarTrips: builder.query({
       query: () => ({
         url: `CarTrip/GetAllTrips?PageNumber=${1}&PageSize=${15}`,
@@ -234,4 +240,5 @@ export const {
   useCheckIsCarTripActiveQuery,
   useGetAllCarTripsQuery,
   useGeMoreCarTripsQuery,
+  useGetTripInvoiceQuery,
 } = tripApiSlice;
