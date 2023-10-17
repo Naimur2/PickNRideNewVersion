@@ -66,7 +66,6 @@ function PaymentMethodsList({
   setPaymentMethodId: (paymentMethodId: number) => void;
   selectedPaymentMethodId: number;
 }) {
-
   const paymentMethodsWithIndex = paymentMethods.map((item, index) => {
     return {
       ...item,
@@ -93,10 +92,20 @@ function PaymentMethodsList({
     Platform.OS === "ios"
       ? directpaymentsWithApplePay
       : payMentMethodsWithDirectPayment;
-
+  //
+  console.log("paymentMethods", paymentMethods);
+  const filterPaymentMethod = paymentMethods.filter((item) => {
+    if (Platform.OS === "android" && item?.paymentMethodId === 8) {
+      return false;
+    }
+    if (Platform.OS === "ios" && item?.paymentMethodId === 9) {
+      return false;
+    }
+    return item;
+  });
   return (
     <VStack space="2">
-      {paymentMethods.map((item, index) => {
+      {filterPaymentMethod?.map((item, index) => {
         return (
           <Cards
             onSelect={() => {

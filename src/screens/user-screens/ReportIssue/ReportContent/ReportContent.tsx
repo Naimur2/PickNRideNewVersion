@@ -23,7 +23,7 @@ export default function ReportContent({
 }: {
   selections: ISelection[];
 }) {
-  const [selectedMenu, setSelectedMenu] = React.useState(1);
+  const [selectedMenu, setSelectedMenu] = React.useState(selections?.[0]?._id);
   const showModal = useShowModal();
   const [sendReport, { isLoading }] = useCreateSupportMutation();
   const navigation = useNavigation();
@@ -33,7 +33,7 @@ export default function ReportContent({
   const insets = useSafeAreaInsets();
   const params = useRoute().params as { tripId: string };
 
-  console.log("params", params);
+  // console.log("params", params);
 
   const [isOpen, setIsOpen] = React.useState(false);
   const selectedImage = image?.split("/").pop();

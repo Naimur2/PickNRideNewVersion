@@ -152,8 +152,6 @@ export default function PaymentForm({
             callBackUrl: callBackUrl,
           });
 
-
-
           //   alert("Payment Success");
         }
       } catch (error) {
@@ -192,7 +190,7 @@ export default function PaymentForm({
   return (
     <>
       <VStack p={6} space="4">
-        <H3>Select method</H3>
+        {/* <H3>Select method</H3> */}
         {/* <FormControl>
                     <Text
                         fontWeight={600}

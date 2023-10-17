@@ -82,7 +82,13 @@ export const tripApiSlice = apiSliceV2.injectEndpoints({
     }),
     getTripInvoice: builder.query({
       query: (tripId) => ({
-        url: `CarTrip/GetTripInvoice?TripId=39734`,
+        url: `CarTrip/GetTripInvoice?TripId=${tripId}`,
+        method: "GET",
+      }),
+    }),
+    sendResetEmail: builder.mutation({
+      query: (tripId) => ({
+        url: `CarTrip/GetTripInvoice?TripId=${tripId}`,
         method: "GET",
       }),
     }),
@@ -241,4 +247,5 @@ export const {
   useGetAllCarTripsQuery,
   useGeMoreCarTripsQuery,
   useGetTripInvoiceQuery,
+  useSendResetEmailMutation,
 } = tripApiSlice;

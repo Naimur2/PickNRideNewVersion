@@ -18,6 +18,7 @@ export interface IHistoryCard {
   fair: number;
   distance: number;
   rideId: string;
+  item: any;
 }
 function HistoryCard({
   starting,
@@ -26,6 +27,7 @@ function HistoryCard({
   fair,
   distance,
   rideId,
+  item,
 }: IHistoryCard) {
   const navigation = useNavigation();
 
@@ -36,7 +38,7 @@ function HistoryCard({
           <Pressable
             onPress={() =>
               navigation.navigate("Receipt", {
-                tripId: rideId,
+                item: item,
               })
             }
           >

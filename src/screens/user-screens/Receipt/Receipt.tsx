@@ -25,19 +25,24 @@ import boyWScooter from "@assets/images/boywscooter.png";
 import { fontSizes } from "@theme/typography";
 import { useSelector } from "react-redux";
 import { selectAuth } from "@store/store";
-import { useGetTripInvoiceQuery } from "@store/api/v2/tripApi/tripApiSlice";
+import {
+  useGetTripInvoiceQuery,
+  useSendResetEmailMutation,
+} from "@store/api/v2/tripApi/tripApiSlice";
+import dayjs from "dayjs";
 // interface ITopSection {
 //   rideId: number;
 // }
 
 export default function Receipt({ route }) {
-  const tripId = route?.params?.tripId;
+  const tripId = route?.params?.item?._id;
+  const item = route?.params?.item;
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const colormode = useColorMode();
   const [showModal, setShowModal] = useState<boolean>(false);
   const authUser = useSelector(selectAuth);
-  const { data, isLoading } = useGetTripInvoiceQuery(tripId);
+  const [handelResend, { isLoading: resendIs }] = useSendResetEmailMutation();
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -58,9 +63,16 @@ export default function Receipt({ route }) {
       ),
     });
   }, [navigation]);
-  // rideId
-  console.log("data", tripId);
 
+  // handelResendEmail
+  const handelResendEmail = async () => {
+    try {
+      const res = await handelResend(tripId).unwrap();
+      // console.log("res", res);
+    } catch (error) {
+      console.log("err", error);
+    }
+  };
   return (
     <>
       {/* <ReviewModal showModal={showModal} setShowModal={setShowModal} /> */}
@@ -112,7 +124,7 @@ export default function Receipt({ route }) {
                     color: "#000",
                   }}
                 >
-                  10 September, 2022
+                  {dayjs(item?.starting?.time).format("DD MMM, YYYY")}
                 </Text>
                 <Text
                   color={"green.300"}
@@ -122,14 +134,87 @@ export default function Receipt({ route }) {
                     color: "#000",
                   }}
                 >
-                  10.30 AM
+                  {dayjs(item?.starting?.time).format("h:mm:A")}
                 </Text>
               </VStack>
 
               <Image resizeMode="contain" source={boyWScooter} alt="usr" />
             </HStack>
           </VStack>
-          <VStack px={6}>
+          <VStack space={2} px={6}>
+            <HStack justifyContent={"space-between"}>
+              <Text
+                color={"#000"}
+                pt={2}
+                fontWeight={500}
+                fontSize={fontSizes.sm}
+                _dark={{
+                  color: "#fff",
+                }}
+              >
+                Duration
+              </Text>
+              <Text
+                color={"#000"}
+                pt={2}
+                fontWeight={600}
+                fontSize={fontSizes.sm}
+                _dark={{
+                  color: "#fff",
+                }}
+              >
+                {(item?.duration / 60).toFixed(2)} hr
+              </Text>
+            </HStack>
+            <HStack justifyContent={"space-between"}>
+              <Text
+                color={"#000"}
+                pt={2}
+                fontWeight={500}
+                fontSize={fontSizes.sm}
+                _dark={{
+                  color: "#fff",
+                }}
+              >
+                Start
+              </Text>
+              <Text
+                color={"#000"}
+                pt={2}
+                fontWeight={600}
+                fontSize={fontSizes.sm}
+                _dark={{
+                  color: "#fff",
+                }}
+              >
+                {item?.starting?.locationName}
+              </Text>
+            </HStack>
+            <HStack justifyContent={"space-between"}>
+              <Text
+                color={"#000"}
+                pt={2}
+                fontWeight={500}
+                fontSize={fontSizes.sm}
+                _dark={{
+                  color: "#fff",
+                }}
+              >
+                End
+              </Text>
+              <Text
+                color={"#000"}
+                pt={2}
+                fontWeight={600}
+                fontSize={fontSizes.sm}
+                _dark={{
+                  color: "#fff",
+                }}
+              >
+                {item?.destination?.locationName}
+              </Text>
+            </HStack>
+            {/* total */}
             <HStack mb={4} justifyContent={"space-between"}>
               <Text
                 color={"#000"}
@@ -153,11 +238,11 @@ export default function Receipt({ route }) {
               >
                 QAR
                 <Text color={"primary.100"} pt={2} fontWeight={500}>
-                  {""} 3.6
+                  {""} {item?.fair}
                 </Text>
               </Text>
             </HStack>
-            <HStack justifyContent={"space-between"}>
+            {/* <HStack justifyContent={"space-between"}>
               <Text
                 color={"#000"}
                 pt={2}
@@ -255,9 +340,9 @@ export default function Receipt({ route }) {
               >
                 QAR 0.00
               </Text>
-            </HStack>
+            </HStack> */}
 
-            <HStack mt={6} justifyContent={"space-between"}>
+            {/* <HStack mt={6} justifyContent={"space-between"}>
               <Text
                 color={"#000"}
                 pt={2}
@@ -269,9 +354,9 @@ export default function Receipt({ route }) {
               >
                 Payment
               </Text>
-            </HStack>
+            </HStack> */}
 
-            <HStack justifyContent={"space-between"} alignItems="center" mt={2}>
+            {/* <HStack justifyContent={"space-between"} alignItems="center" mt={2}>
               <VStack>
                 <Text
                   color={"gray.100"}
@@ -305,10 +390,10 @@ export default function Receipt({ route }) {
               >
                 456xxxxxxxx
               </Text>
-            </HStack>
+            </HStack> */}
 
             <VStack my={8} space={4}>
-              <Card
+              {/* <Card
                 _dark={{
                   bg: "#fff",
                 }}
@@ -321,11 +406,12 @@ export default function Receipt({ route }) {
                 >
                   Download PDF
                 </Text>
-              </Card>
+              </Card> */}
               <Card
                 _dark={{
                   bg: "#fff",
                 }}
+                onPress={handelResendEmail}
               >
                 <Text
                   color={"#000"}
@@ -340,6 +426,11 @@ export default function Receipt({ route }) {
                 _dark={{
                   bg: "#fff",
                 }}
+                onPress={() => {
+                  navigation.navigate("ReportIssue", {
+                    tripId: tripId,
+                  });
+                }}
               >
                 <Text
                   color={"#000"}
@@ -347,7 +438,7 @@ export default function Receipt({ route }) {
                   fontSize={fontSizes.sm}
                   textAlign={"center"}
                 >
-                  Review
+                  Report
                 </Text>
               </Card>
             </VStack>

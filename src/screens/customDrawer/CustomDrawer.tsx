@@ -14,7 +14,6 @@ import { logout } from "@store/features/auth/authSlice";
 import DrawerBtn from "./components/DraweBtn/DrawerBtn";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAuth } from "@store/store";
-import { IAuthState } from "../../redux/features/auth/authSlice.types";
 import { formatCountSuffix } from "../../utils/formatCountSuffix";
 import { clearCarTrip } from "@store/features/car-trip/carTripSlice";
 import { clearDocument } from "@store/features/document/documentSlice";
@@ -152,8 +151,8 @@ export default function CustomDrawer() {
             </Button>
           </VStack>
           <HStack space={4} mt={6} mb={4}>
-            <Whatsapp color={"#fff"} onPress={openWhatsapp} />
-            <Instagram color={"#fff"} onPress={openInsta} />
+            <Whatsapp iconSize={50} color={"#fff"} onPress={openWhatsapp} />
+            <Instagram iconSize={50} color={"#fff"} onPress={openInsta} />
           </HStack>
         </Lg>
       </Scroller>

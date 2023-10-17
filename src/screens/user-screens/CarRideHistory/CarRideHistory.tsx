@@ -63,6 +63,7 @@ const HeadaderComponent = React.memo(() => {
 const renderItem = ({ item, index }: { item: IHistoryCard; index: number }) => {
   return (
     <HistoryCard
+      item={item}
       starting={item?.starting}
       destination={item?.destination}
       duration={item?.duration}
@@ -139,8 +140,6 @@ export default function CarRideHistory() {
     }
   }, [selected, data]);
   //
-
-  // console.log(data?.data?.items);
 
   return (
     <RHistoryContext.Provider value={values}>
