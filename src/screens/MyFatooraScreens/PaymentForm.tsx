@@ -191,31 +191,31 @@ export default function PaymentForm({
     <>
       <VStack p={6} space="4">
         {/* <H3>Select method</H3> */}
-        {/* <FormControl>
-                    <Text
-                        fontWeight={600}
-                        fontSize={fontSizes.sm}
-                        _dark={{ color: "#fff" }}
-                    >
-                        Enter Amount
-                    </Text>
-                    <Input
-                        fontSize={fontSizes.sm}
-                        fontWeight={600}
-                        variant="underlined"
-                        borderBottomColor={"light.200"}
-                        placeholder="Enter Amount"
-                        placeholderTextColor="gray.300"
-                        _dark={{
-                            color: "#fff",
-                            placeholderTextColor: "white",
-                        }}
-                        keyboardType="numeric"
-                        onChangeText={handleChange("paymentAmount")}
-                        onBlur={handleBlur("paymentAmount")}
-                        value={values.paymentAmount}
-                    />
-                </FormControl> */}
+        <FormControl>
+          <Text
+            fontWeight={600}
+            fontSize={fontSizes.sm}
+            _dark={{ color: "#fff" }}
+          >
+            Enter Amount
+          </Text>
+          <Input
+            fontSize={fontSizes.sm}
+            fontWeight={600}
+            variant="underlined"
+            borderBottomColor={"light.200"}
+            placeholder="Enter Amount"
+            placeholderTextColor="gray.300"
+            _dark={{
+              color: "#fff",
+              placeholderTextColor: "white",
+            }}
+            keyboardType="numeric"
+            onChangeText={handleChange("paymentAmount")}
+            onBlur={handleBlur("paymentAmount")}
+            value={values.paymentAmount}
+          />
+        </FormControl>
 
         <Text
           fontWeight={600}

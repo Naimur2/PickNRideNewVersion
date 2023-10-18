@@ -61,18 +61,15 @@ export default function MyFatooraPayment() {
   const distpatch = useDispatch();
   const { colorMode } = useColorMode();
   const user = useSelector(selectAuth);
-
+  //  sate
   const params = useRoute().params as IMyFatooraRouteParams;
   const [selected, setSelected] = React.useState(amounts[0]);
-  const [amountToPay, setAmountToPay] = React.useState(undefined);
-  const [useTextInputAmount, setUseTextInputAmount] = React.useState(false);
   const navigation = useNavigation();
 
   const [paymentMethods, setPaymentMethods] = useState<ICardListProps[]>([]);
   const [initiatePayments, initateResult] = useInitiatePaymentMutation();
 
-  const selectedAmount =
-    useTextInputAmount && amountToPay ? amountToPay : selected?.amount;
+  const selectedAmount = selected?.amount;
   const amountValue =
     params?.paymentFor === "lowBalance" ? params.amount : selectedAmount;
 
@@ -150,26 +147,10 @@ export default function MyFatooraPayment() {
                   isActive={selected?._id === amount?._id}
                   onSelect={(item) => {
                     setSelected(item);
-                    setAmountToPay(undefined);
-                    setUseTextInputAmount(false);
                   }}
                 />
               ))}
             </HStack>
-            <VStack px={4} mt={4}>
-              <Text fontWeight={600}>Manually Enter Your Amount</Text>
-              {/*  */}
-              <Input
-                py={3}
-                mt={2}
-                placeholder="Enter Your Amount"
-                keyboardType="numeric"
-                onSubmitEditing={(e) => {
-                  setUseTextInputAmount(true);
-                  setAmountToPay(e.nativeEvent.text);
-                }}
-              />
-            </VStack>
           </>
         ) : (
           <VStack p={4} space={4}>

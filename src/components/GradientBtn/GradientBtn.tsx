@@ -1,7 +1,7 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { Factory, Text } from "native-base";
 import React from "react";
-import { TouchableOpacity } from "react-native";
+import { ActivityIndicator, TouchableOpacity } from "react-native";
 import { scale } from "react-native-size-matters";
 import { gradient } from "../../theme-config/colors";
 import { TTouchableOpactity, TBoxProps } from "../../types/types/index";
@@ -13,6 +13,7 @@ interface IProps extends TTouchableOpactity, TBoxProps {
   gradientStyle?: any;
   titleStyle?: any;
   disabled?: boolean;
+  isLoading?: boolean;
 }
 
 export default function GradientBtn({
@@ -22,6 +23,7 @@ export default function GradientBtn({
   gradientStyle,
   titleStyle,
   disabled,
+  isLoading,
   ...rest
 }: IProps) {
   const LinearGard = Factory(LinearGradient);
@@ -43,16 +45,22 @@ export default function GradientBtn({
         {children ? (
           children
         ) : (
-          <Text
-            color={"white"}
-            textAlign={"center"}
-            fontWeight={"bold"}
-            fontSize={"13px"}
-            textTransform={"uppercase"}
-            {...titleStyle}
-          >
-            {title}
-          </Text>
+          <>
+            {isLoading ? (
+              <ActivityIndicator size={"small"} color={"#fff"} />
+            ) : (
+              <Text
+                color={"white"}
+                textAlign={"center"}
+                fontWeight={"bold"}
+                fontSize={"13px"}
+                textTransform={"uppercase"}
+                {...titleStyle}
+              >
+                {title}
+              </Text>
+            )}
+          </>
         )}
       </LinearGard>
     </Touchable>

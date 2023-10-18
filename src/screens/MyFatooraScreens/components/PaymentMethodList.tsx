@@ -93,14 +93,13 @@ function PaymentMethodsList({
       ? directpaymentsWithApplePay
       : payMentMethodsWithDirectPayment;
   //
-  console.log("paymentMethods", paymentMethods);
   const filterPaymentMethod = paymentMethods.filter((item) => {
-    if (Platform.OS === "android" && item?.paymentMethodId === 8) {
-      return false;
-    }
-    if (Platform.OS === "ios" && item?.paymentMethodId === 9) {
-      return false;
-    }
+    // if (Platform.OS === "android" && item?.paymentMethodId === 8) {
+    //   return false;
+    // }
+    // if (Platform.OS === "ios" && item?.paymentMethodId === 9) {
+    //   return false;
+    // }
     return item;
   });
   return (

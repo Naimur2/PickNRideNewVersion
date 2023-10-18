@@ -260,6 +260,7 @@ export default function ManualEntry({
             onPress={formik.handleSubmit}
             title="Submit"
             disabled={isLoading}
+            isLoading={isLoading}
             gradientStyle={{
               width: "200px",
             }}
