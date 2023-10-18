@@ -187,7 +187,7 @@ export default function VerifyStatusCard({
           <Text fontWeight={700} fontSize={21} color="#000">
             {title}
           </Text>
-          {verified === false ? (
+          {verified == false ? (
             <Pressable
               style={{
                 paddingHorizontal: 20,

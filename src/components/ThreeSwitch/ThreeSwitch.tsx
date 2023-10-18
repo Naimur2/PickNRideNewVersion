@@ -1,6 +1,6 @@
 import { HStack, VStack } from "native-base";
-import React from "react";
-import { FlatList, StyleSheet } from "react-native";
+import React, { useEffect, useRef } from "react";
+import { Animated, FlatList, StyleSheet } from "react-native";
 
 import SwitchButton from "./coponents/SwitchButton";
 
@@ -11,10 +11,29 @@ interface ThreeSwitchProps {
 }
 
 const ThreeSwitch = ({ onPress, currentIndex, data }: ThreeSwitchProps) => {
+  const flatListRef = useRef(null);
+  const scrollX = useRef(new Animated.Value(0)).current;
+  const ITEM_WIDTH = 100;
+  useEffect(() => {
+    if (flatListRef.current) {
+      // Calculate the scroll offset to center the active button
+      const offset = currentIndex * ITEM_WIDTH - ITEM_WIDTH * 1.5;
+
+      // Scroll to the calculated offset with animation
+      Animated.spring(scrollX, {
+        toValue: offset,
+        useNativeDriver: false,
+      }).start();
+
+      // Scroll to the calculated offset immediately (optional)
+      flatListRef.current.scrollToOffset({ offset, animated: false });
+    }
+  }, [currentIndex]);
   return (
     <VStack my={4} maxW={350} mt={4} shadow={"none"} borderRadius={20}>
       <HStack borderRadius={26}>
-        <FlatList
+        <Animated.FlatList
+          ref={flatListRef}
           data={data || []}
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -27,6 +46,10 @@ const ThreeSwitch = ({ onPress, currentIndex, data }: ThreeSwitchProps) => {
               />
             );
           }}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+            { useNativeDriver: false }
+          )}
         />
       </HStack>
     </VStack>
