@@ -12,7 +12,10 @@ import VerifyStatusCard from "./VerifyStatusCard/VerifyStatusCard";
 import {
     useGetEmailMobileStatusApiQuery,
     useGetGetUserDocumentsStatusApiQuery,
+    userDocumentApi,
 } from "@store/api/v1/userDocumentApi/userDocumentApi";
+import { RefreshControl } from "react-native-gesture-handler";
+import { useDispatch } from "react-redux";
 
 export interface INotificationsList {
     _id?: string;
@@ -26,6 +29,7 @@ export default function VarificationStatus() {
     const navigation = useNavigation();
     const insets = useSafeAreaInsets();
     const colormode = useColorMode();
+    const dispatch = useDispatch();
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
@@ -46,20 +50,32 @@ export default function VarificationStatus() {
         });
     }, [navigation]);
     // APi
-    const { data, isLoading } = useGetGetUserDocumentsStatusApiQuery(
+    const { data, isLoading, refetch } = useGetGetUserDocumentsStatusApiQuery(
         undefined,
         {
-            pollingInterval: 1000,
+            refetchOnFocus: true,
+            refetchOnMountOrArgChange: true,
         }
     );
-    const { data: phoneData } = useGetEmailMobileStatusApiQuery(undefined, {
-        pollingInterval: 1000,
+    const {
+        data: phoneData,
+        isLoading: phoneLoading,
+        refetch: refetchPhone,
+    } = useGetEmailMobileStatusApiQuery(undefined, {
+        refetchOnFocus: true,
+        refetchOnMountOrArgChange: true,
     });
     //
     console.log("data", phoneData);
 
     // Extract the documentsStatus object
     const documentsStatus = data?.data?.documentsStatus || [];
+
+    const onRefresh = async () => {
+        dispatch(userDocumentApi.util.resetApiState());
+        await refetch();
+        await refetchPhone();
+    };
 
     return (
         <Scroller
@@ -70,6 +86,12 @@ export default function VarificationStatus() {
             _dark={{
                 bg: "dark.100",
             }}
+            refreshControl={
+                <RefreshControl
+                    refreshing={isLoading || phoneLoading}
+                    onRefresh={onRefresh}
+                />
+            }
         >
             <VStack
                 space={6}

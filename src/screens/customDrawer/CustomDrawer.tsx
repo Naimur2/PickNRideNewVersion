@@ -19,143 +19,157 @@ import { clearCarTrip } from "@store/features/car-trip/carTripSlice";
 import { clearDocument } from "@store/features/document/documentSlice";
 import { IMyFatooraRouteParams } from "../MyFatooraScreens/types/myfatoora.interface";
 import config from "@config";
+import { userDocumentApi } from "@store/api/v1/userDocumentApi/userDocumentApi";
 
 interface IDrawerMenuItem {
-  title: string;
-  onPress: () => void;
+    title: string;
+    onPress: () => void;
 }
 
 export default function CustomDrawer() {
-  const Lg = Factory(LinearGradient);
-  const navigation = useNavigation();
-  const insets = useSafeAreaInsets();
-  const dispatch = useDispatch();
-  const openWhatsapp = () => {
-    Linking.openURL(`https://wa.me/${config.whatsappNumber}`);
-  };
-  const openInsta = () => {
-    Linking.openURL(config.INSTGRAM_URL);
-  };
+    const Lg = Factory(LinearGradient);
+    const navigation = useNavigation();
+    const insets = useSafeAreaInsets();
+    const dispatch = useDispatch();
+    const openWhatsapp = () => {
+        Linking.openURL(`https://wa.me/${config.whatsappNumber}`);
+    };
+    const openInsta = () => {
+        Linking.openURL(config.INSTGRAM_URL);
+    };
 
-  const auth = useSelector(selectAuth);
+    const auth = useSelector(selectAuth);
 
-  const { height } = useWindowDimensions();
+    const { height } = useWindowDimensions();
 
-  const drawermenu: IDrawerMenuItem[] = [
-    {
-      title: "Home",
-      onPress: () => navigation.navigate("Dashboard" as never),
-    },
-    {
-      title: "Account",
-      onPress: () => navigation.navigate("Account" as never),
-    },
-    // {
-    //   title: "Pricing",
-    //   onPress: () => navigation.navigate("Pricing" as never),
-    // },
-    {
-      title: "Ride History",
-      onPress: () => navigation.navigate("RideHistory" as never),
-    },
-    {
-      title: "Wallet",
-      onPress: () =>
-        navigation.navigate("MFPayment", {
-          paymentFor: "recharge",
-        } as IMyFatooraRouteParams),
-    },
-    {
-      title: "Pricing",
-      onPress: () => navigation.navigate("Cars" as never),
-    },
+    const drawermenu: IDrawerMenuItem[] = [
+        {
+            title: "Home",
+            onPress: () => navigation.navigate("Dashboard" as never),
+        },
+        {
+            title: "Account",
+            onPress: () => navigation.navigate("Account" as never),
+        },
+        // {
+        //   title: "Pricing",
+        //   onPress: () => navigation.navigate("Pricing" as never),
+        // },
+        {
+            title: "Ride History",
+            onPress: () => navigation.navigate("RideHistory" as never),
+        },
+        {
+            title: "Wallet",
+            onPress: () =>
+                navigation.navigate("MFPayment", {
+                    paymentFor: "recharge",
+                } as IMyFatooraRouteParams),
+        },
+        {
+            title: "Pricing",
+            onPress: () => navigation.navigate("Cars" as never),
+        },
 
-    {
-      title: "Settings",
-      onPress: () => navigation.navigate("Settings" as never),
-    },
-  ];
+        {
+            title: "Settings",
+            onPress: () => navigation.navigate("Settings" as never),
+        },
+    ];
 
-  return (
-    <>
-      <Scroller
-        contentStyle={{
-          flexGrow: 1,
-        }}
-      >
-        <Lg
-          colors={["#52BF04", "#52BE04", "#038C0C"]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          flex="1"
-          py="4"
-          px={7}
-          height={height}
-        >
-          <HStack
-            mt={4 + insets.top + "px"}
-            alignItems="center"
-            justifyContent={"space-between"}
-          >
-            <UserAvatar />
-            <Balance
-              balance={formatCountSuffix(auth.wallet as number)}
-              currency={"QAR"}
-            />
-          </HStack>
-          <VStack mt={10}>
-            <Text color={"#fff"} fontSize={scale(13)} fontWeight={600}>
-              Welcome Back
-            </Text>
-            <Text
-              lineHeight={45}
-              color={"#fff"}
-              fontSize={scale(34)}
-              fontWeight={700}
-              adjustsFontSizeToFit
-              numberOfLines={1}
-              maxFontSizeMultiplier={1.5}
-              textTransform={"capitalize"}
+    return (
+        <>
+            <Scroller
+                contentStyle={{
+                    flexGrow: 1,
+                }}
             >
-              {auth?.f_name}
-            </Text>
-          </VStack>
-          <VStack mt={3}>
-            {drawermenu.map((item, index) => (
-              <DrawerBtn
-                title={item.title}
-                onPress={item.onPress}
-                key={index.toString() + item.title}
-              />
-            ))}
-          </VStack>
-          <VStack mt={4}>
-            <Button
-              variant={"outline"}
-              _text={{
-                color: "#fff",
-                fontSize: scale(13),
-                fontWeight: 700,
-                textTransform: "uppercase",
-              }}
-              borderWidth={3}
-              borderRadius={16}
-              borderColor={"#fff"}
-              onPress={() => {
-                dispatch(clearDocument());
-                dispatch(clearCarTrip());
-                dispatch(logout());
-              }}
-            >
-              SIGN OUT
-            </Button>
-          </VStack>
-          <HStack space={4} mt={6} mb={4}>
-            <Whatsapp iconSize={50} color={"#fff"} onPress={openWhatsapp} />
-            <Instagram iconSize={50} color={"#fff"} onPress={openInsta} />
-          </HStack>
-        </Lg>
-      </Scroller>
-    </>
-  );
+                <Lg
+                    colors={["#52BF04", "#52BE04", "#038C0C"]}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 1 }}
+                    flex="1"
+                    py="4"
+                    px={7}
+                    height={height}
+                >
+                    <HStack
+                        mt={4 + insets.top + "px"}
+                        alignItems="center"
+                        justifyContent={"space-between"}
+                    >
+                        <UserAvatar />
+                        <Balance
+                            balance={formatCountSuffix(auth.wallet as number)}
+                            currency={"QAR"}
+                        />
+                    </HStack>
+                    <VStack mt={10}>
+                        <Text
+                            color={"#fff"}
+                            fontSize={scale(13)}
+                            fontWeight={600}
+                        >
+                            Welcome Back
+                        </Text>
+                        <Text
+                            lineHeight={45}
+                            color={"#fff"}
+                            fontSize={scale(34)}
+                            fontWeight={700}
+                            adjustsFontSizeToFit
+                            numberOfLines={1}
+                            maxFontSizeMultiplier={1.5}
+                            textTransform={"capitalize"}
+                        >
+                            {auth?.f_name}
+                        </Text>
+                    </VStack>
+                    <VStack mt={3}>
+                        {drawermenu.map((item, index) => (
+                            <DrawerBtn
+                                title={item.title}
+                                onPress={item.onPress}
+                                key={index.toString() + item.title}
+                            />
+                        ))}
+                    </VStack>
+                    <VStack mt={4}>
+                        <Button
+                            variant={"outline"}
+                            _text={{
+                                color: "#fff",
+                                fontSize: scale(13),
+                                fontWeight: 700,
+                                textTransform: "uppercase",
+                            }}
+                            borderWidth={3}
+                            borderRadius={16}
+                            borderColor={"#fff"}
+                            onPress={() => {
+                                dispatch(clearDocument());
+                                dispatch(clearCarTrip());
+                                dispatch(userDocumentApi.util.resetApiState());
+                                dispatch(logout());
+                            }}
+                        >
+                            SIGN OUT
+                        </Button>
+                    </VStack>
+                    <HStack space={4} mt={6} mb={4}>
+                        <Whatsapp
+                            iconSize={50}
+                            color={"#fff"}
+                            onPress={openWhatsapp}
+                        />
+                        <Instagram
+                            iconSize={50}
+                            color={"#fff"}
+                            onPress={openInsta}
+                        />
+                    </HStack>
+                </Lg>
+            </Scroller>
+        </>
+    );
 }
