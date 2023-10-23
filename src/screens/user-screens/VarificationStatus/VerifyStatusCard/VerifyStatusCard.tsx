@@ -11,6 +11,7 @@ import GradientBtn from "@components/GradientBtn/GradientBtn";
 import { useDispatch } from "react-redux";
 import { setCurrentForm } from "@store/features/auth/authSlice";
 import { useNavigation } from "@react-navigation/native";
+import useShowModal from "@hooks/useShowModal";
 
 interface IVCards extends INotificationsList {
   onPress?: () => void;
@@ -35,6 +36,7 @@ export default function VerifyStatusCard({
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const colormode = useColorMode();
+  const showModal = useShowModal();
   //
   const [selectDoc, setSelectDoc] = useState(false); // modal for number or email input
   const [handelVer, { isLoading }] = usePostVerifyEmailPhoneRequestMutation(); // veri api
@@ -43,8 +45,6 @@ export default function VerifyStatusCard({
   // handelVerification
   const handelVerification = async () => {
     setSelectDoc(false);
-    // return;
-    // verification
     //  email
     if (title?.toLocaleLowerCase() === "email") {
       const inEmail = customerInfo?.email ?? email;
@@ -54,10 +54,17 @@ export default function VerifyStatusCard({
         };
         //
         try {
-          const res = handelVer(body).unwrap();
-          console.log("res", JSON.stringify(res));
+          const res = await handelVer(body).unwrap();
+
+          showModal("error", {
+            title: "Warning",
+            message: res.error?.message || "Something went wrong",
+          });
         } catch (error) {
-          console.log("error", error);
+          showModal("error", {
+            title: "Error",
+            message: error.data?.message || "Something went wrong",
+          });
         }
       } else {
         setSelectDoc(true);
@@ -72,10 +79,16 @@ export default function VerifyStatusCard({
           phone: number,
         };
         try {
-          const res = handelVer(body).unwrap();
-          console.log("res", res);
+          const res = await handelVer(body).unwrap();
+          showModal("error", {
+            title: "Warning",
+            message: res.error?.message || "Something went wrong",
+          });
         } catch (error) {
-          console.log("error", error);
+          showModal("error", {
+            title: "Error",
+            message: error.data?.message || "Something went wrong",
+          });
         }
       } else {
         setSelectDoc(true);

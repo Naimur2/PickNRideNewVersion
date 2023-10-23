@@ -26,6 +26,7 @@ import {
 } from "native-base";
 import React from "react";
 import { Platform, ScrollView } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { scale } from "react-native-size-matters";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -111,11 +112,14 @@ export default function Account() {
   };
 
   return (
-    <ScrollView
+    <KeyboardAwareScrollView
+      showsVerticalScrollIndicator={false}
       style={{
         backgroundColor: colormode.colorMode === "dark" ? "#000000" : "#ffff",
-        flex: 1,
+        flexGrow: 1,
       }}
+      enableOnAndroid={true}
+      extraHeight={100}
     >
       <VStack
         space={6}
@@ -182,11 +186,11 @@ export default function Account() {
                 color: "#fff",
                 placeholderTextColor: "white",
               }}
-              // rightElement={
-              //     <Pressable>
-              //         <Pen width={scale(16)} height={scale(16)} />
-              //     </Pressable>
-              // }
+              rightElement={
+                <Pressable>
+                  <Pen width={scale(16)} height={scale(16)} />
+                </Pressable>
+              }
               value={formik.values.qid}
               onChangeText={formik.handleChange("qid")}
               onBlur={formik.handleBlur("qid")}
@@ -306,11 +310,11 @@ export default function Account() {
                 color: "#fff",
                 placeholderTextColor: "white",
               }}
-              // rightElement={
-              //     <Pressable>
-              //         <Pen width={scale(16)} height={scale(16)} />
-              //     </Pressable>
-              // }
+              rightElement={
+                <Pressable>
+                  <Pen width={scale(16)} height={scale(16)} />
+                </Pressable>
+              }
               value={formik.values.dialing_code + "" + formik.values.phone}
               onChangeText={formik.handleChange("phone")}
               onBlur={formik.handleBlur("phone")}
@@ -339,11 +343,11 @@ export default function Account() {
                 color: "#fff",
                 placeholderTextColor: "white",
               }}
-              // rightElement={
-              //     <Pressable>
-              //         <Pen width={scale(16)} height={scale(16)} />
-              //     </Pressable>
-              // }
+              rightElement={
+                <Pressable>
+                  <Pen width={scale(16)} height={scale(16)} />
+                </Pressable>
+              }
               value={formik.values.email}
               onChangeText={formik.handleChange("email")}
               onBlur={formik.handleBlur("email")}
@@ -360,6 +364,6 @@ export default function Account() {
           disabled={result.isLoading}
         />
       </VStack>
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 }
