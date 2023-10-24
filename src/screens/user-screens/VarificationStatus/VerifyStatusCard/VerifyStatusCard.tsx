@@ -11,7 +11,7 @@ import React, { useState } from "react";
 import { INotificationsList } from "../VarificationStatus";
 import colors from "@theme/colors";
 import { usePostVerifyEmailPhoneRequestMutation } from "@store/api/v1/userDocumentApi/userDocumentApi";
-import { Modal } from "react-native";
+import { Dimensions, Modal } from "react-native";
 import TextInput from "@components/TextInput/TextInput";
 import PickCountry from "@components/PickCountry/PickCountry";
 import GradientBtn from "@components/GradientBtn/GradientBtn";
@@ -20,6 +20,7 @@ import { setCurrentForm } from "@store/features/auth/authSlice";
 import { useNavigation } from "@react-navigation/native";
 import useShowModal from "@hooks/useShowModal";
 import { selectAuth } from "@store/store";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 interface IVCards extends INotificationsList {
     onPress?: () => void;
@@ -134,14 +135,13 @@ export default function VerifyStatusCard({
         <>
             {/* modal number or email  */}
             <Actionsheet
-                isOpen={selectDoc}
+                isOpen={true}
                 onClose={() => {
                     setSelectDoc(false);
                 }}
-                transparent={true}
             >
                 <Box
-                    h={"3/5"}
+                    h={"3/4"}
                     w={"full"}
                     roundedTop={40}
                     bottom={0}
@@ -155,51 +155,55 @@ export default function VerifyStatusCard({
                     py={5}
                     px={5}
                 >
-                    <Text
-                        my={5}
-                        textAlign={"center"}
-                        fontWeight={"800"}
-                        fontSize={"lg"}
-                        mb={10}
+                    <KeyboardAwareScrollView
+                        style={{ height: Dimensions.get("window").height / 2 }}
                     >
-                        Verification You{" "}
-                        {title?.toLocaleLowerCase() === "email"
-                            ? "Email"
-                            : "Phone"}{" "}
-                    </Text>
+                        <Text
+                            my={5}
+                            textAlign={"center"}
+                            fontWeight={"800"}
+                            fontSize={"lg"}
+                            mb={10}
+                        >
+                            Verification You{" "}
+                            {title?.toLocaleLowerCase() === "email"
+                                ? "Email"
+                                : "Phone"}{" "}
+                        </Text>
 
-                    {title?.toLocaleLowerCase() === "email" ? (
-                        <>
-                            <TextInput
-                                onChangeText={(v) => {
-                                    setEmail(v);
-                                }}
-                                placeholder="Enter your email"
-                            />
-                        </>
-                    ) : (
-                        <>
-                            <PickCountry
-                                setPhoneInfo={(phoneInfo) => {
-                                    const number =
-                                        phoneInfo?.dialingCode.slice(1) +
-                                        phoneInfo?.phoneNumber;
-                                    console.log("number", number);
-                                    setPhone(number);
-                                }}
-                            />
-                        </>
-                    )}
+                        {title?.toLocaleLowerCase() === "email" ? (
+                            <>
+                                <TextInput
+                                    onChangeText={(v) => {
+                                        setEmail(v);
+                                    }}
+                                    placeholder="Enter your email"
+                                />
+                            </>
+                        ) : (
+                            <>
+                                <PickCountry
+                                    setPhoneInfo={(phoneInfo) => {
+                                        const number =
+                                            phoneInfo?.dialingCode.slice(1) +
+                                            phoneInfo?.phoneNumber;
+                                        console.log("number", number);
+                                        setPhone(number);
+                                    }}
+                                />
+                            </>
+                        )}
 
-                    {/*  */}
-                    <GradientBtn
-                        gradientStyle={{ maxWidth: 250 }}
-                        title={"Send"}
-                        mx={"auto"}
-                        mt={10}
-                        // disabled={result.isLoading}
-                        onPress={handelVerification}
-                    />
+                        {/*  */}
+                        <GradientBtn
+                            gradientStyle={{ maxWidth: 250 }}
+                            title={"Send"}
+                            mx={"auto"}
+                            mt={10}
+                            // disabled={result.isLoading}
+                            onPress={handelVerification}
+                        />
+                    </KeyboardAwareScrollView>
                 </Box>
             </Actionsheet>
             {/* card */}
