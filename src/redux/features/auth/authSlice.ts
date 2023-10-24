@@ -25,6 +25,7 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         login(state, action) {
+            console.log(action.payload);
             state.f_name = action.payload?.f_name;
             state.l_name = action.payload?.l_name;
             state.location_id = action.payload?.location_id;
@@ -34,7 +35,10 @@ const authSlice = createSlice({
             state.wallet = action.payload?.wallet;
             state.token = action.payload.token;
             state.card_status = action.payload?.card_status;
-            state.photo = action.payload?.photo;
+            state.photo =
+                action.payload?.photo?.length > 0
+                    ? action.payload?.photo
+                    : "https://st3.depositphotos.com/9998432/13335/v/450/depositphotos_133352156-stock-illustration-default-placeholder-profile-icon.jpg";
             state.resident_status = action.payload?.resident_status;
             state.userdocuments_status = action.payload?.userdocuments_status;
             // state.checkOtherInformation = action.payload?.checkOtherInformation;
@@ -70,6 +74,8 @@ const authSlice = createSlice({
             state.f_name = action.payload?.f_name;
             state.l_name = action.payload?.l_name;
             state.photo = action.payload?.photo;
+            state.phone = action.payload?.phone;
+            state.email = action.payload?.email;
         },
     },
 });

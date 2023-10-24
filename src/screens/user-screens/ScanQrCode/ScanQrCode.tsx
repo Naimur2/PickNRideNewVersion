@@ -296,7 +296,7 @@ export default function ScanQrCode() {
       warningVariant === "required"
     ) {
       setShowWarningModal(false);
-      navigation.navigate("DocumentSubmission");
+      navigation.navigate("VarificationStatus");
       dispatch(setCurrentForm(1));
     } else {
       setShowWarningModal(false);

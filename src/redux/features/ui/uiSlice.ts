@@ -13,6 +13,7 @@ const initialState: UIState = {
     temperatur: undefined,
     currentModal: undefined,
     showCurrentModal: false,
+    sowVerifyModal: false,
 };
 
 export const uiSlice = createSlice({
@@ -57,6 +58,9 @@ export const uiSlice = createSlice({
             state.showCurrentModal = false;
             state.currentModal = undefined;
         },
+        setVerifyModal: (state, action) => {
+            state.sowVerifyModal = action.payload;
+        },
     },
 });
 
@@ -66,6 +70,7 @@ export const {
     setTemperature,
     setCurrentModal,
     hideCurrentModal,
+    setVerifyModal,
 } = uiSlice.actions;
 export const selectStartOrEndRide = (state: RootState) =>
     state.ui.startOrEndRide;
@@ -76,4 +81,6 @@ export const isCurrentModalOpen = (state: RootState) =>
 
 export const selectLoading = (state: RootState) => state.ui.loading;
 export const selectTemperature = (state: RootState) => state.ui.temperatur;
+
+export const selectVerifyModal = (state: RootState) => state.ui.sowVerifyModal;
 export default uiSlice.reducer;

@@ -29,4 +29,6 @@ export const {
     useGetGetUserDocumentsStatusApiQuery,
     useGetEmailMobileStatusApiQuery,
     usePostVerifyEmailPhoneRequestMutation,
+    useLazyGetEmailMobileStatusApiQuery,
+    useLazyGetGetUserDocumentsStatusApiQuery,
 } = userDocumentApi;

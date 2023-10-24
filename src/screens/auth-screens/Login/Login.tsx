@@ -34,10 +34,6 @@ export default function Login() {
 
     React.useEffect(() => {
         Linking.addEventListener("url", handleOpenURL);
-
-        return () => {
-            Linking.removeEventListener("url", handleOpenURL);
-        };
     }, []);
 
     const googleSignIn = async () => {
@@ -81,16 +77,30 @@ export default function Login() {
         if (url.includes("picknride://") && url.includes("token=")) {
             const query = url.split("?")[1];
             const data = query.split("&");
-            const loginData = data?.reduce((acc: any, curr: any) => {
-                const [key, value] = curr.split("=");
-                const regex = /%20/gi;
-                const keyString = key.replace(regex, " ");
-                const valueString = value.replace(regex, " ");
-                acc[keyString] = valueString;
-                return acc;
-            }, {});
+            const queryData = Linking.parse(url);
+            // const loginData = data?.reduce((acc: any, curr: any) => {
+            //     const [key, value] = curr.split("=");
+            //     const regex = /%20/gi;
+            //     const keyString = key.replace(regex, " ");
+            //     const valueString = value.replace(regex, " ");
+            //     acc[keyString] = valueString;
+            //     return acc;
+            // }, {});
 
-            console.log("Login Data:", loginData); // Log the extracted login data
+            // dispatch(login(queryData.queryParams));
+
+            const loginData = Object.keys(queryData.queryParams).reduce(
+                (acc: any, curr: any) => {
+                    const keyString = curr.replace(" ", "");
+                    acc[keyString] = queryData.queryParams[curr];
+                    return acc;
+                },
+                {}
+            );
+
+            console.log("loginData", loginData);
+
+            dispatch(login(loginData));
         }
     };
 
@@ -112,7 +122,7 @@ export default function Login() {
         //   }
         // });
 
-        const parameters = queryString.parse(url);
+        const parameters = Linking.parse(url);
 
         return parameters;
     }
@@ -128,11 +138,20 @@ export default function Login() {
                     "picknride://"
                 );
                 console.log("data from apple(auth url)");
-                const appleUrlData = extractQueryParameters(result.url);
-                if (appleUrlData?.token) {
+                const appleUrlData = Linking.parse(result.url);
+                if (appleUrlData?.queryParams?.token) {
                     try {
-                        dispatch(login(appleUrlData));
-                        const auth = useSelector(selectAuth) as IAuthState;
+                        const loginData = Object.keys(
+                            appleUrlData.queryParams
+                        ).reduce((acc: any, curr: any) => {
+                            const keyString = curr.replace(" ", "");
+                            acc[keyString] = appleUrlData.queryParams[curr];
+                            return acc;
+                        }, {});
+
+                        dispatch(login(loginData));
+
+                        // dispatch(login(appleUrlData.queryParams));
                         // console.log("auth---+++++++--: " + JSON.stringify(auth));
                     } catch (error) {
                         console.log(

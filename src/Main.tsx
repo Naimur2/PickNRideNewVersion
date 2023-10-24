@@ -7,7 +7,11 @@ import {
     selectSelectedVeichleType,
     setCurrentSpeed,
 } from "@store/features/cars/carsSlice";
-import { setTemperature } from "@store/features/ui/uiSlice";
+import {
+    selectVerifyModal,
+    setTemperature,
+    setVerifyModal,
+} from "@store/features/ui/uiSlice";
 import {
     selectCurrentRegion,
     setCurrentLocation,
@@ -24,12 +28,15 @@ import messaging from "@react-native-firebase/messaging";
 import { PermissionsAndroid, Platform } from "react-native";
 import { usePutFcmTokenMutation } from "@store/api/v1/notificationApi/notificationApi";
 import { useNavigation } from "@react-navigation/native";
+import WarningModal from "@components/WarningModal/WarningModal";
 
 export default function Main() {
     const loading = useSelector(selectLoading);
     const token = useSelector(selectToken);
     const selectedVeichleType = useSelector(selectSelectedVeichleType);
     const navigation = useNavigation();
+
+    const sowVerificationModal = useSelector(selectVerifyModal);
 
     const dispatch = useDispatch();
     const currentRegion = useSelector(selectCurrentRegion) as Region;
@@ -153,15 +160,22 @@ export default function Main() {
                 console.log("error", error);
             }
         };
-        if (Platform.OS === "android") {
-            takeAndroidNotificationPermission();
-        } else {
-            requestUserPermission();
+        if (token) {
+            if (Platform.OS === "android") {
+                takeAndroidNotificationPermission();
+            } else {
+                requestUserPermission();
+            }
         }
     }, [token]);
     //
     console.log("error->error", error);
     const routeNames = navigation?.getState()?.routeNames;
+
+    const handleToglewarning = () => {
+        dispatch(setVerifyModal(false));
+        navigation.navigate("VarificationStatus");
+    };
 
     return (
         <>
@@ -178,6 +192,11 @@ export default function Main() {
             </Modal>
 
             <HomeRoutes />
+            <WarningModal
+                variant={"required"}
+                isVisible={sowVerificationModal}
+                setIsVisible={handleToglewarning}
+            />
             <WModal />
         </>
     );

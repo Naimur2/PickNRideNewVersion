@@ -21,4 +21,5 @@ export interface UIState {
     temperatur?: ITemperatur;
     currentModal?: ICurrentModal | undefined;
     showCurrentModal?: boolean;
+    sowVerifyModal?: boolean;
 }
