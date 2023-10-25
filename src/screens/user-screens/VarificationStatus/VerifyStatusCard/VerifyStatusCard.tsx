@@ -21,6 +21,7 @@ import { useNavigation } from "@react-navigation/native";
 import useShowModal from "@hooks/useShowModal";
 import { selectAuth } from "@store/store";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import LoadingView from "@components/LoadingView/LoadingView";
 
 interface IVCards extends INotificationsList {
     onPress?: () => void;
@@ -135,7 +136,7 @@ export default function VerifyStatusCard({
         <>
             {/* modal number or email  */}
             <Actionsheet
-                isOpen={true}
+                isOpen={selectDoc}
                 onClose={() => {
                     setSelectDoc(false);
                 }}
@@ -248,6 +249,7 @@ export default function VerifyStatusCard({
                     )}
                 </HStack>
             </Card>
+            {/* {isLoading ? <LoadingView /> : null} */}
         </>
     );
 }
