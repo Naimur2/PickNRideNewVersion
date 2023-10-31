@@ -76,6 +76,9 @@ const authSlice = createSlice({
             state.photo = action.payload?.photo;
             state.phone = action.payload?.phone;
             state.email = action.payload?.email;
+            state.dob = action.payload?.date_of_birth;
+            state.qid = action.payload?.qid;
+            state.dialing_code = action.payload?.dialing_code;
         },
     },
 });

@@ -2,17 +2,19 @@ import camera from "@assets/images/camera.png";
 import Pen from "@assets/svgs/Pen";
 import BackButton from "@components/BackButton/BackButton";
 import Balance from "@components/Balance/Balance";
+import DatePickerModal from "@components/DatePickerModal/DatePickerModal";
 import GradientBtn from "@components/GradientBtn/GradientBtn";
 import HeaderTitle from "@components/HeaderTitle/HeaderTitle";
 import ImagePickerSheet from "@components/ImagePickerSheet/ImagePickerSheet";
-import Scroller from "@components/Scroller/Scroller";
 import useShowModal from "@hooks/useShowModal";
+import PhoneInputSheet from "@layouts/PhoneInputSheet";
 import { useNavigation } from "@react-navigation/native";
 import { useUpdateUserProfileMutation } from "@store/api/v1/authApi/authApiSlice";
 import { updateProfileData } from "@store/features/auth/authSlice";
 import { selectAuth } from "@store/store";
 import colors from "@theme/colors";
 import { fontSizes } from "@theme/typography";
+import dayjs from "dayjs";
 import * as ImagePicker from "expo-image-picker";
 import { useFormik } from "formik";
 import {
@@ -21,24 +23,30 @@ import {
     Image,
     Input,
     Pressable,
+    Text,
     VStack,
     useColorMode,
 } from "native-base";
 import React from "react";
-import { Platform, ScrollView } from "react-native";
+import { Platform } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { scale } from "react-native-size-matters";
 import { useDispatch, useSelector } from "react-redux";
+import * as Yup from "yup";
 
 export default function Account() {
     const navigation = useNavigation();
     const auth = useSelector(selectAuth);
-    const [image, setImage] = React.useState(auth.photo);
+
     const [isOpen, setIsOpen] = React.useState(false);
     const colormode = useColorMode();
     const dispatch = useDispatch();
     const [updateProfile, result] = useUpdateUserProfileMutation();
     const showModal = useShowModal();
+    const [showDatePiker, setShowDatePiker] = React.useState(false);
+    const [showPhoneInput, setShowPhoneInput] = React.useState(false);
+    const phoneRegExp =
+        /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
     console.log("auth", auth.phone);
 
@@ -59,12 +67,18 @@ export default function Account() {
                     firstName: values.f_name,
                     lastName: values.l_name,
                     photo: values.photo,
+                    dob: values.dob,
                 }).unwrap();
                 dispatch(
                     updateProfileData({
                         f_name: values.f_name,
                         l_name: values.l_name,
                         photo: values.photo,
+                        phone: values.phone,
+                        dob: values.dob,
+                        email: values.email,
+                        dialing_code: values.dialing_code,
+                        qid: values.qid,
                     })
                 );
                 showModal("success", {
@@ -78,6 +92,16 @@ export default function Account() {
                 });
             }
         },
+        validationSchema: Yup.object().shape({
+            f_name: Yup.string().required("First name is required"),
+            l_name: Yup.string().required("Last name is required"),
+            email: Yup.string()
+                .email("Invalid email")
+                .required("Email is required"),
+            phone: Yup.string().required("Phone number is required"),
+            qid: Yup.string().required("QID is required"),
+            dob: Yup.string().required("Date of birth is required"),
+        }),
     });
 
     React.useLayoutEffect(() => {
@@ -173,7 +197,11 @@ export default function Account() {
                 />
 
                 <VStack w="full" mt={4}>
-                    <FormControl mt={3} w="full">
+                    <FormControl
+                        mt={3}
+                        w="full"
+                        isInvalid={Boolean(formik.errors.qid)}
+                    >
                         <FormControl.Label
                             fontSize={fontSizes.xs}
                             color="gray.400"
@@ -204,8 +232,15 @@ export default function Account() {
                             editable={false}
                             pointerEvents="none"
                         />
+                        <FormControl.ErrorMessage>
+                            {formik.errors.qid}
+                        </FormControl.ErrorMessage>
                     </FormControl>
-                    <FormControl mt={3} w="full">
+                    <FormControl
+                        mt={3}
+                        w="full"
+                        isInvalid={Boolean(formik.errors.f_name)}
+                    >
                         <FormControl.Label
                             fontSize={fontSizes.xs}
                             color="gray.400"
@@ -234,8 +269,16 @@ export default function Account() {
                             onChangeText={formik.handleChange("f_name")}
                             onBlur={formik.handleBlur("f_name")}
                         />
+
+                        <FormControl.ErrorMessage>
+                            {formik.errors.f_name}
+                        </FormControl.ErrorMessage>
                     </FormControl>
-                    <FormControl mt={3} w="full">
+                    <FormControl
+                        mt={3}
+                        w="full"
+                        isInvalid={Boolean(formik.errors.l_name)}
+                    >
                         <FormControl.Label
                             fontSize={fontSizes.xs}
                             color="gray.400"
@@ -264,8 +307,16 @@ export default function Account() {
                             onChangeText={formik.handleChange("l_name")}
                             onBlur={formik.handleBlur("l_name")}
                         />
+
+                        <FormControl.ErrorMessage>
+                            {formik.errors.l_name}
+                        </FormControl.ErrorMessage>
                     </FormControl>
-                    <FormControl mt={3} w="full">
+                    <FormControl
+                        mt={3}
+                        w="full"
+                        isInvalid={Boolean(formik.errors.dob)}
+                    >
                         <FormControl.Label
                             fontSize={fontSizes.xs}
                             color="gray.400"
@@ -286,7 +337,11 @@ export default function Account() {
                                 placeholderTextColor: "white",
                             }}
                             rightElement={
-                                <Pressable>
+                                <Pressable
+                                    onPress={() => {
+                                        setShowDatePiker(true);
+                                    }}
+                                >
                                     <Pen width={scale(16)} height={scale(16)} />
                                 </Pressable>
                             }
@@ -295,9 +350,17 @@ export default function Account() {
                             onBlur={formik.handleBlur("dob")}
                             // editable={false}
                             // pointerEvents="none"
+                            isReadOnly={true}
                         />
+                        <FormControl.ErrorMessage>
+                            {formik.errors.dob}
+                        </FormControl.ErrorMessage>
                     </FormControl>
-                    <FormControl mt={3} w="full">
+                    <FormControl
+                        mt={3}
+                        w="full"
+                        isInvalid={Boolean(formik.errors.phone)}
+                    >
                         <FormControl.Label
                             fontSize={fontSizes.xs}
                             color="gray.400"
@@ -318,23 +381,32 @@ export default function Account() {
                                 placeholderTextColor: "white",
                             }}
                             rightElement={
-                                <Pressable>
+                                <Pressable
+                                    onPress={() => {
+                                        setShowPhoneInput(true);
+                                    }}
+                                >
                                     <Pen width={scale(16)} height={scale(16)} />
                                 </Pressable>
                             }
-                            value={
-                                formik.values.dialing_code +
-                                "" +
-                                formik.values.phone
-                            }
                             onChangeText={formik.handleChange("phone")}
-                            onBlur={formik.handleBlur("phone")}
-                            editable={false}
-                            pointerEvents="none"
+                            value={`${
+                                formik.values.dialing_code?.includes("+")
+                                    ? formik.values.dialing_code
+                                    : `+${formik.values.dialing_code}`
+                            } ${formik.values.phone}`}
+                            isReadOnly={true}
                         />
+                        <FormControl.ErrorMessage>
+                            {formik.errors.phone}
+                        </FormControl.ErrorMessage>
                     </FormControl>
 
-                    <FormControl mt={3} w="full">
+                    <FormControl
+                        mt={3}
+                        w="full"
+                        isInvalid={Boolean(formik.errors.email)}
+                    >
                         <FormControl.Label
                             fontSize={fontSizes.xs}
                             color="gray.400"
@@ -362,9 +434,10 @@ export default function Account() {
                             value={formik.values.email}
                             onChangeText={formik.handleChange("email")}
                             onBlur={formik.handleBlur("email")}
-                            editable={false}
-                            pointerEvents="none"
                         />
+                        <FormControl.ErrorMessage>
+                            {formik.errors.email}
+                        </FormControl.ErrorMessage>
                     </FormControl>
                 </VStack>
                 <GradientBtn
@@ -375,6 +448,32 @@ export default function Account() {
                     disabled={result.isLoading}
                 />
             </VStack>
+            <DatePickerModal
+                isOpen={showDatePiker}
+                onClose={() => {
+                    setShowDatePiker(false);
+                }}
+                setDate={(dt) => {
+                    console.log("dt", dt);
+                    formik.setFieldValue("dob", dayjs(dt).format("DD/MM/YYYY"));
+                    setShowDatePiker(false);
+                }}
+            />
+            <PhoneInputSheet
+                isOpen={showPhoneInput}
+                onClose={() => {
+                    setShowPhoneInput(false);
+                }}
+                setPhoneText={({ dialingCode, phoneNumber }) => {
+                    formik.setFieldValue("phone", phoneNumber);
+                    formik.setFieldValue("dialing_code", dialingCode);
+                    setShowPhoneInput(false);
+                }}
+                value={{
+                    dialingCode: formik.values.dialing_code,
+                    phoneNumber: formik.values.phone,
+                }}
+            />
         </KeyboardAwareScrollView>
     );
 }

@@ -1,4 +1,13 @@
 import Card from "@components/Card/Card";
+import GradientBtn from "@components/GradientBtn/GradientBtn";
+import PickCountry from "@components/PickCountry/PickCountry";
+import TextInput from "@components/TextInput/TextInput";
+import useShowModal from "@hooks/useShowModal";
+import { useNavigation } from "@react-navigation/native";
+import { usePostVerifyEmailPhoneRequestMutation } from "@store/api/v1/userDocumentApi/userDocumentApi";
+import { setCurrentForm } from "@store/features/auth/authSlice";
+import { selectAuth } from "@store/store";
+import colors from "@theme/colors";
 import {
     Actionsheet,
     Box,
@@ -8,20 +17,10 @@ import {
     useColorMode,
 } from "native-base";
 import React, { useState } from "react";
-import { INotificationsList } from "../VarificationStatus";
-import colors from "@theme/colors";
-import { usePostVerifyEmailPhoneRequestMutation } from "@store/api/v1/userDocumentApi/userDocumentApi";
-import { Dimensions, Modal } from "react-native";
-import TextInput from "@components/TextInput/TextInput";
-import PickCountry from "@components/PickCountry/PickCountry";
-import GradientBtn from "@components/GradientBtn/GradientBtn";
-import { useDispatch, useSelector } from "react-redux";
-import { setCurrentForm } from "@store/features/auth/authSlice";
-import { useNavigation } from "@react-navigation/native";
-import useShowModal from "@hooks/useShowModal";
-import { selectAuth } from "@store/store";
+import { Dimensions } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import LoadingView from "@components/LoadingView/LoadingView";
+import { useDispatch, useSelector } from "react-redux";
+import { INotificationsList } from "../VarificationStatus";
 
 interface IVCards extends INotificationsList {
     onPress?: () => void;
@@ -86,6 +85,7 @@ export default function VerifyStatusCard({
         }
         // phone
         if (title?.toLocaleLowerCase() === "phone") {
+            // setSelectDoc(true);
             const inNumber = auth?.dialing_code + auth?.phone;
             const number = inNumber ?? phone;
             if (number?.length > 0) {
@@ -154,7 +154,7 @@ export default function VerifyStatusCard({
                     borderWidth={2}
                     borderBottomWidth={0}
                     py={5}
-                    px={5}
+                    // px={5}
                 >
                     <KeyboardAwareScrollView
                         style={{ height: Dimensions.get("window").height / 2 }}
@@ -166,7 +166,7 @@ export default function VerifyStatusCard({
                             fontSize={"lg"}
                             mb={10}
                         >
-                            Verification You{" "}
+                            Verify Your{" "}
                             {title?.toLocaleLowerCase() === "email"
                                 ? "Email"
                                 : "Phone"}{" "}
@@ -179,6 +179,7 @@ export default function VerifyStatusCard({
                                         setEmail(v);
                                     }}
                                     placeholder="Enter your email"
+                                    mx={4}
                                 />
                             </>
                         ) : (
@@ -186,11 +187,12 @@ export default function VerifyStatusCard({
                                 <PickCountry
                                     setPhoneInfo={(phoneInfo) => {
                                         const number =
-                                            phoneInfo?.dialingCode.slice(1) +
+                                            phoneInfo?.dialingCode +
                                             phoneInfo?.phoneNumber;
                                         console.log("number", number);
                                         setPhone(number);
                                     }}
+                                    mx={4}
                                 />
                             </>
                         )}

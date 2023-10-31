@@ -14,36 +14,37 @@ import { authApiV1 } from "./api/auth/apiSlice";
 import ExpoFileSystemStorage from "redux-persist-expo-filesystem"; // for more storage  in to AsyncStorage
 
 const persistConfig = {
-  key: "root",
-  storage: ExpoFileSystemStorage, //  AsyncStorage remove add new
+    key: "root",
+    storage: ExpoFileSystemStorage, //  AsyncStorage remove add new
 };
 
 const persistedAuthReducer = persistReducer(persistConfig, authReducer);
 const persistedCarTripReducer = persistReducer(persistConfig, carTripReducer);
 
 const reducer = combineReducers({
-  [apiSlice.reducerPath]: apiSlice.reducer,
-  [apiSliceV2.reducerPath]: apiSliceV2.reducer,
-  [mapsApiSlice.reducerPath]: mapsApiSlice.reducer,
-  auth: persistedAuthReducer,
-  ui: uiReducer,
-  cars: carsReducer,
-  document: documentReducer,
-  userLocation: userLocationReducer,
-  carTrip: persistedCarTripReducer,
+    [apiSlice.reducerPath]: apiSlice.reducer,
+    [apiSliceV2.reducerPath]: apiSliceV2.reducer,
+    [mapsApiSlice.reducerPath]: mapsApiSlice.reducer,
+    [authApiV1.reducerPath]: authApiV1.reducer,
+    auth: persistedAuthReducer,
+    ui: uiReducer,
+    cars: carsReducer,
+    document: documentReducer,
+    userLocation: userLocationReducer,
+    carTrip: persistedCarTripReducer,
 });
 
 export const store = configureStore({
-  reducer: reducer,
-  middleware: (getDefaultMiddleware: any) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    })
-      .concat(apiSlice.middleware)
-      .concat(apiSliceV2.middleware)
-      .concat(mapsApiSlice.middleware)
-      .concat(authApiV1.middleware),
-  devTools: false,
+    reducer: reducer,
+    middleware: (getDefaultMiddleware: any) =>
+        getDefaultMiddleware({
+            serializableCheck: false,
+        })
+            .concat(apiSlice.middleware)
+            .concat(apiSliceV2.middleware)
+            .concat(mapsApiSlice.middleware)
+            .concat(authApiV1.middleware),
+    devTools: false,
 });
 
 export const persistor = persistStore(store);

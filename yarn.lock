@@ -3561,6 +3561,11 @@ big-integer@1.6.x:
   resolved "https://registry.yarnpkg.com/big-integer/-/big-integer-1.6.51.tgz#0df92a5d9880560d3ff2d5fd20245c889d130686"
   integrity sha512-GPEid2Y9QU1Exl1rpO9B2IPJGHPSupF5GnVIP0blYvNOMer2bTvSWs1jGOUg04hTmu67nmLsQ9TBo1puaotBHg==
 
+bignumber.js@^9.0.1:
+  version "9.1.2"
+  resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-9.1.2.tgz#b7c4242259c008903b13707983b5f4bbd31eda0c"
+  integrity sha512-2/mKyZH9K85bzOEfhXDBFZTGd1CTs+5IHpeFQo9luiBG7hghdC851Pj2WAhb6E3R6b9tZj/XKhbg4fum+Kepug==
+
 binary-extensions@^2.0.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.2.0.tgz#75f502eeaf9ffde42fc98829645be4ea76bd9e2d"
@@ -5990,6 +5995,11 @@ leven@^3.1.0:
   resolved "https://registry.yarnpkg.com/leven/-/leven-3.1.0.tgz#77891de834064cccba82ae7842bb6b14a13ed7f2"
   integrity sha512-qsda+H8jTaUaN/x5vzW2rzc+8Rw4TAQ/4KjB46IwK5VH+IlVeeeje/EoZRpiXvIqjFgK84QffqPztGI3VBLG1A==
 
+libphonenumber-js@^1.10.18:
+  version "1.10.49"
+  resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-1.10.49.tgz#c871661c62452348d228c96425f75ddf7e10f05a"
+  integrity sha512-gvLtyC3tIuqfPzjvYLH9BmVdqzGDiSi4VjtWe2fAgSdBf0yt8yPmbNnRIHNbR5IdtVkm0ayGuzwQKTWmU0hdjQ==
+
 libphonenumber-js@^1.10.44:
   version "1.10.44"
   resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-1.10.44.tgz#6709722461173e744190494aaaec9c1c690d8ca8"
@@ -7676,6 +7686,13 @@ react-native-maps@1.7.1:
   dependencies:
     "@types/geojson" "^7946.0.10"
 
+react-native-mask-text@^0.14.2:
+  version "0.14.2"
+  resolved "https://registry.yarnpkg.com/react-native-mask-text/-/react-native-mask-text-0.14.2.tgz#7c347d2c7dd1dcfceac9cfa9bf58f729bc1f537f"
+  integrity sha512-WP80f9y4+Kzg+TRmL3Qldp71iu0Sni3pCjyw90JvEM0r274iuWLZd+EylXtP2bYM/C5p1sZWvLstADYocdLGaA==
+  dependencies:
+    bignumber.js "^9.0.1"
+
 react-native-modal@^13.0.1:
   version "13.0.1"
   resolved "https://registry.yarnpkg.com/react-native-modal/-/react-native-modal-13.0.1.tgz#691f1e646abb96fa82c1788bf18a16d585da37cd"
@@ -9286,6 +9303,13 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+yup-phone-lite@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/yup-phone-lite/-/yup-phone-lite-2.0.1.tgz#bb6d9c44bb8d2f921afda94a3662f220d14b8658"
+  integrity sha512-IV8q5VSq3MqVDm58ZyPSrtKfVtl+Z5N8UxWdEP573Nk09MLrF6drReOjUX6OggL0ByTMLO+z8r/L8taftUCGyw==
+  dependencies:
+    libphonenumber-js "^1.10.18"
 
 yup@^1.2.0:
   version "1.2.0"
