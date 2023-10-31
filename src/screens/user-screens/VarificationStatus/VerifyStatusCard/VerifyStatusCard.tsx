@@ -88,7 +88,7 @@ export default function VerifyStatusCard({
             // setSelectDoc(true);
             const inNumber = auth?.dialing_code + auth?.phone;
             const number = inNumber ?? phone;
-            if (number?.length > 0) {
+            if (number?.length > 0 && number?.length > 10) {
                 const body = {
                     phone: number,
                 };
