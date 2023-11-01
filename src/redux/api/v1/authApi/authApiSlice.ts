@@ -161,6 +161,9 @@ const authApiSlice = apiSlice.injectEndpoints({
                 formData.append("Photo", createFormFile(data.photo, "image"));
                 formData.append("FirstName", data.firstName);
                 formData.append("Lastname", data.lastName);
+                formData.append("PhoneCode", data.dialing_code || "");
+                formData.append("Phone", data.phone || "");
+                formData.append("Email", data.email || "");
 
                 return {
                     url: "Customer/UpdateCustomerProfile",
