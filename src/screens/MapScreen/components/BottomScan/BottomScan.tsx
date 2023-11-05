@@ -35,6 +35,7 @@ function BottomScan({
 
     const handleNavigate = async () => {
         const verified = await checkVerification();
+        console.log("verified", verified);
         if (verified) {
             const hasPermission = await askCmeraPermission();
             if (!hasPermission) {

@@ -1,34 +1,45 @@
-import {
-    useGetEmailMobileStatusApiQuery,
-    useGetGetUserDocumentsStatusApiQuery,
-    useLazyGetEmailMobileStatusApiQuery,
-    useLazyGetGetUserDocumentsStatusApiQuery,
-} from "@store/api/v1/userDocumentApi/userDocumentApi";
+import { useLazyGetGetUserDocumentsStatusApiQuery } from "@store/api/v1/userDocumentApi/userDocumentApi";
 
 export default function useCheckVerification() {
-    const [checkDocumentVerification, checkDocumentVerificationRes] =
+    const [checkDocumentVerification] =
         useLazyGetGetUserDocumentsStatusApiQuery();
-
-    const [checkEmailMobileVerification, checkEmailMobileVerificationRes] =
-        useLazyGetEmailMobileStatusApiQuery();
 
     const checkVerification = async () => {
         try {
             const documentRes = await checkDocumentVerification(
                 undefined
             ).unwrap();
-            const emailMobileRes = await checkEmailMobileVerification(
-                undefined
-            ).unwrap();
 
-            const hasError = documentRes?.error || emailMobileRes?.error;
             const hasEmailVerified =
-                emailMobileRes?.data?.customerInfo?.is_email_verified;
+                documentRes?.data?.customerInfo?.is_email_verified;
             const hasMobileVerified =
-                emailMobileRes?.data?.customerInfo?.is_mobile_verified;
+                documentRes?.data?.customerInfo?.is_mobile_verified;
+
+            const addressStatus = documentRes?.data?.documentsStatus?.Address;
+            const licenceStatus = documentRes?.data?.documentsStatus?.Licence;
+            const selfieStatus = documentRes?.data?.documentsStatus?.Selfie;
+            const selfieVideoStatus =
+                documentRes?.data?.documentsStatus?.SelfieVideo;
+            const signatureStatus =
+                documentRes?.data?.documentsStatus?.Signature;
+            const passportStatus = documentRes?.data?.documentsStatus?.Passport;
+
+            const isAddressVerified =
+                addressStatus === "Approved" || passportStatus === "Approved";
+            const isLicenceVerified = licenceStatus === "Approved";
+            // const isSelfieVerified = selfieStatus === "Approved";
+            const isSelfieVideoVerified = selfieVideoStatus === "Approved";
+            const isSignatureVerified = signatureStatus === "Approved";
 
             const isAccountVerified =
-                hasEmailVerified && hasMobileVerified && !hasError;
+                hasEmailVerified &&
+                hasMobileVerified &&
+                isAddressVerified &&
+                isLicenceVerified &&
+                // isSelfieVerified &&
+                isSelfieVideoVerified &&
+                isSignatureVerified;
+            console.log("isAccountVerified", isAccountVerified);
             return isAccountVerified;
         } catch (error) {
             return false;
