@@ -172,6 +172,12 @@ const authApiSlice = apiSlice.injectEndpoints({
                 };
             },
         }),
+        deleteUserProfile: builder.mutation({
+            query: () => ({
+                url: "Customer/DeleteCustomer",
+                method: "POST",
+            }),
+        }),
     }),
     overrideExisting: true,
 });
@@ -189,4 +195,5 @@ export const {
     useVerifyForgotPasswordOtpEmailMutation,
     useChangePasswordMutation,
     useUpdateUserProfileMutation,
+    useDeleteUserProfileMutation,
 } = authApiSlice;
