@@ -17,27 +17,27 @@
             "supportsTablet": true,
             "bundleIdentifier": "com.PickNRide",
             "backgroundColor": "#ffffff",
-            "buildNumber": "1.4.0",
+            "buildNumber": "1.4.1",
             "config": {
                 "googleMapsApiKey": "AIzaSyDS-lAgjgs0rT8FzzB9woxe8sTPPh6v7F4"
             },
             "associatedDomains": ["applinks:webapi.pickandride.qa"],
             "bitcode": false,
             "infoPlist": {
-                "NSLocationAlwaysAndWhenInUseUsageDescription": "This app requires location access to provide you with the best experience.",
-                "NSLocationWhenInUseUsageDescription": "This app requires location access to provide you with the best experience.",
-                "NSCameraUsageDescription": "This app requires camera access to provide you with the best experience.",
-                "NSPhotoLibraryUsageDescription": "Allow $(PRODUCT_NAME) to access your photos.",
-                "NSLocationAlwaysUsageDescription": "This app requires location access to provide you with the best experience.",
+                "NSLocationAlwaysAndWhenInUseUsageDescription": "To provide you with the best and most convenient ride-sharing experience, our app requires access to your location. This enables us to efficiently connect you with nearby available cars, making the process of finding and unlocking vehicles quick and hassle-free.",
+                "NSLocationWhenInUseUsageDescription": "To provide you with the best and most convenient ride-sharing experience, our app requires access to your location. This enables us to efficiently connect you with nearby available cars, making the process of finding and unlocking vehicles quick and hassle-free.",
+                "NSCameraUsageDescription": "In order to provide you with a comprehensive and delightful experience, $(PRODUCT_NAME) requires access to your device's camera and photo library. These permissions enable you to capture memorable moments, seamlessly upload images, and save your favorite memories within the app.",
+                "NSPhotoLibraryUsageDescription": "In order to provide you with a comprehensive and delightful experience, $(PRODUCT_NAME) requires access to your device's camera and photo library. These permissions enable you to capture memorable moments, seamlessly upload images, and save your favorite memories within the app.",
+                "NSLocationAlwaysUsageDescription": "To provide you with the best and most convenient ride-sharing experience, our app requires access to your location. This enables us to efficiently connect you with nearby available cars, making the process of finding and unlocking vehicles quick and hassle-free.",
                 "NSLocationTemporaryUsageDescriptionDictionary": {
-                    "NSLocationTemporaryUsageDescriptionDictionaryKey": "This app requires location access to provide you with the best experience."
+                    "NSLocationTemporaryUsageDescriptionDictionaryKey": "To provide you with the best and most convenient ride-sharing experience, our app requires access to your location. This enables us to efficiently connect you with nearby available cars, making the process of finding and unlocking vehicles quick and hassle-free."
                 },
                 "UIBackgroundModes": [
                     "location",
                     "fetch",
                     "remote-notification"
                 ],
-                "NSPhotoLibraryAddUsageDescription": "Allow $(PRODUCT_NAME) to save photos."
+                "NSPhotoLibraryAddUsageDescription": "In order to provide you with a comprehensive and delightful experience, $(PRODUCT_NAME) requires access to your device's camera and photo library. These permissions enable you to capture memorable moments, seamlessly upload images, and save your favorite memories within the app."
             },
             "googleServicesFile": "./GoogleService-Info.plist"
         },

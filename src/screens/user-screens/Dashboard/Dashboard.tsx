@@ -21,123 +21,145 @@ import DashModal from "./DashModal/DashModal";
 import VeichleCards from "./VeichleCards/VeichleCards";
 
 export default function Dashboard() {
-  const navigation = useNavigation();
-  const { colorMode } = useColorMode();
-  const auth: IAuthState = useSelector(selectAuth);
+    const navigation = useNavigation();
+    const { colorMode } = useColorMode();
+    const auth: IAuthState = useSelector(selectAuth);
 
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-  // API CALL END
-  const [isModalVisible, setIsModalVisible] = React.useState(true);
+    // API CALL END
+    const [isModalVisible, setIsModalVisible] = React.useState(true);
 
-  React.useLayoutEffect(() => {
-    const navigationOptions: NativeStackNavigationOptions = {
-      headerTitle: "",
-      headerStyle: {
-        alignItems: "center",
-        backgroundColor:
-          colorMode === "dark" ? colors.primary[100] : colors.green[200],
-      },
-      headerLeft: () => (
-        <Pressable onPress={() => navigation.openDrawer()}>
-          <Toggler
-            mx={4}
-            _dark={{
-              color: "#000",
+    React.useLayoutEffect(() => {
+        const navigationOptions: NativeStackNavigationOptions = {
+            headerTitle: "",
+            headerStyle: {
+                alignItems: "center",
+                backgroundColor:
+                    colorMode === "dark"
+                        ? colors.primary[100]
+                        : colors.green[200],
+            },
+            headerLeft: () => (
+                <Pressable onPress={() => navigation.openDrawer()}>
+                    <Toggler
+                        mx={4}
+                        _dark={{
+                            color: "#000",
+                        }}
+                        py={2}
+                        px={4}
+                    />
+                </Pressable>
+            ),
+            headerRight: () => (
+                <UserAvatar
+                    avatarStyle={{
+                        size: scale(35) + "px",
+                    }}
+                />
+            ),
+            headerShadowVisible: false,
+        };
+        navigation.setOptions(navigationOptions);
+    }, [navigation, colorMode]);
+
+    const setIsModalVisibleHandler = (value: boolean) => {
+        setIsModalVisible(value);
+        AsyncStorage.setItem("isModalVisible", value.toString());
+    };
+
+    // React.useEffect(() => {
+    //     !(async function () {
+    //         const hasForePermission =
+    //             await Location.getForegroundPermissionsAsync();
+    //         const hasBackPermission =
+    //             await Location.getBackgroundPermissionsAsync();
+
+    //         const res = await PermissionsAndroid.check(
+    //             PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
+    //         );
+
+    //         if (
+    //             hasForePermission.status === "granted" &&
+    //             hasBackPermission.status === "granted" &&
+    //             res
+    //         ) {
+    //             AsyncStorage.getItem("isModalVisible").then((value) => {
+    //                 if (value) {
+    //                     setIsModalVisibleHandler(value === "true");
+    //                 }
+    //             });
+    //         }
+    //     })();
+    // }, []);
+
+    React.useEffect(() => {
+        const checkPermissionsAndSetLocation = async () => {
+            if (Platform.OS === "android") {
+                const res = await Location.requestForegroundPermissionsAsync();
+                if (res.status === "granted") {
+                    const res2 =
+                        await Location.requestBackgroundPermissionsAsync();
+                }
+            } else {
+                const res = await Location.requestForegroundPermissionsAsync();
+
+                if (res.status === "granted") {
+                    const {
+                        coords: { latitude, longitude },
+                    } = await Location.getCurrentPositionAsync({
+                        accuracy: Location.Accuracy.BestForNavigation,
+                    });
+                    dispatch(setCurrentLocation({ latitude, longitude }));
+                } else {
+                    Alert.alert(
+                        "Permission Denied",
+                        "Please allow location access from settings",
+                        [
+                            {
+                                text: "Cancel",
+                                onPress: () => console.log("Cancel Pressed"),
+                                style: "cancel",
+                            },
+                            {
+                                text: "OK",
+                                onPress: () => console.log("OK Pressed"),
+                            },
+                        ]
+                    );
+                }
+            }
+        };
+        checkPermissionsAndSetLocation();
+    }, []);
+
+    return (
+        <ScrollView
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            nestedScrollEnabled={true}
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={{
+                flexGrow: 1,
             }}
-            py={2}
-            px={4}
-          />
-        </Pressable>
-      ),
-      headerRight: () => (
-        <UserAvatar
-          avatarStyle={{
-            size: scale(35) + "px",
-          }}
-        />
-      ),
-      headerShadowVisible: false,
-    };
-    navigation.setOptions(navigationOptions);
-  }, [navigation, colorMode]);
+        >
+            <ImageBg type={colorMode} flexGrow={1}>
+                <Center pb={5}>
+                    <TopSection
+                        title={`Good Evening ${auth?.f_name}!`}
+                        subtitle="Select your ride"
+                    />
 
-  const setIsModalVisibleHandler = (value: boolean) => {
-    setIsModalVisible(value);
-    AsyncStorage.setItem("isModalVisible", value.toString());
-  };
-
-  React.useEffect(() => {
-    AsyncStorage.getItem("isModalVisible").then((value) => {
-      if (value) {
-        setIsModalVisibleHandler(value === "true");
-      }
-    });
-  }, []);
-
-  React.useEffect(() => {
-    const checkPermissionsAndSetLocation = async () => {
-      if (Platform.OS === "android") {
-        const res = await Location.requestForegroundPermissionsAsync();
-        const res2 = await Location.requestBackgroundPermissionsAsync();
-      } else {
-        const res = await Location.requestForegroundPermissionsAsync();
-
-        if (res.status === "granted") {
-          const {
-            coords: { latitude, longitude },
-          } = await Location.getCurrentPositionAsync({
-            accuracy: Location.Accuracy.BestForNavigation,
-          });
-          dispatch(setCurrentLocation({ latitude, longitude }));
-        } else {
-          Alert.alert(
-            "Permission Denied",
-            "Please allow location access from settings",
-            [
-              {
-                text: "Cancel",
-                onPress: () => console.log("Cancel Pressed"),
-                style: "cancel",
-              },
-              {
-                text: "OK",
-                onPress: () => console.log("OK Pressed"),
-              },
-            ]
-          );
-        }
-      }
-    };
-    checkPermissionsAndSetLocation();
-  }, []);
-
-  return (
-    <ScrollView
-      showsHorizontalScrollIndicator={false}
-      showsVerticalScrollIndicator={false}
-      nestedScrollEnabled={true}
-      keyboardShouldPersistTaps="handled"
-      contentContainerStyle={{
-        flexGrow: 1,
-      }}
-    >
-      <ImageBg type={colorMode} flexGrow={1}>
-        <Center pb={5}>
-          <TopSection
-            title={`Good Evening ${auth?.f_name}!`}
-            subtitle="Select your ride"
-          />
-
-          <VeichleCards />
-        </Center>
-      </ImageBg>
-      <DashModal
-        isOpen={isModalVisible}
-        onClose={() => {
-          setIsModalVisibleHandler(false);
-        }}
-      />
-    </ScrollView>
-  );
+                    <VeichleCards />
+                </Center>
+            </ImageBg>
+            {/* <DashModal
+                isOpen={isModalVisible}
+                onClose={() => {
+                    setIsModalVisibleHandler(false);
+                }}
+            /> */}
+        </ScrollView>
+    );
 }

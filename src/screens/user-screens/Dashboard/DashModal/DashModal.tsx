@@ -83,7 +83,7 @@ export default function DashModal({ isOpen, onClose, ...rest }) {
                         >
                             Get Amazing Offer
                         </Text>
-                        <Text
+                        {/* <Text
                             textAlign={"center"}
                             fontSize={"13px"}
                             color={"light.200"}
@@ -93,7 +93,7 @@ export default function DashModal({ isOpen, onClose, ...rest }) {
                         >
                             Lorem ipsum dolor sit amet consectetur adipisicing
                             elit. Magnam nulla magni placeat eos
-                        </Text>
+                        </Text> */}
                         <Text
                             textAlign={"center"}
                             fontSize={"12px"}

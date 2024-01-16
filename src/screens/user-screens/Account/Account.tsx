@@ -23,7 +23,6 @@ import {
     Image,
     Input,
     Pressable,
-    Text,
     VStack,
     useColorMode,
 } from "native-base";
@@ -37,6 +36,7 @@ import * as Yup from "yup";
 export default function Account() {
     const navigation = useNavigation();
     const auth = useSelector(selectAuth);
+    console.log(auth?.token);
 
     const [isOpen, setIsOpen] = React.useState(false);
     const colormode = useColorMode();
@@ -48,7 +48,7 @@ export default function Account() {
     const phoneRegExp =
         /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
-    console.log("auth", auth.phone);
+    console.log(result.error);
 
     const formik = useFormik({
         initialValues: {
@@ -63,12 +63,17 @@ export default function Account() {
         },
         onSubmit: async (values) => {
             try {
-                const res = await updateProfile({
+                const formData: any = {
                     firstName: values.f_name,
                     lastName: values.l_name,
-                    photo: values.photo,
                     dob: values.dob,
-                }).unwrap();
+                };
+
+                if (auth?.photo !== values.photo) {
+                    formData.photo = values.photo;
+                }
+
+                const res = await updateProfile(formData).unwrap();
                 dispatch(
                     updateProfileData({
                         f_name: values.f_name,
@@ -86,6 +91,7 @@ export default function Account() {
                     message: "Information updated successfully.",
                 });
             } catch (error) {
+                console.log("error", error);
                 showModal("error", {
                     title: "Error",
                     message: "Error updating information.",

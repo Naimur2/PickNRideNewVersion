@@ -5,6 +5,7 @@ import {
     setCheckOtherInformation,
 } from "@store/features/auth/authSlice";
 import { IAuthState } from "@store/features/auth/authSlice.types";
+import createFormFile from "@utils/fileDetails";
 import {
     IAddCard,
     ILoginProps,
@@ -12,7 +13,6 @@ import {
     IUpdateResidency,
     TResendOtp,
 } from "./authApiSlice.types";
-import createFormFile from "@utils/fileDetails";
 
 const authApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -158,17 +158,35 @@ const authApiSlice = apiSlice.injectEndpoints({
                 dialing_code?: string;
             }) => {
                 const formData = new FormData();
-                formData.append("Photo", createFormFile(data.photo, "image"));
-                formData.append("FirstName", data.firstName);
-                formData.append("Lastname", data.lastName);
-                formData.append("PhoneCode", data.dialing_code || "");
-                formData.append("Phone", data.phone || "");
-                formData.append("Email", data.email || "");
+                if (data?.photo) {
+                    formData.append(
+                        "Photo",
+                        createFormFile(data?.photo, "image")
+                    );
+                }
+                if (data?.firstName) {
+                    formData.append("FirstName", data?.firstName);
+                }
+                if (data?.lastName) {
+                    formData.append("Lastname", data?.lastName);
+                }
+                if (data?.dialing_code) {
+                    formData.append("PhoneCode", data?.dialing_code || "");
+                }
+                if (data?.phone) {
+                    formData.append("Phone", data?.phone || "");
+                }
+                if (data?.email) {
+                    formData.append("Email", data?.email || "");
+                }
 
                 return {
                     url: "Customer/UpdateCustomerProfile",
                     method: "PUT",
                     body: formData,
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
                 };
             },
         }),

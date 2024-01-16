@@ -15,67 +15,81 @@ import colors from "@theme/colors";
 import PriceCard from "./PriceCard/PriceCard";
 
 export default function Pricing() {
-  const navigation = useNavigation();
-  const insets = useSafeAreaInsets();
-  const colormode = useColorMode();
-  const windowHeight = useWindowDimensions().height;
+    const navigation = useNavigation();
+    const insets = useSafeAreaInsets();
+    const colormode = useColorMode();
+    const windowHeight = useWindowDimensions().height;
 
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: () => <HeaderTitle title="Pricing" />,
-      headerTitleAlign: "center",
-      headerRight: () => (
-        <Balance iconColor="primary.100" textColor="gray.100" />
-      ),
-      headerShadowVisible: false,
-      headerStyle: {
-        backgroundColor:
-          colormode.colorMode === "dark" ? colors.dark[100] : colors.light[300],
-      },
-      headerLeft: () => (
-        <BackButton
-          color={colormode.colorMode === "dark" ? "white" : "black"}
-        />
-      ),
-    });
-  }, [navigation]);
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+            headerTitle: () => <HeaderTitle title="Pricing" />,
+            headerTitleAlign: "center",
+            headerRight: () => (
+                <Balance iconColor="primary.100" textColor="gray.100" />
+            ),
+            headerShadowVisible: false,
+            headerStyle: {
+                backgroundColor:
+                    colormode.colorMode === "dark"
+                        ? colors.dark[100]
+                        : colors.light[300],
+            },
+            headerLeft: () => (
+                <BackButton
+                    color={colormode.colorMode === "dark" ? "white" : "black"}
+                />
+            ),
+        });
+    }, [navigation]);
 
-  return (
-    <Scroller
-      contentStyle={{
-        flexGrow: 1,
-      }}
-      bg="light.300"
-      _dark={{
-        bg: "dark.100",
-      }}
-    >
-      <VStack
-        space={6}
-        mt={4}
-        px="6"
-        pb={8}
-        h="full"
-        maxWidth={scale(500)}
-        mx="auto"
-        pt={Platform.OS === "android" ? 55 : 0}
-      >
-        <HStack my={8} w="full" justifyContent={"space-between"}>
-          <PriceCard type="lock" header="QAR 3" subtitle="Unlock Charge" />
-          <PriceCard type="clock" header="QAR 1.65" subtitle="/Minute" />
-        </HStack>
-        <Image
-          mt={4}
-          source={boyWithSooter}
-          alt="boy w s"
-          _dark={{
-            source: boyWithSooterDark,
-          }}
-          height={windowHeight * 0.4}
-          resizeMode="cover"
-        />
-        <GradientBtn title="UPDATE PROFILE" mx="auto" />
-      </VStack>
-    </Scroller>
-  );
+    return (
+        <Scroller
+            contentStyle={{
+                flexGrow: 1,
+            }}
+            bg="light.300"
+            _dark={{
+                bg: "dark.100",
+            }}
+        >
+            <VStack
+                space={6}
+                mt={4}
+                px="6"
+                pb={8}
+                h="full"
+                mx="auto"
+                pt={Platform.OS === "android" ? 55 : 0}
+            >
+                <HStack
+                    my={8}
+                    space={2}
+                    w="full"
+                    justifyContent={"space-between"}
+                >
+                    <PriceCard
+                        type="lock"
+                        header="QAR 3"
+                        subtitle="Unlock Charge"
+                    />
+                    <PriceCard
+                        type="clock"
+                        header="QAR 1.65"
+                        subtitle="/Minute"
+                    />
+                </HStack>
+                <Image
+                    mt={4}
+                    source={boyWithSooter}
+                    alt="boy w s"
+                    _dark={{
+                        source: boyWithSooterDark,
+                    }}
+                    height={windowHeight * 0.4}
+                    resizeMode="cover"
+                />
+                <GradientBtn title="UPDATE PROFILE" mx="auto" />
+            </VStack>
+        </Scroller>
+    );
 }
