@@ -99,8 +99,23 @@ export default function Dashboard() {
             if (Platform.OS === "android") {
                 const res = await Location.requestForegroundPermissionsAsync();
                 if (res.status === "granted") {
-                    const res2 =
-                        await Location.requestBackgroundPermissionsAsync();
+                    Alert.alert(
+                        "We need to access your background location",
+                        "Please allow location access from settings",
+                        [
+                            {
+                                text: "Cancel",
+                                onPress: () => console.log("Cancel Pressed"),
+                                style: "cancel",
+                            },
+                            {
+                                text: "OK",
+                                onPress: () => {
+                                    Location.requestBackgroundPermissionsAsync();
+                                },
+                            },
+                        ]
+                    );
                 }
             } else {
                 const res = await Location.requestForegroundPermissionsAsync();

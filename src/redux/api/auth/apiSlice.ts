@@ -2,7 +2,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import config from "@config";
 
 import { setLoading } from "@store/features/ui/uiSlice";
-import { RootState } from "@store/store";
+import { RootState, store } from "@store/store";
+import { logout } from "@store/features/auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
     baseUrl: config.API_AUTH,
@@ -26,6 +27,10 @@ const loadingBaseQuery = async (args: any, api: any, extraOptions: any) => {
     const { dispatch } = api;
     dispatch(setLoading(true));
     const result = await baseQuery(args, api, extraOptions);
+
+    if (result.meta.response.status === 401) {
+        store.dispatch(logout());
+    }
     dispatch(setLoading(false));
     return result;
 };
