@@ -54,21 +54,20 @@ export default function Cars() {
         useGetAllCarsByCategoryAndLocationQuery(body);
 
     // car data
-    const cardD = carsData?.data?.map((item, index) => {
+    const data = carsData?.data || [];
+    const cardD = data?.map((item, index) => {
         const car = item?.cars?.[0];
 
         return {
             category: item?.category,
             totalCars: item?.totalCarsInCategory,
             car: {
-                id: car?.id,
                 name: car?.name,
                 latitude: car?.latitude,
                 longitude: car?.longitude,
                 price: car?.price,
                 image: car?.image,
                 totalKm: car?.totalKm,
-                distanceInMeter: car?.distanceInMeter,
             },
         };
     });

@@ -95,6 +95,10 @@ export default function Settings() {
                 response?.message || "Account deleted successfully"
             );
         } catch (error) {
+            Alert.alert(
+                "Error",
+                error?.data?.title || "Error on deleting account"
+            );
             console.log("error on deleting account", error);
         }
     };

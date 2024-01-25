@@ -229,7 +229,8 @@ export default function VeichleCards() {
     };
 
     // car data
-    const cardD = carsData?.data?.map((item, index) => {
+    const data = carsData?.data || [];
+    const cardD = data?.map((item, index) => {
         const car = item?.cars?.[0];
 
         return {

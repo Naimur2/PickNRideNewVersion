@@ -44,7 +44,7 @@ const loadingBaseQuery: any = async (
     dispatch(setLoading(showLoader));
 
     const result = await baseQuery(args, api, extraOptions);
-    if (result.meta.response.status === 401) {
+    if (result?.["data"]?.["error"]?.["code"] === 401) {
         store.dispatch(logout());
     }
     dispatch(setLoading(false));
