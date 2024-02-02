@@ -1,7 +1,13 @@
+import { useNavigation } from "@react-navigation/native";
 import { fontSizes } from "@theme/typography";
 import { HStack, Image, Pressable, Text, VStack } from "native-base";
+import { Alert, Platform } from "react-native";
+import { MFCurrencyISO } from "../types/enums.myfatoora";
 import { ICardListProps, ICardProps } from "../types/myfatoora.interface";
-import { Platform } from "react-native";
+import { useExecuteRegularPaymentMutation } from "@store/api/v2/payment/paymentApiSlice";
+import * as WebBrowser from "expo-web-browser";
+import useCheckVerification from "@hooks/useCheckVerification";
+import useShowModal from "@hooks/useShowModal";
 
 const Cards = ({
     imageUrl,
@@ -58,6 +64,7 @@ function PaymentMethodsList({
     selectedIndex,
     setPaymentMethodId,
     selectedPaymentMethodId,
+    amount,
 }: {
     paymentMethods: ICardListProps[];
     setSelectedIndex: (index: number) => void;
@@ -65,7 +72,15 @@ function PaymentMethodsList({
     selectedIndex: number;
     setPaymentMethodId: (paymentMethodId: number) => void;
     selectedPaymentMethodId: number;
+    amount: number;
 }) {
+    const navigation = useNavigation();
+    const [regularPaymentFn, regularPaymentRes] =
+        useExecuteRegularPaymentMutation();
+    const { checkVerification, data, isLoading, checkMobileVerification } =
+        useCheckVerification();
+    const showModal = useShowModal();
+
     const paymentMethodsWithIndex = paymentMethods.map((item, index) => {
         return {
             ...item,
@@ -83,29 +98,67 @@ function PaymentMethodsList({
         applePaumentMethods.includes(item.paymentMethodId)
     );
 
-    const directpaymentsWithApplePay = [
-        ...payMentMethodsWithDirectPayment,
-        ...applePayMethods,
-    ];
-
     //
     const filterPaymentMethod = paymentMethods.filter((item) => {
-        if (Platform.OS === "android" && item?.paymentMethodId === 8) {
-            return false;
-        }
-        if (Platform.OS === "ios" && item?.paymentMethodId === 9) {
-            return false;
-        }
+        // if (Platform.OS === "android" && item?.paymentMethodId === 8) {
+        //     return false;
+        // }
+        // if (Platform.OS === "ios" && item?.paymentMethodId === 9) {
+        //     return false;
+        // }
         return item;
     });
+
+    const handleNormalPayment = async ({
+        paymentMethodId,
+    }: {
+        paymentMethodId: number;
+    }) => {
+        try {
+            const verified = await checkMobileVerification();
+            if (!verified) {
+                showModal("warning", {
+                    title: "Mobile Verification",
+                    message: "Please verify your mobile number to continue",
+                });
+                navigation.navigate("VarificationStatus");
+                return;
+            }
+            const res2 = await regularPaymentFn({
+                currencyIso: MFCurrencyISO.QATAR_QAR,
+                invoiceValue: amount + "",
+                paymentMethodId: paymentMethodId,
+            }).unwrap();
+
+            const paymentUrl = res2?.data?.paymentURL;
+            const callBackUrl = res2?.data?.callBackURL;
+
+            await WebBrowser.openAuthSessionAsync(paymentUrl, callBackUrl);
+
+            // navigation.navigate("RedirectionWebview", {
+            //     url: paymentUrl,
+            //     previousRoute: "MFWebView",
+            //     callBackUrl: callBackUrl,
+            // } as never);
+        } catch (error) {
+            Alert.alert("Error", JSON.stringify(error) || "Error on payment");
+        }
+    };
+
     return (
         <VStack space="4">
             {filterPaymentMethod?.map((item, index) => {
                 return (
                     <Cards
                         onSelect={() => {
-                            setPaymentMethodId(item.paymentMethodId);
-                            setIsDirectPayment(item.isDirectPayment);
+                            if (!item.isDirectPayment && amount > 0) {
+                                handleNormalPayment({
+                                    paymentMethodId: item.paymentMethodId,
+                                });
+                            } else {
+                                setPaymentMethodId(item.paymentMethodId);
+                                setIsDirectPayment(item.isDirectPayment);
+                            }
                         }}
                         imageUrl={item.imageUrl}
                         paymentMethodEn={item.paymentMethodEn}

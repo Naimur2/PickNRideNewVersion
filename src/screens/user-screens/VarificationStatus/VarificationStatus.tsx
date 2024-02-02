@@ -64,7 +64,7 @@ export default function VarificationStatus() {
             refetchOnMountOrArgChange: true,
         }
     );
-    console.log("document", data);
+
     const {
         data: phoneData,
         isLoading: phoneLoading,

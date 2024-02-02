@@ -1,8 +1,18 @@
 import { useLazyGetGetUserDocumentsStatusApiQuery } from "@store/api/v1/userDocumentApi/userDocumentApi";
+import React from "react";
 
 export default function useCheckVerification() {
-    const [checkDocumentVerification] =
+    const [checkDocumentVerification, { isLoading }] =
         useLazyGetGetUserDocumentsStatusApiQuery();
+
+    const [verificationStatuses, setVerificationStatuses] = React.useState({
+        isEmailVerified: false,
+        isMobileVerified: false,
+        isAddressVerified: false,
+        isLicenceVerified: false,
+        isSelfieVideoVerified: false,
+        isSignatureVerified: false,
+    });
 
     const checkVerification = async () => {
         try {
@@ -39,8 +49,30 @@ export default function useCheckVerification() {
                 // isSelfieVerified &&
                 isSelfieVideoVerified &&
                 isSignatureVerified;
-            console.log("isAccountVerified", isAccountVerified);
+            setVerificationStatuses({
+                isEmailVerified: hasEmailVerified,
+                isMobileVerified: hasMobileVerified,
+                isAddressVerified,
+                isLicenceVerified,
+                isSelfieVideoVerified,
+                isSignatureVerified,
+            });
             return isAccountVerified;
+        } catch (error) {
+            return false;
+        }
+    };
+
+    const checkMobileVerification = async () => {
+        try {
+            const documentRes = await checkDocumentVerification(
+                undefined
+            ).unwrap();
+
+            const hasMobileVerified =
+                documentRes?.data?.customerInfo?.is_mobile_verified;
+
+            return hasMobileVerified;
         } catch (error) {
             return false;
         }
@@ -48,5 +80,8 @@ export default function useCheckVerification() {
 
     return {
         checkVerification,
+        data: verificationStatuses,
+        isLoading,
+        checkMobileVerification,
     };
 }

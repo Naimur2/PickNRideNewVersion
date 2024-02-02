@@ -86,6 +86,8 @@ export default function PaymentForm({
         validationSchema: isDirectPayment ? creditCardNumberSchema : null,
         onSubmit: async (values) => {
             try {
+                console.log("submitted values", isDirectPayment);
+
                 if (isDirectPayment) {
                     const res2 = await execDirPayWithToken({
                         currencyIso: MFCurrencyISO.QATAR_QAR,
@@ -242,6 +244,7 @@ export default function PaymentForm({
                         setFieldValue("paymentMethodId", value);
                     }}
                     selectedPaymentMethodId={values.paymentMethodId}
+                    amount={Number(values.paymentAmount)}
                 />
 
                 {isDirectPayment ? (
@@ -405,14 +408,16 @@ export default function PaymentForm({
                 ) : null}
             </VStack>
             <Center pb={20}>
-                <GradientBtn
-                    gradientStyle={{
-                        width: scale(250) + "px",
-                    }}
-                    title={"Pay Now"}
-                    onPress={formHandler}
-                    disabled={formik.values.paymentMethodId === ""}
-                />
+                {isDirectPayment ? (
+                    <GradientBtn
+                        gradientStyle={{
+                            width: scale(250) + "px",
+                        }}
+                        title={"Pay Now"}
+                        onPress={formHandler}
+                        disabled={formik.values.paymentMethodId === ""}
+                    />
+                ) : null}
             </Center>
         </>
     );

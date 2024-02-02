@@ -32,7 +32,7 @@ import Card from "@components/Card/Card";
 import { scale } from "react-native-size-matters";
 import colors from "@theme/colors";
 import { selectAuth } from "@store/store";
-import { TextInput } from "react-native";
+import { Alert, TextInput } from "react-native";
 
 const amounts: IPaymentAmount[] = [
     {
@@ -78,19 +78,21 @@ export default function MyFatooraPayment() {
 
     React.useEffect(() => {
         const paymentInitiation = async () => {
-            const { data } = await initiatePayments({
-                currencyIso: MFCurrencyISO.QATAR_QAR,
-                invoiceValue: Number(amountValue) || 0,
-            }).unwrap();
+            try {
+                const { data } = await initiatePayments({
+                    currencyIso: MFCurrencyISO.QATAR_QAR,
+                    invoiceValue: Number(amountValue) || 0,
+                }).unwrap();
 
-            if (data) {
-                setPaymentMethods(data?.data?.paymentMethods || []);
+                if (data) {
+                    setPaymentMethods(data?.data?.paymentMethods || []);
+                }
+            } catch (error) {
+                Alert.alert("Error", error?.data?.title || "Error on payment");
             }
         };
         paymentInitiation();
     }, [params, amountValue]);
-
-    console.log(amountValue, "amountValue");
 
     return (
         <ImageBg type={colorMode} flexGrow={1}>
